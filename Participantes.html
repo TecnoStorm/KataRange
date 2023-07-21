@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="CSS/Participante/Participantes.css">
+</head>
+<body>
+        <?php
+         <div id='registrar'
+         <h1> Registrar Participantes</h1>
+        <form action='http://127.0.0.1/ProgramaPhp/PHP/Participante/Registrar.php' method='Post'>
+        <div class='registrar-contenedor'>
+        <div class='registrar1'>
+          <input type='number' name='ci' placeholder='CI'>
+             <input type='text' name='nombre' placeholder='Nombre'>
+                 <input type='text' name='apellido' placeholder='apellido'>
+              </div>
+             <div class='registrar1'>
+             <select name='categoria' class='opcion2'> Categoria
+               <option value='12/13'>12/13</option>
+               <option value='14/15'>14/15</option>
+             <option value='16/17'>16/17</option>
+             <option value='Mayores'>Mayores</option>
+           </select>
+           <input type='number' placeholder='Id kata' min='1' max='102' name='idKata' class='opcion2'>
+        <select name='sexo' class='opcion2'>
+            <option value='masculino'>Masculino</option>
+           <option value='Femenino'>Femenino</option>
+         </select>
+         </div>
+        </div>
+           <input type='submit' name='registrar' value='registrar' id='btnregistrar'>
+           <a href='http://127.0.0.1/ProgramaPhp/PHP/Participante/Mostrar.php'> Mostrar</a>
+        </form>
+        </div>
+       </div>
+       <div id="borrar">
+       <!-- al borrar el ultimo participante del txt crea un espacio en blanco y no 
+       permite que funcionen las otras funcionalidades del programa (con una
+       base de datos no pasaria)-->
+        <h1>Borrar participante</h1>
+      <form action="PHP/Participante/Borrar.php" method="post">
+          <input type="number" name="ciBorrar" placeholder="ci">
+           <input type="submit" name="Borrar" value="borrar">
+       </form>
+       </div>
+      <a href="PHP/index.php" id="Volver"> Volver</a>
+<?
+</body>
+</html>

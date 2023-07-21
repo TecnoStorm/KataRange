@@ -1,0 +1,17 @@
+12:Giuliana12:tortomano:33
+13:Hernan13:moreno:32
+11:Hernan11:moreno:30
+10:Giuliana10:tortomano:29
+9:Hernan9:moreno:28
+8:Giuliana8:tortomano:27
+7:Hernan7:moreno:26
+6:Giuliana6:tortomano:25
+1:Hernan1:moreno:24.451
+1:Hernan1:moreno:24
+4:Giuliana4:tortomano:23
+1:Hernan1:moreno:22.811:Hernan1:moreno:22.8
+1:Hernan1:moreno:22.8
+1:Hernan1:moreno:22.8
+1:Hernan1:moreno:22.8
+777:Ayuda:Moreno:20.8
+1:Hernan1:moreno:18.9

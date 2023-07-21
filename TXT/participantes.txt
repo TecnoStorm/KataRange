@@ -1,0 +1,15 @@
+Giuliana12:moreno:12:masculino:12/13:22:1:33
+Hernan13:moreno:13:masculino:12/13:22:1:32
+Hernan11:tortomano:11:masculino:12/13:44:2:30
+Giuliana10:tortomano:10:masculino:12/13:44:1:29
+Hernan9:moreno:9:masculino:12/13:22:2:28
+Giuliana8:tortomano:8:masculino:12/13:44:2:27
+Hernan7:moreno:7:masculino:12/13:22:2:26
+Giuliana6:tortomano:6:masculino:12/13:44:2:25
+Hernan5:tortomano:5:masculino:12/13:44:2:24
+Giuliana4:moreno:4:masculino:12/13:22:1:23
+Hernan3:tortomano:3:masculino:12/13:44:1:22
+Giuliana2:moreno:2:masculino:12/13:22:1:21
+Hernan1:moreno:1:masculino:12/13:22:1:20
+Giuliana14:tortomano:14:masculino:12/13:44:1:8
+Hernan:Moreno:546:masculino:12/13:33:2:23
