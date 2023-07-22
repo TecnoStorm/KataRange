@@ -8,13 +8,17 @@
 </head>
 <body>
 <?php
+session_start();
 include "Participante/ParticipanteArray.php";
 require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/Nota/NotaArray.php");
 $participantes= new ParticipanteArray();
 $notas=new NotaArray();
 echo "<div class='contenedor'>";
-$participantes->pull();
-$participantes->mostrarPull();
+$participantes->pool();
+$participantes->mostrarPool();
+
+
+
 if($participantes->cantParticipantes()==3){
     
     echo "<a href='Ganadores.php'> Ganadores </a>";
@@ -27,10 +31,9 @@ if($participantes->cantParticipantes()==4){
     echo "</div>";
 }
 if($participantes->cantParticipantes()>10){
+    $_SESSION["participantesPool"]=serialize($participantes);
     $cantPool=$participantes->cantPools();
     echo "<div class='contenedor'>";
-    $participantes->ordenarParticipante();
-    $participantes->guardar();
     echo "<form action='Llaves.php' method='post'>";
     echo "<input type='number' name='pool' PlaceHolder='Ingresar pool' max=$cantPool>";
     echo "<input type='submit' name='enviar' value='ver ganadores'>";

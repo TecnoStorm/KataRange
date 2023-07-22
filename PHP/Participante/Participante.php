@@ -6,16 +6,16 @@ class Participante{
     private $_sexo;
     private $_categoria;
     private $_idKata;
-    private $_pull;
+    private $_pool;
     private $_notaFinal;
-    public function __construct($nombre, $apellido,$ci,$sexo,$categoria,$idKata,$pull,$nota){
+    public function __construct($nombre, $apellido,$ci,$sexo,$categoria,$idKata,$pool,$nota){
         $this->_nombre=$nombre;
         $this->_apellido=$apellido;
         $this->_ci=$ci;
         $this->_sexo=$sexo;
         $this->_categoria=$categoria;
         $this->_idKata=$idKata;
-        $this->_pull=$pull;
+        $this->_pool=$pool;
         $this->_notaFinal=$nota;
     }
 
@@ -66,19 +66,19 @@ class Participante{
     public function setIdKata($kata){
         $this->_idKata=$kata;
     }
-    public function getPull(){
-        return $this->_pull;
+    public function getPool(){
+        return $this->_pool;
     }
 
-    public function setPull($pull){
-        $this->_pull=$pull;
+    public function setPool($pool){
+        $this->_pool=$pool;
     }
  
     public function getNota(){
         return $this->_notaFinal;
     }
 
-    public function setnota($nota){
+    public function setNota($nota){
         $this->_notaFinal=$nota;
     }
     public function __toString(){

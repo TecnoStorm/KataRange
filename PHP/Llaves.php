@@ -8,10 +8,13 @@
 </head>
 <body>
 <?php
+session_start();
 require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/Nota/NotaArray.php");
 include "Participante/ParticipanteArray.php";
-$participantes=new ParticipanteArray();
 $notaArray=new NotaArray();
+if(isset($_SESSION["participantesPool"])){
+    $participantes=unserialize($_SESSION["participantesPool"]);
+}
 if($participantes->cantParticipantes()==4){
     if($notaArray->cantNotas()<4){
         echo "<p>no se ingresaron todas las notas</p>";

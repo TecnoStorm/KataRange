@@ -22,8 +22,8 @@ class ParticipanteArray{
         fclose($archivo);
     }
 
-    public function ponerParticipante($nombre, $apellido,$ci,$sexo,$categoria,$idKata,$pull,$nota){  
-        $participante= new Participante(PHP_EOL. $nombre, $apellido,$ci,$sexo,$categoria,$idKata,$pull,$nota); 
+    public function ponerParticipante($nombre, $apellido,$ci,$sexo,$categoria,$idKata,$pool,$nota){  
+        $participante= new Participante(PHP_EOL. $nombre, $apellido,$ci,$sexo,$categoria,$idKata,$pool,$nota); 
         array_push($this->_participantes,$participante);
     }
     
@@ -86,70 +86,59 @@ class ParticipanteArray{
     return $apellido;    
 }
 
-public function pull(){
-    if(count($this->_participantes)<3){
-      echo "el torneo se realizara a partir de 3 participantes";
-    }
-    if(count($this->_participantes)==3){
-        shuffle($this->_participantes);
-        foreach($this->_participantes as $participante){
-            $participante->setPull(1);
-            $this->guardarPool();
-        }
-    }
-    if(count($this->_participantes)==4){
-        shuffle($this->_participantes);
-        $this->_participantes[0]->setPull(1); 
-        $this->_participantes[1]->setPull(1);
-        $this->_participantes[2]->setPull(2);
-        $this->_participantes[3]->setPull(2);     
-        $this->guardarPool();
-        }
-    
-    if(count($this->_participantes)==5){
-        shuffle($this->_participantes);
-        $this->_participantes[0]->setPull(1); 
-        $this->_participantes[1]->setPull(1);
-        $this->_participantes[2]->setPull(1);
-        $this->_participantes[3]->setPull(2);  
-        $this->_participantes[4]->setPull(2);  
-        $this->guardarPool();
-    }
-    
-    if(count($this->_participantes)>5 &&  count($this->_participantes) <=10){
-        shuffle($this->_participantes);
-        $cantParticipantesAo=count($this->_participantes)/2;
-        for($x=0;$x<$cantParticipantesAo;$x++){
-           $this->_participantes[$x]->setPull(1);
-           $this->guardarPool();
-        }
-        for($x=count($this->_participantes)-1;$x>=count($this->_participantes)/2;$x--){
-            $this->_participantes[$x]->setPull(2);
-            $this->guardarPool();
-        }
-    }
-    
-    if(count($this->_participantes)>10){
-        shuffle($this->_participantes);
-        for($x=0;$x<count($this->_participantes);$x++){
-            $this->_participantes[$x]->setPull(1);
-            if($x>=8 && $x<16){
-                $this->_participantes[$x]->setPull(2);
-            }
-            if($x>=16 && $x<24){
-                $this->_participantes[$x]->setPull(3);
-            }
-            if($x>=24&& $x<32){
-                $this->_participantes[$x]->setPull(4);
-            }
-        }
-       $this->guardarPool();
-    }
+public function pool() {
+    if (count($this->_participantes) < 3) {
+        echo "el torneo se realizará a partir de 3 participantes";
+        return;
     }
 
-public function mostrarPull(){
+    if (count($this->_participantes) == 3) {
+        shuffle($this->_participantes);
+        foreach ($this->_participantes as $participante) {
+            $participante->setPool(1);
+        }
+    } elseif (count($this->_participantes) == 4) {
+        shuffle($this->_participantes);
+        $this->_participantes[0]->setPool(1); 
+        $this->_participantes[1]->setPool(1);
+        $this->_participantes[2]->setPool(2);
+        $this->_participantes[3]->setPool(2); 
+    } elseif (count($this->_participantes) == 5) {
+        shuffle($this->_participantes);
+        $this->_participantes[0]->setPool(1); 
+        $this->_participantes[1]->setPool(1);
+        $this->_participantes[2]->setPool(1);
+        $this->_participantes[3]->setPool(2);  
+        $this->_participantes[4]->setPool(2); 
+    } elseif (count($this->_participantes) > 5 && count($this->_participantes) <= 10) {
+        shuffle($this->_participantes);
+        $cantParticipantesAo = count($this->_participantes) / 2;
+        for ($x = 0; $x < $cantParticipantesAo; $x++) {
+            $this->_participantes[$x]->setPool(1);
+        }
+        for ($x = count($this->_participantes) - 1; $x >= count($this->_participantes) / 2; $x--) {
+            $this->_participantes[$x]->setPool(2);
+        }
+    } elseif (count($this->_participantes) > 10) {
+        shuffle($this->_participantes);
+        for ($x = 0; $x < count($this->_participantes); $x++) {
+            $this->_participantes[$x]->setPool(1);
+            if ($x >= 8 && $x < 16) {
+                $this->_participantes[$x]->setPool(2);
+            }
+            if ($x >= 16 && $x < 24) {
+                $this->_participantes[$x]->setPool(3);
+            }
+            if ($x >= 24 && $x < 32) {
+                $this->_participantes[$x]->setPool(4);
+            }
+        }
+    }
+}
+
+public function mostrarPool(){
     foreach($this->_participantes as $participante){
-        echo  $participante->getNombre() . " " . $participante->getApellido() . " Pull:" . $participante->getPull(). "<br>";
+        echo  $participante->getNombre() . " " . $participante->getApellido() . " Pool:" . $participante->getPool(). "<br>";
     }
 
 }
@@ -161,7 +150,7 @@ public function cantParticipantes(){
 public function guardarPool(){
     $archivo=fopen("C:/xampp/htdocs/ProgramaPhp/TXT/participantes.txt","w");
     foreach($this->_participantes as $participante){
-        $linea= implode(":", (array)$participante);
+        $linea= implode (":", (array)$participante) ;
         fputs($archivo,$linea);
     }
     fclose($archivo);
@@ -176,7 +165,7 @@ public function ganadoresDeRonda($pool) {
     $this->guardar();
     if (count($this->_participantes) > 10) {
         foreach ($this->_participantes as $participante) {
-            if ($participante->getPull() == $pool) {
+            if ($participante->getPool() == $pool) {
                 $posiciones[] = $participante;
                 
             }
@@ -190,10 +179,10 @@ public function ganadoresDeRonda($pool) {
 
 }
 
-public function cambionota($ci,$nota){
+public function cambioNota($ci,$nota){
     foreach($this->_participantes as $participante){
         if($participante->getCi()==$ci){
-            $participante->setNota=$nota;
+            $participante->setNota($nota);
         }
     }
 }
@@ -213,8 +202,8 @@ public function ordenarParticipante() {
 public function cantPools(){
     $contador=0;
     for($x=1;$x<count($this->_participantes);$x++){
-        if($contador<$this->_participantes[$x]->getPull()){
-            $contador=$this->_participantes[$x]->getPull();
+        if($contador<$this->_participantes[$x]->getPool()){
+            $contador=$this->_participantes[$x]->getPool();
         }
     }
 return $contador;   
