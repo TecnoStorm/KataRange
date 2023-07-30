@@ -163,7 +163,7 @@ public function ganadoresDeRonda($pool) {
     $notaArray->guardar();
     $this->ordenarParticipante();
     $this->guardar();
-    if (count($this->_participantes) > 10) {
+    if (count($this->_participantes) >=10) {
         foreach ($this->_participantes as $participante) {
             if ($participante->getPool() == $pool) {
                 $posiciones[] = $participante;

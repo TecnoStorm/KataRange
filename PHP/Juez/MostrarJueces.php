@@ -18,6 +18,8 @@ $juezArray->listar();
 echo "</table>";
 echo "</div>";
 ?>
+<div id="salir">
 <a href="OpcionesJuez.php" id="Volver"> Volver </a>
+</div>
 </body>
 </html>

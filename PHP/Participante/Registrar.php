@@ -21,7 +21,10 @@ $_participantes=new ParticipanteArray();
 $participante= new Participante($nombre, $apellido,$ci,$sexo,$categoria,$idKata,$pool,$nota);
 $_participantes->ponerParticipante($nombre, $apellido, $ci, $sexo, $categoria, $idKata,$pool,$nota);
 $_participantes->guardar();
-echo "<a href='http://127.0.0.1/ProgramaPhp/Participantes.html'>Volver</a>"
+echo "<div id='salir'>";
+echo "<a href='http://127.0.0.1/ProgramaPhp/Participantes.html'>Volver</a>"; 
+echo "</div>";
+
 ?>
 </body>
 </html>

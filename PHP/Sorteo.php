@@ -15,9 +15,9 @@ $participantes= new ParticipanteArray();
 $notas=new NotaArray();
 echo "<div class='contenedor'>";
 $participantes->pool();
+echo "<div id='pool'>";
 $participantes->mostrarPool();
-
-
+echo "</div>";
 
 if($participantes->cantParticipantes()==3){
     
@@ -30,7 +30,7 @@ if($participantes->cantParticipantes()==4){
     echo "<a href='llaves.php'> mostrar siguientes llaves </a>";
     echo "</div>";
 }
-if($participantes->cantParticipantes()>10){
+if($participantes->cantParticipantes()>=10){
     $_SESSION["participantesPool"]=serialize($participantes);
     $cantPool=$participantes->cantPools();
     echo "<div class='contenedor'>";

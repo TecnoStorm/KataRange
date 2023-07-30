@@ -21,7 +21,9 @@ echo "<div id='contenedor'>";
 $participanteArray->mostrarInfo($ci,$notaFinal);
 echo "</div>";
 ?> 
+<div id="salir">
 <a href="Juez/OpcionesJuez.php" id="Volver"> Volver </a>
+</div>
 </body>
 </html>
 

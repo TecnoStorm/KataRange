@@ -48,7 +48,6 @@ if ($existe) {
             unset($notas[$mayorPuntaje]);
             unset($notas[$menorPuntaje]);
             $notaFinal = array_sum($notas);
-            echo $ci;
             $participanteArray->cambioNota($ci,$notaFinal);
             $participanteArray->guardar();
             echo "<div class='notas'>";

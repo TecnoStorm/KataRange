@@ -12,3 +12,5 @@ Hernan:Moreno:545:12
 Brandon :Moreno:444:123
 Giuliana:tortomano:444:123
 ayuda:tortomano:444:123
+Hernan:Fernandez:23:123
+Hernan:Tecnico:123:123

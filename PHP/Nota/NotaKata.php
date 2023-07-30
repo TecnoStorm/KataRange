@@ -21,6 +21,5 @@ echo "<input type='number', name='puntaje', placeholder='Puntaje' min='5' max='1
 echo "<input type='submit', name='enviar' value='Puntuar' id='enviar'> ";
 echo "</form>";
 ?> 
- 
 </body>
 </html>

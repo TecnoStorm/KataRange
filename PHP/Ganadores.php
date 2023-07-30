@@ -32,10 +32,6 @@ if($participantes->cantParticipantes()==4){
         echo "</table>";
         $notaArray->ganador($posicion);
     }
-
-
-
-
 }
 
 

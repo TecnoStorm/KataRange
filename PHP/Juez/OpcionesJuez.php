@@ -37,7 +37,9 @@ else{
     echo "usuario o clave incorrectos";
 }
 ?>
+<div id="salir">
 <a href="../Index.php?borrar=true" id="Volver"> Volver </a>
+</div>
 </body>
 </html>
 

@@ -15,6 +15,8 @@ echo "<table border='1'>
 $participanteArray->listar();
 echo "</table>";
 ?>
+<div id="salir">
 <a href="http://127.0.0.1/ProgramaPhp/Participantes.html" id="Volver"> Volver</a>
+</div>
 </body>
 </html>

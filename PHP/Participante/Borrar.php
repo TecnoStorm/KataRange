@@ -12,8 +12,10 @@ include "ParticipanteArray.php";
 $ci=$_POST["ciBorrar"];
 $participanteArray= new ParticipanteArray();
 $participanteArray->eliminarParticipante($ci);
-?>  
+?>
+<div id="salir"> 
 <a href='../index.php'>Volver</a>
+</div>
 </body>
 </html>
 
