@@ -1,7 +1,7 @@
 <?php
 class Kata{
-    private $_idKata
-    private $_nombre
+    private $_idKata;
+    private $_nombre;
     public function construct($idKata, $nombre){
         $this->_idKata=$kata;
         $this->_nombre=$nombre;

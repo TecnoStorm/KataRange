@@ -14,3 +14,6 @@ Giuliana:tortomano:444:123
 ayuda:tortomano:444:123
 Hernan:Fernandez:23:123
 Hernan:Tecnico:123:123
+Brandon :Calimares:1234:123
+matoox:Tecnico:678:123
+ayuda:Tecnico:9090:123

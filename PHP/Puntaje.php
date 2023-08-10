@@ -31,7 +31,6 @@ if(isset($_SESSION["notaFinal"])){
 }
 else{
 
-
 if ($existe) {
     if (isset($_SESSION["participantes"][$ci])) {
         $notas = $_SESSION["participantes"][$ci]["notas"];
