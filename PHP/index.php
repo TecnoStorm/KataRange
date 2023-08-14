@@ -16,7 +16,7 @@ session_destroy();
  echo   "<div id='contenedor'>";
  echo  " <h1> Gestión de Usuarios</h1>";
  echo   "<p> Si queres entrar al torneo presiona aqui</p>";
- echo   " <a href='http://127.0.0.1/ProgramaPhp/Participantes.html'> Ingresar participante</a>";
+ echo   " <a href='http://127.0.0.1/ProgramaPhp/Participantes.php'> Ingresar participante</a>";
  echo  " <p> Si es juez registrese o ingrese su usuario</p>";
  echo   "<form id='formulario'action='http://127.0.0.1/ProgramaPhp/PHP/Juez/OpcionesJuez.php' method='post'>";
  echo   " <input type='text' name='usuario' placeholder='Usuario'>";

@@ -1,25 +1,44 @@
 <?php
 require_once("Participante.php");
-require_once "C:/xampp/htdocs/ProgramaPhp/PHP/Nota/NotaArray.php";
+require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/Nota/NotaArray.php");
+require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/config.php");
+
 class ParticipanteArray{
-    private $_participantes=array();
+    private $_participantes=array();    
     public function __construct(){
-        $archivo = fopen("C:/xampp/htdocs/ProgramaPhp/TXT/participantes.txt","r");
-        while(!feof($archivo)) {
-            $linea = fgets($archivo, 256);
-            if($linea!= ""){
-                $valores = explode(":", $linea);
-                $this->_participantes[] = new Participante($valores[0], $valores[1], $valores[2], $valores[3], $valores[4], $valores[5],$valores[6],$valores[7]);
+        $consulta = "SELECT * FROM participante";
+        $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+        $resultado = mysqli_query($conexion, $consulta);
+        if (!$conexion) {
+            die('Error en la conexión: ' . mysqli_connect_error());
+        }
+        if (!$resultado){
+            die('Error en la consulta SQL: ' . $consulta);
             }
-        }
+        while($fila = $resultado->fetch_assoc()){
+        $this->_participantes[]= new Participante($fila['nombreP'],$fila['apellidoP'],$fila['ciP'],$fila['sexo'],$fila['condicion'],$fila['categoriaP'],$fila['idKata']);
     }
-    public function guardar(){
-        $archivo = fopen("C:/xampp/htdocs/ProgramaPhp/TXT/participantes.txt","w");
-        foreach ($this->_participantes as $participante){
-            $linea = implode(":", (array)$participante);
-            fwrite($archivo, $linea);
+    }
+    
+    public function guardar($nombre, $apellido,$ci,$sexo,$condicion,$categoria,$idKata){
+        $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+        if (!$conexion) {
+            die('Error en la conexión: ' . mysqli_connect_error());
         }
-        fclose($archivo);
+        $consulta = $conexion ->prepare(
+            "INSERT INTO Persona (ci,nombre,apellido)
+            values (?,?,?)");
+        
+        $consulta2 = $conexion ->prepare(
+         "INSERT INTO Participante (nombreP,apellidoP,ciP,sexo,condicion,categoriaP,idKata)
+         values (?,?,?,?,?,?,?)");
+        $consulta->bind_param("iss", $ci, $nombre, $apellido);
+        $consulta->execute();
+        $consulta->close();
+        $consulta2->bind_param("ssisssi", $nombre, $apellido,$ci,$sexo,$condicion,$categoria,$idKata);
+        $consulta2->execute();
+        $consulta2->close();
+        $conexion->close();
     }
 
     public function ponerParticipante($nombre, $apellido,$ci,$sexo,$categoria,$idKata,$pool,$nota){  
@@ -28,21 +47,45 @@ class ParticipanteArray{
     }
     
     public function listar(){
-        foreach ($this->_participantes as $participante){
-            echo $participante;
-        }
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta = "SELECT * FROM participante";
+    $resultado = mysqli_query($conexion, $consulta);
+    if (!$resultado){
+    die('Error en la consulta SQL: ' . $consulta);
+    }
+echo "<table border='2'>";
+echo "<tr> <td> Nombre </td> <td> apellido </td> <td> Ci </td> </td><td> sexo </td> <td> condicion </td><td> categoria </td> <td> idKata </td> </tr>";
+while($fila = $resultado->fetch_assoc()){
+echo "<tr> <td>".$fila['nombreP'] . " </td><td>" . $fila['apellidoP'] . "</td><td>  " . $fila['ciP'] . "</td> <td>" . $fila['sexo'] . "</td><td>" . $fila ['condicion'] . " </td><td>" . $fila ['categoriaP']. "</td><td>" . $fila ['idKata']. "</td> </tr>";
+}
+echo "</table>";
     }
     
     public function eliminarParticipante($ci){
-        foreach($this->_participantes as $clave => $participante){   
-            if($this->_participantes[$clave]->getCi()==$ci){ 
-                unset($this->_participantes[$clave]);
+        $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+        $consulta = $conexion ->prepare(
+            "DELETE FROM persona WHERE ci=?");
+            if (!$consulta) {
+                die('Error en la consulta 1: ' . $conexion->error);
             }
-        }   
-        $this->borrarArchivo();
-        $this->guardar();
+         $consulta->bind_param("i", $ci);
+         $consulta->execute();
+         $consulta->close();
+         $conexion->close();
+         
     }
-
+    public function eliminarPersona($ci){
+        $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+        $consulta2 = $conexion ->prepare(
+            "DELETE FROM Participante WHERE ciP=?");
+            if (!$consulta2) {
+                die('Error en la consulta 1: ' . $conexion->error);
+            }
+        $consulta2->bind_param("i", $ci);
+        $consulta2->execute();
+        $consulta2->close();
+        $conexion->close();
+    }
     public function borrarArchivo(){
         $archivo = fopen("C:/xampp/htdocs/ProgramaPhp/TXT/participantes.txt","w");
         fwrite($archivo, "");
@@ -87,53 +130,7 @@ class ParticipanteArray{
 }
 
 public function pool() {
-    if (count($this->_participantes) < 3) {
-        echo "el torneo se realizará a partir de 3 participantes";
-        return;
-    }
-
-    if (count($this->_participantes) == 3) {
-        shuffle($this->_participantes);
-        foreach ($this->_participantes as $participante) {
-            $participante->setPool(1);
-        }
-    } elseif (count($this->_participantes) == 4) {
-        shuffle($this->_participantes);
-        $this->_participantes[0]->setPool(1); 
-        $this->_participantes[1]->setPool(1);
-        $this->_participantes[2]->setPool(2);
-        $this->_participantes[3]->setPool(2); 
-    } elseif (count($this->_participantes) == 5) {
-        shuffle($this->_participantes);
-        $this->_participantes[0]->setPool(1); 
-        $this->_participantes[1]->setPool(1);
-        $this->_participantes[2]->setPool(1);
-        $this->_participantes[3]->setPool(2);  
-        $this->_participantes[4]->setPool(2); 
-    } elseif (count($this->_participantes) > 5 && count($this->_participantes) <= 10) {
-        shuffle($this->_participantes);
-        $cantParticipantesAo = count($this->_participantes) / 2;
-        for ($x = 0; $x < $cantParticipantesAo; $x++) {
-            $this->_participantes[$x]->setPool(1);
-        }
-        for ($x = count($this->_participantes) - 1; $x >= count($this->_participantes) / 2; $x--) {
-            $this->_participantes[$x]->setPool(2);
-        }
-    } elseif (count($this->_participantes) > 10) {
-        shuffle($this->_participantes);
-        for ($x = 0; $x < count($this->_participantes); $x++) {
-            $this->_participantes[$x]->setPool(1);
-            if ($x >= 8 && $x < 16) {
-                $this->_participantes[$x]->setPool(2);
-            }
-            if ($x >= 16 && $x < 24) {
-                $this->_participantes[$x]->setPool(3);
-            }
-            if ($x >= 24 && $x < 32) {
-                $this->_participantes[$x]->setPool(4);
-            }
-        }
-    }
+    
 }
 
 public function mostrarPool(){
@@ -146,7 +143,9 @@ public function mostrarPool(){
 public function cantParticipantes(){
     return count($this->_participantes);
 }
-
+public function devolverArray(){
+    return $this->_participantes;
+}
 public function guardarPool(){
     $archivo=fopen("C:/xampp/htdocs/ProgramaPhp/TXT/participantes.txt","w");
     foreach($this->_participantes as $participante){
@@ -201,14 +200,82 @@ public function ordenarParticipante() {
 }
 public function cantPools(){
     $contador=0;
+    $pool=1;
     for($x=1;$x<count($this->_participantes);$x++){
-        if($contador<$this->_participantes[$x]->getPool()){
-            $contador=$this->_participantes[$x]->getPool();
+        if($x%8==0){
+            $contador++;
         }
     }
-return $contador;   
+$resultado=$contador+$pool;
+return $resultado;
+}
+public function notaFinal($ci){
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta = "SELECT * FROM puntua";
+    $resultado = mysqli_query($conexion, $consulta);
+    $notas=[];
+    $contador=0;
+    if (!$resultado){
+    die('Error en la consulta SQL: ' . $consulta);
+    }
+while($fila = $resultado->fetch_assoc()){
+$notas[]=$fila['Nota_Final'];
+}
+for($x=0;$x<count($notas);$x++){
+    $contador++;
+}
+if($contador==5){
+            $mayorPuntaje = array_search(max($notas), $notas);
+            $menorPuntaje = array_search(min($notas), $notas);
+            unset($notas[$mayorPuntaje]);
+            unset($notas[$menorPuntaje]);
+            $notaFinal = array_sum($notas);
+            $consulta2 = $conexion ->prepare(
+            "UPDATE estan SET notaFinal = ?  WHERE ciP=?;");
+            $consulta2->bind_param("ii", $notaFinal,$ci);
+            $consulta2->execute();
+            $consulta2->close();
+            $conexion->close();
+            echo $notaFinal . $ci;
+}
+}
+public function obtenerPool($ci){
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta = "SELECT * FROM estan";
+    $resultado = mysqli_query($conexion, $consulta);
+    $ciParticipantes=[];
+    $pools=[];
+    $pool;
+    if (!$resultado){
+    die('Error en la consulta SQL: ' . $consulta);
+    }
+    while($fila = $resultado->fetch_assoc()){
+    $ciParticipantes[]=$fila['ciP'];
+    $pools[]=$fila['idP'];
+}
+for($x=0;$x<count($ciParticipantes);$x++){
+    if($ci==$ciParticipantes[$x]){
+     $pool=$pools[$x];
+    }
+}
+return $pool;
 }
 
+public function notas($ciJ,$ciP,$idP,$nota){
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    if (!$conexion) {
+        die('Error en la conexión: ' . mysqli_connect_error());
+    }
+    $consulta = $conexion ->prepare(
+     "INSERT INTO puntua (ciJ,ciP,idP,Nota_Final)
+     values (?,?,?,?)");
+    $consulta->bind_param("iiii", $ciJ, $ciP, $idP,$nota);
+    $consulta->execute();
+    $consulta->close();
+    $conexion->close();
 }
-
+public function GetParticipantes(){
+    return $this->_participantes;
+}
+}
 ?> 

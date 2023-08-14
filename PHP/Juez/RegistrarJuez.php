@@ -8,11 +8,6 @@
 </head>
 <body>
 <?php
-define('SERVIDOR', '127.0.0.1');
-define('USUARIO', 'root');
-define('PASS', '');
-define('BD', 'cuk');
-
 include "JuezArray.php";
 $nombre=$_POST["nombre"]; 
 $apellido=$_POST["apellido"];
@@ -22,29 +17,7 @@ $clave=$_POST["clave"];
 $confirmacion=$_POST["confirmacion"];
 $juezArray=new JuezArray();
 if($clave==$confirmacion){
-    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-
-   if (!$conexion) {
-       die('Error en la conexión: ' . mysqli_connect_error());
-   }
-   $consulta = $conexion->prepare(
-       "INSERT INTO persona (ci,nombre,apellido)
-       values (?,?,?)");
-   
-   $consulta2 = $conexion->prepare(
-    "INSERT INTO Juez (nombre,Apellido,usuario,ciJ,contraseña)
-    values (?,?,?,?,?)");
-    
-    $consulta->bind_param("iss", $ci, $nombre, $apellido);
-    $consulta->execute();
-    $consulta->close();
-    $consulta2->bind_param("sssis", $nombre, $apellido,$usuario,$ci,$clave);
-    $consulta2->execute();
-    $consulta2->close();
-    $conexion->close();
-    
-    $juezArray->ponerJuez($nombre, $apellido, $ci,$clave);
-    $juezArray->guardar();
+    $juezArray->guardar($nombre,$apellido,$usuario,$ci,$clave);
     echo "<a href='http://127.0.0.1/ProgramaPhp/RegistrarJuez.html'> Volver </a>";
 }
 else{

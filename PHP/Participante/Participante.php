@@ -6,17 +6,15 @@ class Participante{
     private $_sexo;
     private $_categoria;
     private $_idKata;
-    private $_pool;
-    private $_notaFinal;
-    public function __construct($nombre, $apellido,$ci,$sexo,$categoria,$idKata,$pool,$nota){
+    private $_condicion;
+    public function __construct($nombre, $apellido,$ci,$sexo,$condicicion,$categoria,$idKata){
         $this->_nombre=$nombre;
         $this->_apellido=$apellido;
         $this->_ci=$ci;
         $this->_sexo=$sexo;
         $this->_categoria=$categoria;
         $this->_idKata=$idKata;
-        $this->_pool=$pool;
-        $this->_notaFinal=$nota;
+        $this->_condicion=$condicicion;
     }
 
     public function getNombre(){
@@ -66,23 +64,16 @@ class Participante{
     public function setIdKata($kata){
         $this->_idKata=$kata;
     }
-    public function getPool(){
-        return $this->_pool;
+    public function getCondicion(){
+        return $this->_condicion;
     }
 
-    public function setPool($pool){
-        $this->_pool=$pool;
+    public function setPool($condicicion){
+        $this->_condicion=$condicion;
     }
  
-    public function getNota(){
-        return $this->_notaFinal;
-    }
-
-    public function setNota($nota){
-        $this->_notaFinal=$nota;
-    }
     public function __toString(){
-        return "<tr><td>".$this->_nombre."</td><td>".$this->_apellido."</td><td>".$this->_ci."</td><td>".$this->_sexo."</td><td>".$this->_categoria ."</td><td>" .$this->_idKata . "</td> </tr>";
+        return "<tr><td>".$this->_nombre."</td><td>".$this->_apellido."</td><td>".$this->_ci."</td><td>".$this->_sexo."</td><td>".$this->_categoria ."</td> <td>". $this->_condicion. "</td> </tr>";
     }
 }
 ?>

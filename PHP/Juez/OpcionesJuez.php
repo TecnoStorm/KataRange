@@ -11,8 +11,7 @@
 session_start();
 include 'JuezArray.php';
 if(isset($_SESSION["clave"]) && isset($_SESSION["usuario"])){
-    $usuario=$_SESSION["usuario"];
-    $clave=$_SESSION["clave"];
+    session_destroy();
 }
 else{
     $usuario=$_POST['usuario'];
@@ -27,7 +26,7 @@ if($existe){
     echo "<input type='submit' name='mostrar' value='mostrar Jueces'>";
     echo "</form>";
     echo "<a href='../Nota/NotaKata.php'> Puntaje</a>";
-    echo "<a href='../Sorteo.php'> Sorteo </a>";
+    echo "<a href='../Pool/CreadorPools.php'> Pools </a>";
     echo "</form>";
     echo "</div>";
     $_SESSION["usuario"]=$usuario;
@@ -39,6 +38,7 @@ else{
 ?>
 <div id="salir">
 <a href="../Index.php?borrar=true" id="Volver"> Volver </a>
+<a href="../../Torneos.html"> Gestion de Torneos</a>
 </div>
 </body>
 </html>

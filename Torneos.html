@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Gestion De Torneos</h1>
+    <form action="PHP/Torneo/CrearTorneo.php" method="post">
+    <input type="date" name="fecha">
+    <select name="categoria">
+    <option value="12/13">12/13</option>
+    <option value="14,15">14/15</option>
+    <option value="16/17">16/17</option>
+    <option value="mayores">mayores</option>
+    </select>
+    <select name="paraKarate">
+    <option value="si"> si</option>
+    <option value="no"> no</option>
+    </select>
+    <input type="number" name="cantidad" placeholder="cantidad de Participantes">
+    <input type="submit" value="Crear Torneo">
+    </form>
+    <a href="PHP/Torneo/MostrarTorneo.php"> Mostrar Torneos</a>
+    <h2>Abir/cerrar Torneo</h2>
+    <form action="PHP/Torneo/EstadoTorneo.php" method="post">
+    <input type="number" name="id" placeholder="id del torneo">
+    <select name="estado">
+    <option value="abierto">abierto</option>
+    <option value="cerrado">cerrado</option>
+    </select>
+    <input type="submit" value="Modificar">    
+    </form>
+</body>
+</html>

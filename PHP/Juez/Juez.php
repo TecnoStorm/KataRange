@@ -2,12 +2,13 @@
 class Juez{
     private $_nombre;
     private $_apellido;
+    private $_usuario;
     private $_ci;
     private $_clave;
-
-    public function __construct($nombre,$apellido,$ci,$clave){
+    public function __construct($nombre,$apellido,$usuario,$ci,$clave){
         $this->_nombre=$nombre;
         $this->_apellido=$apellido;
+        $this->_usuario=$usuario;
         $this->_ci=$ci;
         $this->_clave=$clave;
     }
@@ -43,8 +44,16 @@ class Juez{
     public function setClave($clave){
         $this->_clave=$clave;
     }
+    
+    public function getUsuario(){
+        return $this->_usuario;
+    }
+
+    public function setUsuario($usuario){
+        $this->_usuario=$usuario;
+    }
     public function __toString(){
-        return "<tr><td>".$this->_nombre."</td><td>".$this->_apellido."</td><td>".$this->_ci."</td></tr>";
+        return "<tr><td>".$this->_nombre."</td><td>".$this->_apellido."</td><td>".$this->_usuario. "</td><td>".$this->_ci."</td></tr>";
     }
 }
 ?>
