@@ -20,6 +20,10 @@
     <option value="no"> no</option>
     </select>
     <input type="number" name="cantidad" placeholder="cantidad de Participantes">
+    <select name="sexo">
+        <option value="Femenino">Femenino</option>;
+        <option value="Masculino">Masculino</option>;
+        </select>
     <input type="submit" value="Crear Torneo">
     </form>
     <a href="PHP/Torneo/MostrarTorneo.php"> Mostrar Torneos</a>
@@ -31,6 +35,11 @@
     <option value="cerrado">cerrado</option>
     </select>
     <input type="submit" value="Modificar">    
+    </form>
+    <h2> Asignar Participantes </h2>
+    <form action="PHP/Torneo/AsignarParticipantes.php" method="post">
+    <input type="number" name="id" placeholder="idTorneo">
+    <input type="submit" value="asignar">
     </form>
 </body>
 </html>

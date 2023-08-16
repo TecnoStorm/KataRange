@@ -1,6 +1,6 @@
 <?php
 require_once("Juez.php");
-include "../config.php";
+require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/config.php");
     class JuezArray{
         private $_jueces=array(); 
         public function __construct(){

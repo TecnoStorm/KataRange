@@ -209,6 +209,75 @@ public function cantPools(){
 $resultado=$contador+$pool;
 return $resultado;
 }
+public function obtenerPool($ci){
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta = "SELECT * FROM estan";
+    $resultado = mysqli_query($conexion, $consulta);
+    $ciParticipantes=[];
+    $pools=[];
+    $pool;
+    if (!$resultado){
+        die('Error en la consulta SQL: ' . $consulta);
+    }
+    while($fila = $resultado->fetch_assoc()){
+        $ciParticipantes[]=$fila['ciP'];
+        $pools[]=$fila['idP'];
+    }
+    for($x=0;$x<count($ciParticipantes);$x++){
+        if($ci==$ciParticipantes[$x]){
+            $pool=$pools[$x];
+        }
+    }
+    return $pool;
+}
+
+public function notas($ciJ,$ciP,$idP,$nota){
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    if (!$conexion) {
+        die('Error en la conexión: ' . mysqli_connect_error());
+    }
+    $consulta = $conexion ->prepare(
+    "INSERT INTO puntua (ciJ,ciP,idP,Nota_Final)
+    values (?,?,?,?)");
+    $consulta->bind_param("iiii", $ciJ, $ciP, $idP,$nota);
+    $consulta->execute();
+    $consulta->close();
+    $conexion->close();
+}
+
+public function GetParticipantes(){
+    return $this->_participantes;
+}
+
+public function devolverInfo($ci){
+    foreach($this->_participantes as $participante){
+        if($participante->getCi()==$ci){
+            echo $participante->getNombre() . " ". $participante->getApellido();
+        }
+    }
+}
+
+public function cantidadNotas($ci){
+    $contador=0;
+    $notas=false;
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta = "SELECT * FROM puntua";
+    $resultado = mysqli_query($conexion, $consulta);
+    if (!$resultado){
+        die('Error en la consulta SQL: ' . $consulta);
+    }
+
+    while($fila = $resultado->fetch_assoc()){
+        if($ci=$fila['ciP']){
+            $contador++;
+        }
+        if($contador>=5){
+            $notas=true;
+        }
+    }
+    return $notas;
+}
+
 public function notaFinal($ci){
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
     $consulta = "SELECT * FROM puntua";
@@ -218,64 +287,48 @@ public function notaFinal($ci){
     if (!$resultado){
     die('Error en la consulta SQL: ' . $consulta);
     }
-while($fila = $resultado->fetch_assoc()){
-$notas[]=$fila['Nota_Final'];
-}
-for($x=0;$x<count($notas);$x++){
-    $contador++;
-}
-if($contador==5){
-            $mayorPuntaje = array_search(max($notas), $notas);
-            $menorPuntaje = array_search(min($notas), $notas);
-            unset($notas[$mayorPuntaje]);
-            unset($notas[$menorPuntaje]);
-            $notaFinal = array_sum($notas);
-            $consulta2 = $conexion ->prepare(
-            "UPDATE estan SET notaFinal = ?  WHERE ciP=?;");
-            $consulta2->bind_param("ii", $notaFinal,$ci);
-            $consulta2->execute();
-            $consulta2->close();
-            $conexion->close();
-            echo $notaFinal . $ci;
-}
-}
-public function obtenerPool($ci){
-    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-    $consulta = "SELECT * FROM estan";
-    $resultado = mysqli_query($conexion, $consulta);
-    $ciParticipantes=[];
-    $pools=[];
-    $pool;
-    if (!$resultado){
-    die('Error en la consulta SQL: ' . $consulta);
-    }
     while($fila = $resultado->fetch_assoc()){
-    $ciParticipantes[]=$fila['ciP'];
-    $pools[]=$fila['idP'];
-}
-for($x=0;$x<count($ciParticipantes);$x++){
-    if($ci==$ciParticipantes[$x]){
-     $pool=$pools[$x];
+        $notas[]=$fila['Nota_Final'];
     }
+    for($x=0;$x<count($notas);$x++){
+        $contador++;
+    }
+    if($contador==5){
+        $mayorPuntaje = array_search(max($notas), $notas);
+        $menorPuntaje = array_search(min($notas), $notas);
+        unset($notas[$mayorPuntaje]);
+        unset($notas[$menorPuntaje]);
+        $notaFinal = array_sum($notas);
+        $consulta2 = $conexion ->prepare(
+        "UPDATE estan SET notaFinal = ?  WHERE ciP=?;");
+        $consulta2->bind_param("ii", $notaFinal,$ci);
+        $consulta2->execute();
+        $consulta2->close();
+        $conexion->close();
+        echo $notaFinal . $ci;
 }
-return $pool;
 }
-
-public function notas($ciJ,$ciP,$idP,$nota){
+public function borrarNotas(){
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-    if (!$conexion) {
-        die('Error en la conexión: ' . mysqli_connect_error());
-    }
-    $consulta = $conexion ->prepare(
-     "INSERT INTO puntua (ciJ,ciP,idP,Nota_Final)
-     values (?,?,?,?)");
-    $consulta->bind_param("iiii", $ciJ, $ciP, $idP,$nota);
+    $consulta = $conexion ->prepare("DELETE FROM puntua;");
     $consulta->execute();
     $consulta->close();
     $conexion->close();
 }
-public function GetParticipantes(){
-    return $this->_participantes;
+public function participanteAPuntuar(){
+    $notas=[];
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta = "SELECT * FROM estan";
+    $resultado = mysqli_query($conexion, $consulta);
+    if (!$resultado){
+        die('Error en la consulta SQL: ' . $consulta);
+    }
+
+    while($fila = $resultado->fetch_assoc()){
+        $notas[]=$fila['notaFinal'];
+}
+$posicion=array_search(0,$notas);
+return $posicion;   
 }
 }
 ?> 

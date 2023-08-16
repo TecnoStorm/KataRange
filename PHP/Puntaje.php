@@ -9,19 +9,29 @@
 <body>
 <?php
 session_start();
-include "Participante/ParticipanteArray.php";
-include "Juez/JuezArray.php";
+require_once ("Participante/ParticipanteArray.php");
+require_once ("Juez/JuezArray.php");
+require_once ("Torneo/TorneoArray.php");
+$participantes= new ParticipanteArray();
+$torneos=new TorneoArray();
+$ciParticipantes=$torneos->ciParticipantesTorneo();
+$contador=$participantes->participanteAPuntuar();
+$cantNotas=$participantes->cantidadNotas($ciParticipantes[$contador]); 
+if($cantNotas){
+    $participantes->notaFinal($ciParticipantes[$contador]);
+    $participantes->devolverInfo($ciParticipantes[$contador]); 
+    echo "<a href='Nota/NotaKata.php'> Reset </a>"; 
+}
+
 if(isset($_SESSION["usuario"])){
     $usuario=$_SESSION["usuario"];
 }
-$participantes= new ParticipanteArray();
+
 $jueces=new JuezArray();
 $ciJ=$jueces->obtenerCi($usuario);
-$ciP=$_POST["ci"];
-$idP=$participantes->obtenerPool($ciP);
-$nota=$_POST['puntaje'];
-$participantes->notas($ciJ,$ciP,$idP,$nota);
-$participantes->notaFinal($ciP);
+$idP=$participantes->obtenerPool($ciParticipantes[$contador]);
+$nota=$_POST['nota'];
+$participantes->notas($ciJ,$ciParticipantes[$contador],$idP,$nota);
 ?>  
 </body>
 </html>

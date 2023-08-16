@@ -1,6 +1,7 @@
 <?php
 require_once ("Pool.php");
-include "../Participante/ParticipanteArray.php";
+require_once ("../Participante/ParticipanteArray.php");
+require_once ("../Torneo/TorneoArray.php");
 class PoolArray{
     private $_pools=array();    
     public function __construct(){
@@ -108,64 +109,63 @@ class PoolArray{
 
     public function AsignarPool(){
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-        $ciParticipantes=[];
-        $participantes =new ParticipanteArray();
+        $torneos=new TorneoArray();
+        $participantesMismaCategoria=$torneos->mismaCategoria();
+        $ciParticipantes=$torneos->ciParticipantesTorneo(); 
+        var_dump($ciParticipantes); 
+        $participantes=new ParticipanteArray();
         $participantesArray=$participantes->devolverArray();
         $id=1;
         $notaFinal="null";
         $clasificados="null";
-        shuffle($participantesArray);
-        foreach ($participantesArray as $participante){
-            $ciParticipantes[]=$participante->getCi();
-        }
-        var_dump($ciParticipantes);
-        if (count($participantesArray) < 3) {
+        shuffle($participantesMismaCategoria);
+        if (count($participantesMismaCategoria) < 3) {
             echo "el torneo se realizará a partir de 3 participantes";
         }
-        if (count($participantesArray) == 3) {
-            
+        if (count($participantesMismaCategoria) == 3) {
+            echo "hola";
             $consulta = $conexion ->prepare(
             "INSERT INTO  estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
-            for($x=0;$x<count($participantesArray);$x++){
-                $consulta->bind_param("iiis", $ciParticipantes[$x],$id,$notaFinal,$clasificados); 
+            for($x=0;$x<count($participantesMismaCategoria);$x++){
+                $consulta->bind_param("iiis", $ciParticipantes[$x],$id,$notaFinal,$clasificados);
                 $consulta->execute();
             }
             $consulta->close();
             $conexion->close();
-        } elseif (count($participantesArray) == 4) {
-            $consulta = $conexion ->prepare(
+        } elseif (count($participantesMismaCategoria) == 4) {
+            $consulta = $conexion->prepare(
             "INSERT INTO  estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
-            for($x=0;$x<count($participantesArray);$x++){
+            for($x=0;$x<count($participantesMismaCategoria);$x++){
                 $consulta->bind_param("iiis", $ciParticipantes[$x],$id,$notaFinal,$clasificados); 
                 $consulta->execute();
                 if($x>=1){
                     $id=2;
                 }
             }
-        } elseif (count($participantesArray) == 5) {
+        } elseif (count($participantesMismaCategoria) == 5) {
             $consulta = $conexion ->prepare(
             "INSERT INTO  estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
-            for($x=0;$x<count($participantesArray);$x++){
+            for($x=0;$x<count($participantesMismaCategoria);$x++){
             $consulta->bind_param("iiis", $ciParticipantes[$x],$id,$notaFinal,$clasificados); 
             $consulta->execute();
                     if($x>=2){
                         $id=2;
                     }
                 }
-        } elseif (count($participantesArray) > 5 && count($participantesArray) <= 10) {
+        } elseif (count($participantesMismaCategoria) > 5 && count($participantesMismaCategoria) <= 10) {
             $consulta = $conexion ->prepare(
                 "INSERT INTO  estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
-                for($x=0;$x<count($participantesArray);$x++){
+                for($x=0;$x<count($participantesMismaCategoria);$x++){
                 $consulta->bind_param("iiis", $ciParticipantes[$x],$id,$notaFinal,$clasificados); 
                 $consulta->execute();
                         if($x>=4){
                             $id=2;
                         }
                     }
-        } elseif (count($participantesArray) > 10) {
+        } elseif (count($participantesMismaCategoria) > 10) {
             $consulta = $conexion ->prepare(
             "INSERT INTO estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
-            for($x=1;$x<=count($participantesArray);$x++){ 
+            for($x=1;$x<=count($participantesMismaCategoria);$x++){ 
                 $consulta->bind_param("iiis", $ciParticipantes[$x-1],$id,$notaFinal,$clasificados); 
                 $consulta->execute();
                 if($x%8==0){
@@ -173,6 +173,7 @@ class PoolArray{
                 }
             }
         }
-    }
-}
+    
+} 
+} 
 ?>

@@ -12,24 +12,19 @@ session_start();
 require_once("../Participante/ParticipanteArray.php");
 require_once ("../Torneo/TorneoArray.php");
 $torneos=new TorneoArray();
-$torneoActivo=$torneos->abierto();
-if($torneoActivo){
-    $participantesCategoria=$torneos->mismaCategoria();
-    echo "<table border='1'>";
-    echo "<tr><td> Nombre </td> <td> Apellido </td><td> ci </td <td> sexo </td><td> condicion </td> <td> categoria </td> <td> idkata</td></tr>";
-    foreach ($participantesCategoria as $participante) {
-        echo $participante;
-    }
-    echo "</table>";
-    echo "<form action='../Puntaje.php' method='post'>";
-    echo "<input type='number', name='ci', placeholder='ci'>";
-    echo "<input type='number', name='puntaje', placeholder='Puntaje' min='5' max='10' step='0.1'> ";
-    echo "<input type='submit', name='enviar' value='Puntuar' id='enviar'> ";
-    echo "</form>";
+$participantes=new ParticipanteArray();
+$contador=$participantes->participanteAPuntuar();
+
+$cantNotas=$participantes->cantidadNotas($contador);
+if($cantNotas){
+    $participantes->borrarNotas();
 }
-else{
-    echo "torneo sin abrir";
-}
+$ciParticipantes=$torneos->ciParticipantesTorneo();
+$participantes->devolverInfo($ciParticipantes[$contador]);
+echo "<form action='../puntaje.php' method='post'>";
+echo "<input type='number' min='5' max='10' step='0.1' name='nota' placeholder='Nota'>";
+echo "<input type='submit' value='Enviar'>";
+echo "</form>";
 ?>
 </body>
 </html>
