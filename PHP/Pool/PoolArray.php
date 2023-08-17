@@ -1,8 +1,8 @@
 <?php
 require_once ("Pool.php");
-require_once ("../Participante/ParticipanteArray.php");
-require_once ("../Torneo/TorneoArray.php");
-class PoolArray{
+require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/Participante/ParticipanteArray.php");
+require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/Torneo/TorneoArray.php");
+    class PoolArray{
     private $_pools=array();    
     public function __construct(){
         $consulta = "SELECT * FROM Pool";
@@ -111,7 +111,7 @@ class PoolArray{
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
         $torneos=new TorneoArray();
         $participantesMismaCategoria=$torneos->mismaCategoria();
-        $ciParticipantes=$torneos->ciParticipantesTorneo(); 
+        $ciParticipantes=$torneos->ciParticipantesTorneoPools(); 
         var_dump($ciParticipantes); 
         $participantes=new ParticipanteArray();
         $participantesArray=$participantes->devolverArray();
@@ -173,7 +173,15 @@ class PoolArray{
                 }
             }
         }
-    
+  }
+  public function cantPools(){
+    $contador=0;
+    foreach($this->_pools as $pool){
+    if($contador<$pool->getIdP()){
+        $contador=$pool->getIdP();
+    }
+    }
+    return $contador;
 } 
 } 
 ?>

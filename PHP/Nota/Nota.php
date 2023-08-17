@@ -1,50 +1,51 @@
 <?php
 class Nota{
-    private $_ci;
-    private $_nombre;
-    private $_apellido;
+    private $_ciP;
+    private $_idP;
     private $_notaFinal;
+    private $_Clasificados;
 
-    public function __construct($ci,$nombre, $apellido,$notaFinal){
-        $this->_ci=$ci;
-        $this->_nombre=$nombre;
-        $this->_apellido=$apellido;
+    public function __construct($ciP,$idP, $notaFinal,$Clasificados){
+        $this->_ciP=$ciP;
+        $this->_idP=$idP;
         $this->_notaFinal=$notaFinal;
+        $this->_Clasificados=$Clasificados;
     }
 
-    public function getCi(){
-        return $this->_ci;
+    public function getCiP(){
+        return $this->_ciP;
     }
 
-    public function setCi($ci){
-        $this->_ci=$ci;
+    public function setCiP($ci){
+        $this->_ciP=$ci; 
     }
 
-    public function getNombre(){
-        return $this->_nombre;
+
+    public function getIdP(){
+        return $this->_idP;
     }
 
-    public function setNombre($nombre){
-        $this->_nombre=$nombre;
-    }
-
-    public function setApellido($apellido){
-        $this->_apellido=$apellido;
-    }
-
-    public function getApellido(){
-        return $this->_apellido;
+    public function setIdP($idP){
+        $this->_idP=$idP;
     }
 
     public function getNotaFinal(){
         return $this->_notaFinal;
     }
-    public function setNotaFinal($nota){
-        return $this->_notaFinal=$nota;
+
+    public function setNotaFinal($notaFinal){
+        $this->_notaFinal=$notaFinal;
+    }
+
+    public function getClasificados(){
+        return $this->_Clasificados;
+    }
+    public function setClasificados($Clasificados){
+        return $this->_Clasificados=$Clasificados;
     }
 
     public function __toString(){
-        return "<tr><td>". $this->_nombre . "</td> <td>". $this->_apellido . "</td> <td>" . $this->_notaFinal . "</td></tr>";
+        return "<tr><td>". $this->_ciP . "</td> <td>". $this->_idP . "</td> <td>" . $this->_notaFinal . "</td><td>". $this->_Clasificados . "</td> </tr>";
     }
 
 

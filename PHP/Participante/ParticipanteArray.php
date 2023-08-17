@@ -252,7 +252,7 @@ public function GetParticipantes(){
 public function devolverInfo($ci){
     foreach($this->_participantes as $participante){
         if($participante->getCi()==$ci){
-            echo $participante->getNombre() . " ". $participante->getApellido();
+            echo $participante->getNombre() . " ". $participante->getApellido(); 
         }
     }
 }
@@ -315,10 +315,10 @@ public function borrarNotas(){
     $consulta->close();
     $conexion->close();
 }
-public function participanteAPuntuar(){
+public function participanteAPuntuar(){ 
     $notas=[];
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-    $consulta = "SELECT * FROM estan";
+    $consulta = "SELECT * FROM estan ORDER BY notaFinal DESC";
     $resultado = mysqli_query($conexion, $consulta);
     if (!$resultado){
         die('Error en la consulta SQL: ' . $consulta);
@@ -326,9 +326,11 @@ public function participanteAPuntuar(){
 
     while($fila = $resultado->fetch_assoc()){
         $notas[]=$fila['notaFinal'];
-}
-$posicion=array_search(0,$notas);
-return $posicion;   
+    }
+    var_dump($notas);
+    $posicion=array_search(0,$notas);
+    echo  "posicion: ". $posicion;
+    return $posicion;   
 }
 }
 ?> 

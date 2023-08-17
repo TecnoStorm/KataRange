@@ -1,84 +1,144 @@
 <?php
 require_once ('Nota.php');
+require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/config.php");
+require_once("C:/xampp/htdocs/ProgramaPhp/PHP/Pool/PoolArray.php");
+require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/Torneo/TorneoArray.php");
 class NotaArray{
     private $_notas=array();
     public function __construct(){
-        $archivo = fopen("C:/xampp/htdocs/ProgramaPhp/TXT/NotasFinales.txt","r");
-        while(!feof($archivo)) {
-            $linea = fgets($archivo, 256);
-            if($linea!=""){
-                $valores = explode(":", $linea);
-                $this->_notas[] = new Nota($valores[0], $valores[1], $valores[2],$valores[3]);
+        $consulta = "SELECT * FROM estan ORDER by idP desc, notaFinal DESC";
+        $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+        $resultado = mysqli_query($conexion, $consulta);
+        if (!$conexion) {
+            die('Error en la conexión: ' . mysqli_connect_error());
+        }
+        if (!$resultado){
+            die('Error en la consulta SQL: ' . $consulta);
             }
+        while($fila = $resultado->fetch_assoc()){
+            $this->_notas[]= new Nota($fila['ciP'],$fila['idP'],$fila['notaFinal'],$fila['Clasificados']);
         }
     }
 
-    public function guardar(){
-        $archivo = fopen("C:/xampp/htdocs/ProgramaPhp/TXT/NotasFinales.txt","w");
-        foreach ($this->_notas as $nota){
-            $linea = implode(":", (array)$nota);
-            fwrite($archivo, $linea);
-        }
-        fclose($archivo);
-    }
-
-    public function ponerNota($ci,$nombre,$apellido,$notaFinal){  
-        $nota= new Nota(PHP_EOL .$ci,$nombre, $apellido,$notaFinal); 
-        array_push($this->_notas,$nota);
-    }
-
-    public function listar(){
-        foreach ($this->_notas as $nota){
-            echo $nota;
-        }
-    }   
-    
-    public function cantNotas(){
-        return count($this->_notas);
-   }
-
-    public function posicionGanador(){
-        $mejorPuntaje=0;
-        $posicion=0;
-        for($x=0;$x<count($this->_notas);$x++){
-            if($mejorPuntaje<$this->_notas[$x]->getNotaFinal()){
-                $mejorPuntaje=$this->_notas[$x]->getNotaFinal();
-                $posicion=$x;
+    public function ganadores(){
+        $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+        $notas=$this->_notas;
+        $pools=new PoolArray();
+        $pools->cantPools();
+        $torneos=new TorneoArray();
+        $existe=$torneos->puestos();
+        $consulta = $conexion ->prepare("UPDATE compite SET puesto = ?  WHERE ciP=? ;"); 
+        if(count($this->_notas)==3){
+            for($x=0;$x<count($notas);$x++){
+                $puesto=1+$x;
+                $consulta->bind_param("ii", $puesto, $notas[$x]->getCiP());
+                $consulta->execute();
             }
+            $consulta->close();
+            $consulta2 = "SELECT * FROM compite";        
+            $resultado = mysqli_query($conexion, $consulta2); 
+            if (!$resultado){
+                die('Error en la consulta SQL: ' . $consulta);
+            }
+            echo "<table border='2'>";
+            echo "<tr> <td> ci participante </td> <td> puesto</td></tr> ";
+            while($fila = $resultado->fetch_assoc()){
+                echo "<tr> <td>".$fila['ciP'] . " </td><td>" . $fila['puesto'] . "</td> </tr>";
+            }
+            echo "</table>";
         }
-        return $posicion;
-    }
-
-    public function ganador($posicion){
-        echo "Ganador/a" . " ". $this->_notas[$posicion];
-    }
-
-    public function ordenar() {
-        $n = count($this->_notas);
-        for ($i = 0; $i < $n - 1; $i++) {
-            for ($j = 0; $j < $n - $i - 1; $j++) {
-                if ($this->_notas[$j]->getNotaFinal() < $this->_notas[$j + 1]->getNotaFinal()) {
-                    $temp = $this->_notas[$j];
-                    $this->_notas[$j] = $this->_notas[$j + 1];
-                    $this->_notas[$j + 1] = $temp;
+        if(count($this->_notas)==4){
+            $existe=false;
+            $clasificados[]=$this->_notas[0];
+            $clasificados[]=$this->_notas[2]; 
+            for($x=0;$x<count($this->_notas);$x++){ 
+                if($this->_notas[$x]->getIdP()==3 && $this->_notas[$x]->getNotaFinal()!=0){
+                    $existe=true;
                 }
             }
+            if($existe){
+                $consulta3 = $conexion ->prepare("UPDATE compite SET puesto = ?  WHERE ciP=? ;"); 
+                $consulta4 = $conexion ->prepare("UPDATE compite SET puesto = ?  WHERE ciP=? ;"); 
+                foreach($this->_notas as $clave => $nota){ 
+                    if($nota->getIdP()==3){
+                        $posicion=$clave+1;
+                        $consulta3->bind_param("ii",$posicion,$nota->getCiP()); 
+                        $consulta3->execute();
+                    }
+                    else{
+                            $tercero=3;
+                            $consulta3 = $conexion ->prepare("UPDATE compite SET puesto = ?  WHERE ciP=?"); 
+                            $consulta3->bind_param("ii", $tercero,$nota->getCiP());
+                            $consulta3->execute();
+                    }  
+                }
+                $consulta3->close();
+                $consulta4->close();
+                $consulta5 = "SELECT * FROM compite ORDER BY puesto asc ";        
+            $resultado = mysqli_query($conexion, $consulta5); 
+            if (!$resultado){
+                die('Error en la consulta SQL: ' . $consulta);
+            }
+            echo "<table border='2'>";
+            echo "<tr> <td> ci participante </td> <td> puesto</td></tr> ";
+            while($fila = $resultado->fetch_assoc()){
+                echo "<tr> <td>".$fila['ciP'] . " </td><td>" . $fila['puesto'] . "</td> </tr>";
+            }
+            echo "</table>";
+            }
+            else{            
+            $nota0=0; 
+            $pool=3;
+            $consulta = $conexion ->prepare("INSERT INTO  estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
+            for($x=0;$x<2;$x++){
+                $consulta2=$conexion->prepare("DELETE FROM estan where ciP=?");
+                $consulta2->bind_param("i", $clasificados[$x]->getciP());
+                $consulta2->execute();
+                $consulta2->close();
+                $consulta->bind_param("iiis",$clasificados[$x]->getCiP(),$pool,$nota0,$clasificados[$x]->getClasificados());
+                $consulta->execute();
+            }
+            $consulta->close();
+            $conexion->close();
+        } 
+        echo "siguiente ronda";
+        echo "<a href='NotaKata.php'> Volver </a>";
+    }
+    if(count($this->_notas)==5){
+        $existe=false;
+        $tercero=3;
+        $clasificados[]=$this->_notas[0];
+        $clasificados[]=$this->_notas[2]; 
+        $consulta3 = $conexion ->prepare("UPDATE compite SET puesto = ?  WHERE ciP=? ;");
+        $consulta3->bind_param("ii",$tercero,$this->_notas[3]->getCiP()); 
+        $consulta3->execute();
+        $consulta3->close();
+        $consulta5=$conexion->prepare("DELETE FROM estan WHERE ciP= ?");
+        $consulta5->bind_param("i",$this->_notas[3]->getCiP());
+        $consulta5->execute();
+        $consulta5->close();
+        for($x=0;$x<count($this->_notas);$x++){ 
+            if($this->_notas[$x]->getIdP()==3 && $this->_notas[$x]->getNotaFinal()!=0){
+                $existe=true;
+            }
         }
-    }
-    public function ordenarArray($array){}
-    public function getArray(){
-        return $this->_notas;
-    }
+            $nota0=0; 
+            $pool=3;
 
-public function resultadoCi($ci){
-    $this->ordenar();
-    foreach($this->_notas as $nota){
-        if($nota->getCi()==$ci){
-          echo $nota;
-        }
+            $consulta = $conexion ->prepare("INSERT INTO  estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
+            for($x=0;$x<2;$x++){
+                $consulta2=$conexion->prepare("DELETE FROM estan where ciP=?");
+                $consulta2->bind_param("i", $clasificados[$x]->getciP());
+                $consulta2->execute();
+                $consulta2->close();
+                $consulta->bind_param("iiis",$clasificados[$x]->getCiP(),$pool,$nota0,$clasificados[$x]->getClasificados());
+                $consulta->execute();
+            }
+            $consulta->close();
+            $conexion->close();
+            echo "siguiente ronda";
+            echo "<a href='NotaKata.php'> Volver </a>";
     }
-
-}
-
+    }
 }
 ?>

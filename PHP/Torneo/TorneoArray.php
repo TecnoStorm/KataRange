@@ -116,7 +116,7 @@ public function ParticipantesTorneo($ciP,$idTorneo,$puesto,$cinturon){
 
 public function ciParticipantesTorneo(){
     $ciParticipantes=[];
-    $consulta = "SELECT * FROM compite";
+    $consulta = "SELECT * FROM estan ORDER BY notaFinal desc"; 
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
     $resultado = mysqli_query($conexion, $consulta);
     if (!$conexion) {
@@ -130,7 +130,43 @@ public function ciParticipantesTorneo(){
     while($fila = $resultado->fetch_assoc()){
         $ciParticipantes[]=$fila['ciP'];
     }
+    var_dump($ciParticipantes);
     return $ciParticipantes;
+}
+public function ciParticipantesTorneoPools(){
+    $ciParticipantes=[];
+    $consulta = "SELECT * FROM compite"; 
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $resultado = mysqli_query($conexion, $consulta);
+    if (!$conexion) {
+        die('Error en la conexión: ' . mysqli_connect_error());
+    }
+
+    if (!$resultado){
+        die('Error en la consulta SQL: ' . $consulta);
+    }
+
+    while($fila = $resultado->fetch_assoc()){
+        $ciParticipantes[]=$fila['ciP'];
+    }
+    var_dump($ciParticipantes);
+    return $ciParticipantes;
+}
+public function Puestos(){
+    $puestos=[];
+    $existe=false;
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta= "SELECT * FROM compite";
+    $resultado = mysqli_query($conexion, $consulta);
+    while($fila=$resultado->fetch_assoc()){
+        $puestos[]=$fila['puesto'];
+    }
+    for($x=0;$x<count($puestos);$x++){
+        if($puestos[$x]!=0){
+            $existe=true;
+        }
+    }
+    return $existe;
 }
 }
 ?>
