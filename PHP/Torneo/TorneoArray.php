@@ -162,7 +162,7 @@ public function Puestos(){
         $puestos[]=$fila['puesto'];
     }
     for($x=0;$x<count($puestos);$x++){
-        if($puestos[$x]!=0){
+        if(in_array(3,$puestos)){
             $existe=true;
         }
     }

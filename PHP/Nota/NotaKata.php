@@ -16,9 +16,11 @@ $torneos=new TorneoArray();
 $notas=new NotaArray();
 $participantes=new ParticipanteArray();
 $contador=$participantes->participanteAPuntuar();
-if(!$contador){
+$existe=$participantes->existe0();
+if(!$existe){
     $notas->ganadores();
 }
+else{
 $cantNotas=$participantes->cantidadNotas($contador);
 if($cantNotas){
     $participantes->borrarNotas();
@@ -29,6 +31,7 @@ echo "<form action='../puntaje.php' method='post'>";
 echo "<input type='number' min='5' max='10' step='0.1' name='nota' placeholder='Nota'>";
 echo "<input type='submit' value='Enviar'>";
 echo "</form>";
+}
 ?>
 </body>
 </html>

@@ -332,5 +332,19 @@ public function participanteAPuntuar(){
     echo  "posicion: ". $posicion;
     return $posicion;   
 }
+public function Existe0(){
+    $notas=[];
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta = "SELECT * FROM estan ORDER BY notaFinal DESC";
+    $resultado = mysqli_query($conexion, $consulta);
+    $existe=false;
+    while($fila = $resultado->fetch_assoc()){
+        $notas[]=$fila['notaFinal'];
+    }
+    if(in_array(0,$notas)){
+      $existe=true;
+    }
+    return $existe;
+}
 }
 ?> 
