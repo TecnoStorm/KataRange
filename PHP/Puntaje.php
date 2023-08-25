@@ -16,22 +16,24 @@ $participantes= new ParticipanteArray();
 $torneos=new TorneoArray();
 $ciParticipantes=$torneos->ciParticipantesTorneo();
 $contador=$participantes->participanteAPuntuar();
-$cantNotas=$participantes->cantidadNotas($ciParticipantes[$contador]); 
-if($cantNotas){
-    $participantes->notaFinal($ciParticipantes[$contador]);
-    $participantes->devolverInfo($ciParticipantes[$contador]); 
-    echo "<a href='Nota/NotaKata.php'> Reset </a>"; 
-}
-
 if(isset($_SESSION["usuario"])){
     $usuario=$_SESSION["usuario"];
 }
-
 $jueces=new JuezArray();
 $ciJ=$jueces->obtenerCi($usuario);
 $idP=$participantes->obtenerPool($ciParticipantes[$contador]);
 $nota=$_POST['nota'];
 $participantes->notas($ciJ,$ciParticipantes[$contador],$idP,$nota);
+$cantNotas=$participantes->cantidadNotas($ciParticipantes[$contador]); 
+if($cantNotas){
+    $participantes->notaFinal($ciParticipantes[$contador]);
+    $participantes->devolverInfo($ciParticipantes[$contador]); 
+    echo "<a href='NotaKata.php'> Reset </a>"; 
+}
+
+
+
+
 ?>  
 </body>
 </html>

@@ -17,6 +17,7 @@ $paraPakarate=$_POST['paraKarate'];
 $sexo=$_POST['sexo'];
 $torneos=new TorneoArray();
 $torneos->guardar($formatoFecha,$categoria,$cantParticipantes,$estado,$paraPakarate,$sexo);
+echo ("torneo creado correctamente");
 ?>
 <a href="MostrarTorneo.php"> Mostrar Torneos</a>
 </body>

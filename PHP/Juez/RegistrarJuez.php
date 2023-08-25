@@ -18,10 +18,11 @@ $confirmacion=$_POST["confirmacion"];
 $juezArray=new JuezArray();
 if($clave==$confirmacion){
     $juezArray->guardar($nombre,$apellido,$usuario,$ci,$clave);
+    echo ("Juez ingresado correctamente");
     echo "<a href='http://127.0.0.1/ProgramaPhp/RegistrarJuez.html'> Volver </a>";
 }
 else{
-    echo " <p id='mensaje'>las contraseñas no coinciden</p>";
+    echo ("<p id='mensaje'>las contraseñas no coinciden</p>");
     echo "<a href=http://127.0.0.1/ProgramaPhp/RegistrarJuez.html> Volver </a>";
 }
 

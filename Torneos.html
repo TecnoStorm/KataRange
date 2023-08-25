@@ -3,43 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CSS/Torneo/Torneo.css">
     <title>Document</title>
 </head>
 <body>
-    <h1>Gestion De Torneos</h1>
-    <form action="PHP/Torneo/CrearTorneo.php" method="post">
-    <input type="date" name="fecha">
-    <select name="categoria">
+    <section id="contenedorTotal">
+        <section class="formularioGestion">
+    <h1>Gestión De Torneos</h1>
+    <form id="formularioTorneo">
+    <input type="date" name="fecha" id="fecha">
+    <select name="categoria" id="categoria">
     <option value="12/13">12/13</option>
     <option value="14,15">14/15</option>
     <option value="16/17">16/17</option>
     <option value="mayores">mayores</option>
     </select>
-    <select name="paraKarate">
+    <select name="paraKarate" id="paraKarate">
     <option value="si"> si</option>
     <option value="no"> no</option>
     </select>
-    <input type="number" name="cantidad" placeholder="cantidad de Participantes">
-    <select name="sexo">
+</section>
+    <input type="number" name="cantidad" placeholder="cantidad de Participantes" id="cantidad">
+    <select name="sexo" id="sexo">
         <option value="Femenino">Femenino</option>;
         <option value="Masculino">Masculino</option>;
         </select>
-    <input type="submit" value="Crear Torneo">
+    <input type="submit" value="Crear Torneo" id="crearTorneo">
     </form>
+    <section class="formularios">
     <a href="PHP/Torneo/MostrarTorneo.php"> Mostrar Torneos</a>
+    <p id="mensajeTorneo"></p>
+    <p id="mensajeEditarTorneo"></p>
+    <p id="mensajeAsignarTorneo"></p>
+</section>
     <h2>Abir/cerrar Torneo</h2>
-    <form action="PHP/Torneo/EstadoTorneo.php" method="post">
-    <input type="number" name="id" placeholder="id del torneo">
-    <select name="estado">
+    <form id="modificarTorneo">
+    <input type="number" name="id" placeholder="id del torneo" id="id">
+    <select name="estado" id="estado">
     <option value="abierto">abierto</option>
     <option value="cerrado">cerrado</option>
     </select>
-    <input type="submit" value="Modificar">    
+    <input type="submit" value="Modificar" id="Modificar">    
     </form>
     <h2> Asignar Participantes </h2>
-    <form action="PHP/Torneo/AsignarParticipantes.php" method="post">
-    <input type="number" name="id" placeholder="idTorneo">
-    <input type="submit" value="asignar">
+    <form id="asignarTorneo">
+    <input type="number" name="id" placeholder="idTorneo" id="id">
+    <input type="submit" value="asignar" id="asignar">
     </form>
+
+</section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js%22%3E"></script>
+<script src="js/CrearTorneo.js"></script>
+<script src="js/ModificarTorneo.js"></script>
+<script src="js/AsignarParticipantesTorneo.js"></script>
 </body>
 </html>

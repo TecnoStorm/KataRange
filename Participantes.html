@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="CSS/Participante/Participantes.css">
+</head>
+<body>
+ <div id='registrar'>
+  <h1> Registrar Participantes</h1>
+  <form id="registrarParticipante">
+    <div class='registrar-contenedor'>
+    <div class='registrar1'>
+      <input type='number' name='ci' placeholder='CI' id='ci'>
+      <input type='text' name='nombre' placeholder='Nombre' id='nombre'>
+      <input type='text' name='apellido' placeholder='Apellido' id='apellido'>
+    </div>
+    <div class='registrar1'>
+    <select name='categoria' class='opcion2' id='categoria'> Categoria
+        <option value='12/13'>12/13</option>
+        <option value='14,15'>14/15</option>
+        <option value='16/17'>16/17</option>
+        <option value='Mayores'>Mayores</option>
+      </select>
+      <input type='number' placeholder='Id kata' min='1' max='102' name='idKata' class='opcion2' id='idKata'>
+      <select name='sexo' class='opcion2' id="sexo">
+        <option value='masculino'>Masculino</option>
+      <option value='Femenino'>Femenino</option>
+     </select>
+      <select name="Condicion" id="Condicion">
+       <option value="ninguna">Ninguna</option>
+       <option value="K10"> K10</option>
+       <option value="K21"> K21</option>
+       <option value="K22"> K22</option>
+       <option value="K30"> K30</option>
+      </select>
+    </div>
+    </div>
+   <input type='submit' name='registrar' value='Registrar' id='btnregistrar'>
+   <a href='http://127.0.0.1/ProgramaPhp/PHP/Participante/Mostrar.php'> Mostrar</a>
+    </form>
+    <p id="mensaje"></p>
+    <p id="mensajeBorrar"></p>
+   </div>
+   </div>
+   <div id="borrar">
+   <h1>Borrar participante</h1>
+   <form id="FormularioBorrar">
+    <input type="number" name="ciBorrar" placeholder="CI" id="ciBorrar">
+   <input type="submit" name="Borrar" value="Borrar" id="Borrar">
+   </form>
+   </div>
+   <div id="salir">
+    <a href="PHP/index.php" id="Volver"> Volver</a>
+   </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js%22%3E"></script>
+<script src="js/RegistrarParticipante.js"></script>
+<script src="js/Borrar.js"> </script>
+</body>
+</html>

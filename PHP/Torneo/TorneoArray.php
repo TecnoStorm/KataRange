@@ -70,7 +70,7 @@ public function abierto(){
 
 public function mismaCategoria(){
     $categoria="";
-    $parakarate=false;
+    $paraKarate=false;
     $sexo="";
     $cantParticipantes=0;
     foreach ($this->_torneos as $torneo){
@@ -130,7 +130,6 @@ public function ciParticipantesTorneo(){
     while($fila = $resultado->fetch_assoc()){
         $ciParticipantes[]=$fila['ciP'];
     }
-    var_dump($ciParticipantes);
     return $ciParticipantes;
 }
 public function ciParticipantesTorneoPools(){
@@ -149,7 +148,6 @@ public function ciParticipantesTorneoPools(){
     while($fila = $resultado->fetch_assoc()){
         $ciParticipantes[]=$fila['ciP'];
     }
-    var_dump($ciParticipantes);
     return $ciParticipantes;
 }
 public function Puestos(){

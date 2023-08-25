@@ -10,4 +10,5 @@ $participantesMismaCategoria=$torneos->mismaCategoria();
 for($x=0;$x<count($participantesMismaCategoria);$x++){
         $torneos->ParticipantesTorneo($participantesMismaCategoria[$x]->getCi(),$id,$puesto,$cinturon);
     }
+    echo ($id);
 ?>

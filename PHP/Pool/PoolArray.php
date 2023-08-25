@@ -112,11 +112,10 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/Torneo/TorneoArray.php");
         $torneos=new TorneoArray();
         $participantesMismaCategoria=$torneos->mismaCategoria();
         $ciParticipantes=$torneos->ciParticipantesTorneoPools(); 
-        var_dump($ciParticipantes); 
         $participantes=new ParticipanteArray();
         $participantesArray=$participantes->devolverArray();
         $id=1;
-        $notaFinal="null";
+        $notaFinal=0;
         $clasificados="null";
         shuffle($participantesMismaCategoria);
         if (count($participantesMismaCategoria) < 3) {
@@ -132,6 +131,7 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/Torneo/TorneoArray.php");
             }
             $consulta->close();
             $conexion->close();
+
         } elseif (count($participantesMismaCategoria) == 4) {
             $consulta = $conexion->prepare(
             "INSERT INTO  estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
@@ -142,6 +142,7 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/Torneo/TorneoArray.php");
                     $id=2;
                 }
             }
+
         } elseif (count($participantesMismaCategoria) == 5) {
             $consulta = $conexion ->prepare(
             "INSERT INTO  estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
@@ -152,36 +153,110 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/Torneo/TorneoArray.php");
                         $id=2;
                     }
                 }
+
         } elseif (count($participantesMismaCategoria) > 5 && count($participantesMismaCategoria) <= 10) {
             $consulta = $conexion ->prepare(
-                "INSERT INTO  estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
-                for($x=0;$x<count($participantesMismaCategoria);$x++){
-                $consulta->bind_param("iiis", $ciParticipantes[$x],$id,$notaFinal,$clasificados); 
-                $consulta->execute();
-                        if($x>=4){
-                            $id=2;
-                        }
-                    }
-        } elseif (count($participantesMismaCategoria) > 10) {
-            $consulta = $conexion ->prepare(
-            "INSERT INTO estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
-            for($x=1;$x<=count($participantesMismaCategoria);$x++){ 
-                $consulta->bind_param("iiis", $ciParticipantes[$x-1],$id,$notaFinal,$clasificados); 
-                $consulta->execute();
-                if($x%8==0){
-                    $id++;
+            "INSERT INTO  estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
+            for($x=0;$x<count($participantesMismaCategoria);$x++){
+            $consulta->bind_param("iiis", $ciParticipantes[$x],$id,$notaFinal,$clasificados); 
+            $consulta->execute();
+                if($x>=4){
+                    $id=2;
                 }
             }
+
+        } elseif (count($participantesMismaCategoria) > 10 && count($participantesMismaCategoria)<=24) {
+            $consulta = $conexion ->prepare("INSERT INTO estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
+            $pool1=count($participantesMismaCategoria)/2;
+            $uno=1;
+            $dos=2;
+            for($x=1;$x<=count($participantesMismaCategoria);$x++){ 
+                if($x>$pool1){
+                    $consulta->bind_param("iiis", $ciParticipantes[$x-1],$dos,$notaFinal,$clasificados);
+                    $consulta->execute();
+                }
+                else{
+                    $consulta->bind_param("iiis", $ciParticipantes[$x-1],$uno,$notaFinal,$clasificados); 
+                    $consulta->execute();
+                }
+            }
+            $consulta->close();
+        } elseif (count($participantesMismaCategoria) > 24 && count($participantesMismaCategoria)<49){ 
+            $consulta = $conexion ->prepare("INSERT INTO estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
+            $cantpool=count($participantesMismaCategoria)/4 -1; 
+            $contador=0;
+            $pool=1;
+            for($x=1;$x<=count($participantesMismaCategoria);$x++){ 
+                if($contador>$cantpool && $pool!=4){
+                    $pool++;
+                    $contador=0;
+                }
+                $consulta->bind_param("iiii",$ciParticipantes[$x-1],$pool,$notaFinal,$clasificados);
+                $consulta->execute();
+                $contador++;
+            }
+            $consulta->close(); 
+        } elseif (count($participantesMismaCategoria) > 48 && count($participantesMismaCategoria)<97){
+            $consulta = $conexion ->prepare("INSERT INTO estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
+            $cantpool=count($participantesMismaCategoria)/8-1;
+            $cambiarPool=false;
+            $contador=0;
+            $pool=1;
+            for($x=1;$x<=count($participantesMismaCategoria);$x++){ 
+                if($pool==8 && $cambiarPool){
+                    $pool=1;
+                }
+                
+                if($contador>$cantpool){
+                    $pool++;
+                    if($pool==9 && !$cambiarPool){
+                        $pool-=1;
+                        $cambiarPool=true;
+                        $contador=0;
+                    }
+                    else{
+                        $contador=0;
+                    }
+                    
+                }
+                $consulta->bind_param("iiii",$ciParticipantes[$x-1],$pool,$notaFinal,$clasificados);
+                $consulta->execute();
+                if($cambiarPool && $pool!=8){
+                    $pool++;   
+                   }
+                   else{
+                    $contador++;
+                   }
+                
+                
         }
-  }
-  public function cantPools(){
-    $contador=0;
-    foreach($this->_pools as $pool){
-    if($contador<$pool->getIdP()){
-        $contador=$pool->getIdP();
     }
+}
+
+    public function cantPools(){
+        $contador=0;
+        foreach($this->_pools as $pool){
+            if($contador<$pool->getIdP()){
+                $contador=$pool->getIdP();
+            }
+        }
+        return $contador;
+    } 
+public function cantRondas(){
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);    
+    $rondas=[];
+    $cantRondas=1;
+    $consulta="SELECT * FROM utiliza2";
+    $resultado = mysqli_query($conexion, $consulta);
+    while($fila = $resultado->fetch_assoc()){
+    $rondas[]=$fila['ronda'];
+}
+   for($x=0;$x<count($rondas);$x++){
+    if($cantRondas<$rondas[$x]){
+       $cantRondas=$rondas[$x];
     }
-    return $contador;
+   }
+return $cantRondas;
 } 
-} 
+    }
 ?>

@@ -9,19 +9,23 @@
 <body>
     <div id="contenedor">
     <h1>Registarse</h1>
-    <form id="formulario"action="PHP/Juez/RegistrarJuez.php" method="post">
-    <input type="text" name="nombre" placeholder="Nombre">
-    <input type="text" name="apellido" placeholder="Apellido">
-    <input type="text" name="usuario" placeholder="usuario">
-    <input type="number" name="ci" placeholder="CI">
-    <input type="password" name="clave" placeholder="Contraseña">
-    <input type="password" name="confirmacion" placeholder="Confirmacion">
+
+    <form id="formularioJuez">
+    <input type="text" name="nombre" placeholder="Nombre" id="nombre">
+    <input type="text" name="apellido" placeholder="Apellido" id="apellido">
+    <input type="text" name="usuario" placeholder="usuario" id="usuario">
+    <input type="number" name="ci" placeholder="CI" id="ci">
+    <input type="password" name="clave" placeholder="Contraseña" id="clave">
+    <input type="password" name="confirmacion" placeholder="Confirmacion" id="confirmacion">
     <input type="submit" name="registrar" value="registrar" id="boton">
     </form> 
 </div>
+<p id="mensajeJuez"></p>
 <div id="salir">
 <a href="http://127.0.0.1/ProgramaPhp/PHP/Index.php" id="Volver"> Volver</a>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js%22%3E"></script>
+<script src="js/RegistrarJuez.js"></script>
 </body>
 </html>
 

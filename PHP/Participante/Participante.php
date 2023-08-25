@@ -5,16 +5,14 @@ class Participante{
     private $_ci;
     private $_sexo;
     private $_categoria;
-    private $_idKata;
     private $_condicion;
-    public function __construct($nombre, $apellido,$ci,$sexo,$condicicion,$categoria,$idKata){
+    public function __construct($nombre, $apellido,$ci,$sexo,$condicicion,$categoria){ 
         $this->_nombre=$nombre;
         $this->_apellido=$apellido;
         $this->_ci=$ci;
-        $this->_sexo=$sexo;
-        $this->_categoria=$categoria;
-        $this->_idKata=$idKata;
+        $this->_sexo=$sexo; 
         $this->_condicion=$condicicion;
+        $this->_categoria=$categoria;
     }
 
     public function getNombre(){
@@ -57,13 +55,6 @@ class Participante{
         $this->_categoria=$cat;
     }
 
-    public function getIdKata(){
-        return $this->_idKata;
-    }
-    
-    public function setIdKata($kata){
-        $this->_idKata=$kata;
-    }
     public function getCondicion(){
         return $this->_condicion;
     }

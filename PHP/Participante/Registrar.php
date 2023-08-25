@@ -18,10 +18,10 @@ $idKata=$_POST['idKata'];
 $condicion=$_POST["Condicion"];
 $_participantes=new ParticipanteArray();
 $_participantes->guardar($nombre, $apellido,$ci,$sexo,$condicion,$categoria,$idKata);
+echo $nombre . $ci . $apellido . $categoria . $sexo . $idKata . $condicion;
 echo "<div id='salir'>";
 echo "<a href='http://127.0.0.1/ProgramaPhp/Participantes.html'>Volver</a>"; 
 echo "</div>";
-
 ?>
 </body>
 </html>

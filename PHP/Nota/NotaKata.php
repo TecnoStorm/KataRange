@@ -27,11 +27,15 @@ if($cantNotas){
 }
 $ciParticipantes=$torneos->ciParticipantesTorneo();
 $participantes->devolverInfo($ciParticipantes[$contador]); 
-echo "<form action='../puntaje.php' method='post'>";
-echo "<input type='number' min='5' max='10' step='0.1' name='nota' placeholder='Nota'>";
+echo "<form id='formularioNotas'>";
+echo "<input type='number' min='5' max='10' step='0.1' name='nota' placeholder='Nota' id='nota'>";
 echo "<input type='submit' value='Enviar'>";
 echo "</form>";
+echo "<p id='mensajeNotas'></p>";
 }
+echo "<script src='../../js/Notas.js'></script>"
 ?>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js%22%3E%22%3E</script>
 </body>
 </html>

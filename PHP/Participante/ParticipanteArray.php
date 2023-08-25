@@ -16,7 +16,7 @@ class ParticipanteArray{
             die('Error en la consulta SQL: ' . $consulta);
             }
         while($fila = $resultado->fetch_assoc()){
-        $this->_participantes[]= new Participante($fila['nombreP'],$fila['apellidoP'],$fila['ciP'],$fila['sexo'],$fila['condicion'],$fila['categoriaP'],$fila['idKata']);
+        $this->_participantes[]= new Participante($fila['nombreP'],$fila['apellidoP'],$fila['ciP'],$fila['sexo'],$fila['condicion'],$fila['categoriaP']);
     }
     }
     
@@ -56,7 +56,7 @@ class ParticipanteArray{
 echo "<table border='2'>";
 echo "<tr> <td> Nombre </td> <td> apellido </td> <td> Ci </td> </td><td> sexo </td> <td> condicion </td><td> categoria </td> <td> idKata </td> </tr>";
 while($fila = $resultado->fetch_assoc()){
-echo "<tr> <td>".$fila['nombreP'] . " </td><td>" . $fila['apellidoP'] . "</td><td>  " . $fila['ciP'] . "</td> <td>" . $fila['sexo'] . "</td><td>" . $fila ['condicion'] . " </td><td>" . $fila ['categoriaP']. "</td><td>" . $fila ['idKata']. "</td> </tr>";
+echo "<tr> <td>".$fila['nombreP'] . " </td><td>" . $fila['apellidoP'] . "</td><td>  " . $fila['ciP'] . "</td> <td>" . $fila['sexo'] . "</td><td>" . $fila ['condicion'] . " </td><td>" . $fila ['categoriaP']. "</td><td>" ."</td> </tr>";
 }
 echo "</table>";
     }
@@ -292,12 +292,14 @@ public function notaFinal($ci){
     }
     for($x=0;$x<count($notas);$x++){
         $contador++;
+        echo $contador;
     }
     if($contador==5){
         $mayorPuntaje = array_search(max($notas), $notas);
         $menorPuntaje = array_search(min($notas), $notas);
         unset($notas[$mayorPuntaje]);
         unset($notas[$menorPuntaje]);
+        echo "";
         $notaFinal = array_sum($notas);
         $consulta2 = $conexion ->prepare(
         "UPDATE estan SET notaFinal = ?  WHERE ciP=?;");
@@ -327,7 +329,6 @@ public function participanteAPuntuar(){
     while($fila = $resultado->fetch_assoc()){
         $notas[]=$fila['notaFinal'];
     }
-    var_dump($notas);
     $posicion=array_search(0,$notas);
     echo  "posicion: ". $posicion;
     return $posicion;   
@@ -345,6 +346,21 @@ public function Existe0(){
       $existe=true;
     }
     return $existe;
+}
+
+public function cantParticipantesTorneo(){
+    $participantes=[];
+    $contador=0;
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta="SELECT * FROM compite";
+    $resultado = mysqli_query($conexion, $consulta);
+    while($fila = $resultado->fetch_assoc()){
+    $participantes[]=$fila['ciP'];
+}
+for($x=0;$x<count($participantes);$x++){
+    $contador++;
+}
+return $contador;
 }
 }
 ?> 

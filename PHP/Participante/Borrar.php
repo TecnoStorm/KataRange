@@ -13,6 +13,7 @@ $ci=$_POST["ciBorrar"];
 $participantes=new ParticipanteArray();
 $participantes->eliminarParticipante($ci);
 $participantes->eliminarPersona($ci);
+echo ("participante ingresado con exito");
 ?>
 <div id="salir"> 
 <a href='../index.php'>Volver</a>

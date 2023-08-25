@@ -12,6 +12,7 @@ $id=$_POST["id"];
 $estado=$_POST["estado"];
 $poolArray=new PoolArray();
 $poolArray->EditarPool($id, $estado); 
+echo ("el pool: ".$id." esta: ".$estado . "reinicie la pagina para ver los cambios");
 ?>
 </body> 
 </html>
