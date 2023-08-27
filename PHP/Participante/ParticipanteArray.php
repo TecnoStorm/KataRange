@@ -355,12 +355,12 @@ public function cantParticipantesTorneo(){
     $consulta="SELECT * FROM compite";
     $resultado = mysqli_query($conexion, $consulta);
     while($fila = $resultado->fetch_assoc()){
-    $participantes[]=$fila['ciP'];
-}
-for($x=0;$x<count($participantes);$x++){
-    $contador++;
-}
-return $contador;
+        $participantes[]=$fila['ciP'];
+    }
+    for($x=0;$x<count($participantes);$x++){
+        $contador++;
+    }
+    return $contador;
 }
 }
 ?> 
