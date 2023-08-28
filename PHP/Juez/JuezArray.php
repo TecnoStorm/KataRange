@@ -30,9 +30,16 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/config.php");
             $consulta->close();
             $consulta2 = $conexion ->prepare("INSERT INTO Juez (nombre,Apellido,usuario,ciJ,contraseña) values (?,?,?,?,?)");
             $consulta2->bind_param("sssis", $nombre, $apellido,$usuario,$ci,$contraseña);
-            $consulta2->execute();
-            $consulta2->close();
-            $conexion->close();
+            $success=$consulta2->execute();
+            if(!$success){
+                echo "<p style='color: #B9CF34; font-size: 25px;'> juez ya registrado";
+            }
+            else{
+                $consulta2->close();
+                $conexion->close();
+                echo "<p style='color: green;font-size: 25px'> juez ingresado correctamente </p>";
+            }
+            
         }
 
         public function ponerJuez($nombre, $apellido,$ci,$clave){  

@@ -50,13 +50,16 @@ echo "</table>";
 }
 
 public  function cambiarEstado($id,$estado){
-    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-    $consulta = $conexion ->prepare(
-        "UPDATE Torneo SET estado = ? WHERE idTorneo=?;");
-            $consulta->bind_param("si", $estado,$id);
-            $consulta->execute();
-            $consulta->close();
-            $conexion->close();
+    $existe=$this->existeTorneo($id);
+    if($existe){
+        $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+        $consulta = $conexion ->prepare(
+            "UPDATE Torneo SET estado = ? WHERE idTorneo=?;");
+                $consulta->bind_param("si", $estado,$id);
+                $consulta->execute();
+                $consulta->close();
+                $conexion->close();        
+    }    
 }
 public function abierto(){
     $abierto=false;
@@ -166,5 +169,56 @@ public function Puestos(){
     }
     return $existe;
 }
+public function mismoEstado($estado,$id){
+    $existeTorneo=$this->existeTorneo($id);
+    if($existeTorneo){
+        $existe=false;
+        foreach($this->_torneos as $torneo){
+            if($torneo->getIdTorneo()==$id && $torneo->getEstado()==$estado){
+                   $existe=true;
+            }
+        }
+    return $existe;
+    }
 }
-?>
+public function existeTorneo($id){
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $existe=false;
+    $ids=[];
+    $consulta = "SELECT * FROM Torneo";
+    $resultado = mysqli_query($conexion, $consulta);
+    if (!$resultado){
+    die('Error en la consulta SQL: ' . $consulta);
+    }
+while($fila = $resultado->fetch_assoc()){
+ $ids[]=$fila['idTorneo'];
+}
+for($x=0;$x<count($ids);$x++){
+    if($id==$ids[$x]){
+        $existe=true;
+    }
+}
+return $existe;
+}
+
+public function participantesAsignados($id){
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $existe=false;
+    $ids=[];
+    $consulta = "SELECT * FROM compite";
+    $resultado = mysqli_query($conexion, $consulta);
+    if (!$resultado){
+    die('Error en la consulta SQL: ' . $consulta);
+    }
+while($fila = $resultado->fetch_assoc()){
+ $ids[]=$fila['idTorneo'];
+}
+for($x=0;$x<count($ids);$x++){
+    if($id==$ids[$x]){
+        $existe=true;
+    }
+}
+return $existe;
+}
+} 
+?> 

@@ -20,7 +20,7 @@ class ParticipanteArray{
     }
     }
     
-    public function guardar($nombre, $apellido,$ci,$sexo,$condicion,$categoria,$idKata){
+    public function guardar($nombre, $apellido,$ci,$sexo,$condicion,$categoria){
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
         if (!$conexion) {
             die('Error en la conexión: ' . mysqli_connect_error());
@@ -30,15 +30,20 @@ class ParticipanteArray{
             values (?,?,?)");
         
         $consulta2 = $conexion ->prepare(
-         "INSERT INTO Participante (nombreP,apellidoP,ciP,sexo,condicion,categoriaP,idKata)
-         values (?,?,?,?,?,?,?)");
+         "INSERT INTO Participante (nombreP,apellidoP,ciP,sexo,condicion,categoriaP) values (?,?,?,?,?,?)");
         $consulta->bind_param("iss", $ci, $nombre, $apellido);
-        $consulta->execute();
-        $consulta->close();
-        $consulta2->bind_param("ssisssi", $nombre, $apellido,$ci,$sexo,$condicion,$categoria,$idKata);
-        $consulta2->execute();
-        $consulta2->close();
-        $conexion->close();
+        $success=$consulta->execute();
+        if(!$success){
+            echo  "Participante ya registrado";
+        }
+        else{
+            $consulta->close();
+            $consulta2->bind_param("ssisss", $nombre, $apellido,$ci,$sexo,$condicion,$categoria);
+            $consulta2->execute();
+            $consulta2->close();
+            $conexion->close();
+            echo "<p style='color: green;'> participante ingresado correctamente </p>";
+        }
     }
 
     public function ponerParticipante($nombre, $apellido,$ci,$sexo,$categoria,$idKata,$pool,$nota){  
@@ -362,5 +367,6 @@ public function cantParticipantesTorneo(){
     }
     return $contador;
 }
+
 }
 ?> 

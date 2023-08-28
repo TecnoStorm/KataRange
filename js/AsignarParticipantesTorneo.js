@@ -20,7 +20,6 @@ function EnvioAsignar() {
         return response.text();
       })
       .then(data => {
-        alert("funciono todo bien");
         mensajeAsignarTorneo.innerHTML = data;
       })
       .catch(error => {

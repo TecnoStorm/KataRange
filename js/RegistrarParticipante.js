@@ -30,10 +30,9 @@ function  EnvioRegistrarParticipante() {
         if (!response.ok) {
           throw new Error('Hubo un problema con la solicitud');
         }
-        return response.text(); // Obtener la respuesta como texto
+        return response.text(); 
       })
       .then(data => {
-        alert("funciono todo bien");
         mensaje.innerHTML = data;
       })
       .catch(error => {

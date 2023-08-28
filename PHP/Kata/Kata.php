@@ -20,7 +20,7 @@ class Kata{
     }
 
     public function setNombre($nombre){
-        $this->_nombre=$nombre
+        $this->_nombre=$nombre;
     }
     
     public function __toString(){
