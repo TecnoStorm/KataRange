@@ -353,20 +353,23 @@ public function Existe0(){
     return $existe;
 }
 
-public function cantParticipantesTorneo(){
+public function cantParticipantesTorneo($idTorneo){
     $participantes=[];
     $contador=0;
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
     $consulta="SELECT * FROM compite";
     $resultado = mysqli_query($conexion, $consulta);
     while($fila = $resultado->fetch_assoc()){
-        $participantes[]=$fila['ciP'];
+        if($fila['idTorneo']==$idTorneo){
+            $participantes[]=$fila['ciP'];
+        }
     }
     for($x=0;$x<count($participantes);$x++){
         $contador++;
     }
     return $contador;
 }
+
 
 }
 ?> 

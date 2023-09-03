@@ -11,12 +11,16 @@ function EnvioCrear() {
     var paraKarate = datos.get('paraKarate');
     var cantidad = datos.get('cantidad');
     var sexo = datos.get('sexo');  
+    var nombre=datos.get('nombre');
+    var direccion=datos.get('direccion');
     var formData = new FormData();
     formData.append('fecha', fecha);
     formData.append('categoria', categoria);
     formData.append('paraKarate', paraKarate);
     formData.append('cantidad', cantidad);
     formData.append('sexo', sexo);
+    formData.append('nombre',nombre);
+    formData.append('direccion',direccion);
   
     fetch('http://127.0.0.1/ProgramaPhp/PHP/Torneo/CrearTorneo.php', {
       method: 'POST',
@@ -29,7 +33,6 @@ function EnvioCrear() {
         return response.text(); 
       })
       .then(data => {
-        alert("funciono todo bien");
         mensajeTorneo.innerHTML = data;
       })
       .catch(error => {

@@ -12,7 +12,10 @@ function  EnvioRegistrarParticipante() {
     var categoria = datos.get('categoria');
     var sexo = datos.get('sexo');
     var condicion = datos.get('Condicion');
-    var idkata = datos.get('idKata');  
+    var idkata = datos.get('idKata');
+    var nombreTorneo = datos.get('nombreTorneo');
+    var tecnica = datos.get('tecnica');
+    var nombreEscuela = datos.get('nombreEscuela');   
     var formData = new FormData();
     formData.append('ci', ci);
     formData.append('nombre', nombre);
@@ -21,6 +24,10 @@ function  EnvioRegistrarParticipante() {
     formData.append('sexo', sexo);
     formData.append('Condicion', condicion);
     formData.append('idKata', idkata);
+    formData.append('nombreTorneo', nombreTorneo);
+    formData.append('tecnica', tecnica);
+    formData.append('nombreEscuela', nombreEscuela);
+
   
     fetch('http://127.0.0.1/ProgramaPhp/PHP/Participante/Registrar.php', {
       method: 'POST',

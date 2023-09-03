@@ -15,20 +15,19 @@ public function __construct(){
             die('Error en la consulta SQL: ' . $consulta);
             }
         while($fila = $resultado->fetch_assoc()){
-            $this->_torneos[]= new Torneo($fila['idTorneo'],$fila['fecha'],$fila['Categoria'],$fila['cantParticipantes'],$fila['estado'],$fila['ParaKarate'],$fila['sexo']);
+            $this->_torneos[]= new Torneo($fila['idTorneo'],$fila['fecha'],$fila['Categoria'],$fila['cantParticipantes'],$fila['estado'],$fila['ParaKarate'],$fila['sexo'],$fila['nombre'],$fila['direccion']);
         }
 }
-
-public function guardar($fecha,$categoria,$cantParticipantes,$estado,$paraKarate,$sexo){
+public function guardar($fecha,$categoria,$cantParticipantes,$estado,$paraKarate,$sexo,$nombre,$direccion){
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
         if (!$conexion) {
             die('Error en la conexión: ' . mysqli_connect_error());
         }
         $consulta = $conexion ->prepare(
-            "INSERT INTO Torneo (fecha,Categoria,cantParticipantes,estado,paraKarate,sexo)
-            values (?,?,?,?,?,?)");
+            "INSERT INTO Torneo (fecha,Categoria,cantParticipantes,estado,paraKarate,sexo,nombre,direccion)
+            values (?,?,?,?,?,?,?,?)");
         
-        $consulta->bind_param("ssisss", $fecha, $categoria, $cantParticipantes, $estado,$paraKarate,$sexo);
+        $consulta->bind_param("ssisssss", $fecha, $categoria, $cantParticipantes, $estado,$paraKarate,$sexo,$nombre,$direccion);
         $consulta->execute();
         $consulta->close();
         $conexion->close();
@@ -131,11 +130,12 @@ public function ciParticipantesTorneo(){
     }
 
     while($fila = $resultado->fetch_assoc()){
+        if($fila[''])
         $ciParticipantes[]=$fila['ciP'];
     }
     return $ciParticipantes;
 }
-public function ciParticipantesTorneoPools(){
+public function ciParticipantesTorneoPools($idTorneo){
     $ciParticipantes=[];
     $consulta = "SELECT * FROM compite"; 
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
@@ -149,6 +149,7 @@ public function ciParticipantesTorneoPools(){
     }
 
     while($fila = $resultado->fetch_assoc()){
+        if($fila['idTorneo']==$idTorneo)
         $ciParticipantes[]=$fila['ciP'];
     }
     return $ciParticipantes;
@@ -219,6 +220,41 @@ for($x=0;$x<count($ids);$x++){
     }
 }
 return $existe;
+}
+public function nombresTorneo(){
+    $nombres=[];
+    foreach($this->_torneos as $torneo){
+        $nombres[]=$torneo->getNombre();
+    }
+ return $nombres;
+}
+public function mismaCategoriaIndividual($nombreTorneo,$sexoP,$condicion,$categoriaP){
+    $categoria="";
+    $sexo="";
+    $cantParticipantes=0;
+    $puedeParticipar=false;
+    foreach ($this->_torneos as $torneo){
+        if ($torneo->getNombre()==$nombreTorneo){
+            $categoria=$torneo->getCategoria();
+            $sexo=$torneo->getSexo();
+        }
+    }
+    $torneo=$this->infoTorneo($nombreTorneo);
+    $participantes=new ParticipanteArray();
+    if($categoria==$categoriaP && $sexo==$sexoP && $torneo->getParaKarate=="si" && $condicion!="Ninguna" ||$categoria==$categoriaP && $sexo==$sexoP && $torneo->getParaKarate=="no" && $condicion=="Ninguna"  ){
+       $puedeParticipar=true;
+    }
+    return $puedeParticipar;
+}
+
+public function infoTorneo($nombre){
+    $torneoEleccion;
+    foreach($this->_torneos as $torneo){
+        if($torneo->getNombre()==$nombre){
+            $torneoEleccion=$torneo;
+        }
+    }
+ return $torneoEleccion;
 }
 } 
 ?> 

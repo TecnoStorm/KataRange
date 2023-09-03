@@ -9,9 +9,17 @@
 <?php
 echo "<section id='contenedor-total'>";
 include "PoolArray.php";
+require_once ("../Torneo/TorneoArray.php");
+require_once ("../Participante/ParticipanteArray.php");
 session_start();
+$torneos= new TorneoArray();
+$pools->CrearPool($cantParticipantes);
+$nombreTorneo=$_POST['nombreTorneo'];
+$torneo=$torneos->infoTorneo($nombreTorneo);
+$participantes=new ParticipanteArray();
+$cantParticipantes=$participantes->cantParticipantesTorneo($torneo->getidTorneo());
 $pools=new PoolArray();
-$pools->AsignarPool();
+$pools->AsignarPool($torneo->getIdTorneo());
 $pools->MostrarAsignados(); 
 $_SESSION['pools']=serialize($pools);
 echo "</section>";

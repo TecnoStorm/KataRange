@@ -27,6 +27,6 @@ class KataArray{
         $consulta->close();
         $conexion->close();
     }
-
+}
 }
 ?>

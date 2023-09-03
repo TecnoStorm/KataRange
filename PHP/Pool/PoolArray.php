@@ -18,10 +18,9 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/Torneo/TorneoArray.php");
             $this->_pools= new Pool($fila['estado'],$fila['hora_inicio'],$fila['idP'],$fila['hora_final']);
         }
     }
-    public function CrearPool(){
+    public function CrearPool($idTorneo,$cantParticipantes){
         $participantes=new ParticipanteArray();
         $arrayParticipantes= (array) $participantes->devolverArray();
-        $id=1;
         $estado="cerrado";
         $horaInicio="null";
         $horaFinal="null";
@@ -29,27 +28,77 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/Torneo/TorneoArray.php");
         if (!$conexion) {
             die('Error en la conexión: ' . mysqli_connect_error());
         }
-        $consulta = $conexion ->prepare(
-        "INSERT INTO Pool (estado,hora_inicio,idP,hora_final) values (?,?,?,?)");
-        $consulta->bind_param("ssis", $estado, $horaInicio, $id,$horaFinal);
-        $consulta->execute();
-        if(count($arrayParticipantes)==4){
-            $pool2=2;
-            $consulta->bind_param("ssis", $estado, $horaInicio,$pool2,$horaFinal);
+        $consulta = $conexion ->prepare("INSERT INTO Pool (estado,hora_inicio,hora_final,numero) values (?,?,?,?)");
+        $consulta2 = "SELECT * FROM Pool";
+        $resultado = mysqli_query($conexion, $consulta);
+        $idsPool=[];
+        while($fila = $resultado->fetch_assoc()){
+            $idsPool[]=$fila['idP'];
+        }
+        $consulta3 = $conexion ->prepare("INSERT INTO tiene (idP,idT) values (?,?)");
+        if($cantParticipantes==3){
+            $consulta->bind_param("ssis", $estado, $horaInicio,$horaFinal,1);
             $consulta->execute();
-            }
-       
-        else{       
-        for($x=1;$x<=count($arrayParticipantes);$x++){
-            if($x%8==0){
-                $id++;
-                $consulta->bind_param("ssis", $estado, $horaInicio, $id,$horaFinal);
-                $consulta->execute();
+            $consulta->close();
+            for($x=0;$x<count($idsPool);$x++){
+            $consulta3->bind_param("ii",$idTorneo,$idsPool[$x])
+            $consulta3->execute();
             }
         }
-        $consulta->close();
-        $conexion->close();
-    }
+        if($cantParticipantes==4){
+          for($x=1;$x<=2;$x++){
+            $consulta->bind_param("ssis", $estado, $horaInicio,$horaFinal,$x);
+          }
+          for($x=0;$x<count($idsPool);$x++){
+            $consulta3->bind_param("ii",$idTorneo,$idsPool[$x])
+            $consulta3->execute()
+            }
+        }
+        if($cantParticipantes==5){
+            for($x=1;$x<=4;$x++){
+              $consulta->bind_param("ssis", $estado, $horaInicio,$horaFinal,$x);
+            }
+            for($x=0;$x<count($idsPool;$x++)){
+                $consulta3->bind_param("ii",$idTorneo,$idsPool[$x])
+                $consulta3->execute()
+                }
+          }
+          if($cantParticipantes>5 && $cantParticipantes<=10){
+            for($x=1;$x<=5;$x++){
+              $consulta->bind_param("ssis", $estado, $horaInicio,$horaFinal,$x);
+            }
+            for($x=0;$x<count($idsPool;$x++)){
+                $consulta3->bind_param("ii",$idTorneo,$idsPool[$x])
+                $consulta3->execute()
+                }
+          }
+          if($cantParticipantes>10 && $cantParticipantes<=24){
+            for($x=1;$x<=7;$x++){
+              $consulta->bind_param("ssis", $estado, $horaInicio,$horaFinal,$x);
+            }
+            for($x=0;$x<count($idsPool;$x++)){
+                $consulta3->bind_param("ii",$idTorneo,$idsPool[$x])
+                $consulta3->execute()
+                }
+          }
+          if($cantParticipantes>24 && $cantParticipantes <=48){
+            for($x=1;$x<=11;$x++){
+              $consulta->bind_param("ssis", $estado, $horaInicio,$horaFinal,$x);
+            }
+            for($x=0;$x<count($idsPool;$x++)){
+                $consulta3->bind_param("ii",$idTorneo,$idsPool[$x])
+                $consulta3->execute()
+                }
+          }
+          if($cantParticipantes>49 && $cantParticipantes <=96){
+            for($x=1;$x<=19;$x++){
+              $consulta->bind_param("ssis", $estado, $horaInicio,$horaFinal,$x);
+            }
+            for($x=0;$x<count($idsPool;$x++)){
+                $consulta3->bind_param("ii",$idTorneo,$idsPool[$x])
+                $consulta3->execute()
+                }
+          }      
 }  
     public function Listar(){
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
@@ -107,14 +156,15 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/Torneo/TorneoArray.php");
         echo "</table>";
     }
 
-    public function AsignarPool(){
+    public function AsignarPool($idTorneo){
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
         $torneos=new TorneoArray();
         $participantesMismaCategoria=$torneos->mismaCategoria();
-        $ciParticipantes=$torneos->ciParticipantesTorneoPools(); 
+        $ciParticipantes=$torneos->ciParticipantesTorneoPools($idTorneo); 
+        var_dump($ciParticipantes);
         $participantes=new ParticipanteArray();
         $participantesArray=$participantes->devolverArray();
-        $id=1;
+        $ids=$this->idsPool();
         $notaFinal=0;
         $clasificados="null";
         shuffle($participantesMismaCategoria);
@@ -126,8 +176,11 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/Torneo/TorneoArray.php");
             $consulta = $conexion ->prepare(
             "INSERT INTO  estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
             for($x=0;$x<count($participantesMismaCategoria);$x++){
-                $consulta->bind_param("iiis", $ciParticipantes[$x],$id,$notaFinal,$clasificados);
-                $consulta->execute();
+                $consulta->bind_param("iiis", $ciParticipantes[$x],$ids[$x],$notaFinal,$clasificados);
+                $success=$consulta->execute();
+                if(!$success){
+                    echo $consulta->error();
+                }
             }
             $consulta->close();
             $conexion->close();
@@ -258,5 +311,12 @@ public function cantRondas(){
    }
 return $cantRondas;
 } 
+public function idsPool(){
+    ids=[]
+    foreach($this->_pools as $pool){
+        $ids[]=$pool->getId();
     }
+    return $ids;
+}
+}
 ?>

@@ -7,8 +7,10 @@ class Torneo{
     private $_estado;
     private $_Parakarate;
     private $_sexo;
+    private $_nombre;
+    private $_direccion;
 
-    public function __construct($id,$fecha,$categoria,$cant,$estado,$Parakarate,$sexo){
+    public function __construct($id,$fecha,$categoria,$cant,$estado,$Parakarate,$sexo,$nombre,$direccion){
         $this->_idTorneo=$id;
         $this->_fecha=$fecha;
         $this->_categoria=$categoria;
@@ -16,6 +18,8 @@ class Torneo{
         $this->_estado=$estado;
         $this->_paraKarate=$Parakarate;
         $this->_sexo=$sexo;
+        $this->_nombre=$nombre;
+        $this->_direccion=$direccion;
     }
 
     public function getCategoria(){
@@ -73,8 +77,26 @@ class Torneo{
         $this->_sexo=$sexo;
     }
 
+    public function getNombre(){
+        return $this->_nombre;
+    }
+
+    public function setNombre($nombre){
+        $this->_nombre=$nombre;
+    }
+
+    public function getDireccion(){
+        return $this->_direccion;
+    }
+
+    public function setDireccion($direccion){
+        $this->_direccion=$direccion;
+    }
+
+
+
 public function __toString(){
-    return "<tr><td>". $this->_idTorneo . "</td> <td>" . $this->_fecha . "</td> <td>" . $this->_categoria . "</td> <td>" . $this->_cantParticipantes . "</td> <td>" . $this->_estado . "</td> <td>" . $this->_paraKarate . "</td> <td>". $this->_sexo ."</td> </tr>";
+    return "<tr><td>". $this->_idTorneo . "</td> <td>" . $this->_fecha . "</td> <td>" . $this->_categoria . "</td> <td>" . $this->_cantParticipantes . "</td> <td>" . $this->_estado . "</td> <td>" . $this->_paraKarate . "</td> <td>". $this->_sexo ."</td> <td>". $this->_nombre . "</td> <td>" . $this->_direccion . "</td> </tr>";
 }
     
 }
