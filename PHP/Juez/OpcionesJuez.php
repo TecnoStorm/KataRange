@@ -11,15 +11,21 @@
 session_start();
 include 'JuezArray.php';
 if(isset($_SESSION["clave"]) && isset($_SESSION["usuario"])){
-    session_destroy();
+    $usuario=$_SESSION['usuario'];
+    $clave=$_SESSION['clave'];
 }
 else{
     $usuario=$_POST['usuario'];
-    $clave=$_POST['clave'];
+    $clave=$_POST['clave']; 
+    
 }
+
+
 $juezArray= new JuezArray();
 $existe=$juezArray->comparar($usuario, $clave);
+
 if($existe){
+    echo "<p id='oculto'>inicio de sesion exitoso<p>";
     echo "<div id='contenedor'>";
     echo "<h1> Opciones de Juez</h1>";
     echo "<form action='MostrarJueces.php' method'post'>";
@@ -31,9 +37,11 @@ if($existe){
     echo "</div>";
     $_SESSION["usuario"]=$usuario;
     $_SESSION["clave"]=$clave;
+    
+    
 }
 else{
-    echo "usuario o clave incorrectos";
+   echo "Usuario o contraseñas incorrectos ayuda";
 }
 ?>
 <div id="salir">

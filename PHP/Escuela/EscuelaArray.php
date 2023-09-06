@@ -53,13 +53,20 @@ public function existeEscuela($nombre){
     return $existe;
 }
 public function infoEscuela($nombre){
-    $escuelaEleccion;
+    $escuelaEleccion=null;
     foreach($this->_escuelas as $escuela){
         if($escuela->getNombre()==$nombre){
             $escuelaEleccion=$escuela;
         }
     }
     return $escuelaEleccion;
+}
+public function nombresEscuela(){
+    $nombres=[];
+    foreach($this->_escuelas as $escuela){
+        $nombres[]=$escuela->getNombre();
+    }
+return $nombres;
 }
 }
 ?>

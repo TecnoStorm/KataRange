@@ -40,10 +40,10 @@ public function mostrar(){
     if (!$resultado){
     die('Error en la consulta SQL: ' . $consulta);
     }
-echo "<table border='2'>";
-echo "<tr> <td> idTorneo </td> <td> Fecha </td> <td> Categoria </td> </td><td> cantParticipantes </td> <td> Estado </td><td> ParaKarate </td> <td> Sexo </td></tr> ";
+echo "<table border='2' class='torneos'>";
+echo "<tr> <td> idTorneo </td> <td> Fecha </td> <td> Categoria </td> </td><td> cantParticipantes </td> <td> Estado </td><td> ParaKarate </td> <td> Sexo </td><td> Nombre  </td> </tr>";
 while($fila = $resultado->fetch_assoc()){
-echo "<tr> <td>".$fila['idTorneo'] . " </td><td>" . $fila['fecha'] . "</td><td>  " . $fila['Categoria'] . "</td> <td>" . $fila['cantParticipantes'] . "</td><td>" . $fila ['estado'] ."</td> <td>". $fila['ParaKarate']. "</td><td>". $fila['sexo']. "</td> </tr>";
+echo "<tr> <td>".$fila['idTorneo'] . " </td><td>" . $fila['fecha'] . "</td><td>  " . $fila['Categoria'] . "</td> <td>" . $fila['cantParticipantes'] . "</td><td>" . $fila ['estado'] ."</td> <td>". $fila['ParaKarate']. "</td><td>". $fila['sexo']. "</td><td>". $fila['nombre']."</td></tr>";
 }
 echo "</table>";
 }
@@ -241,9 +241,11 @@ public function mismaCategoriaIndividual($nombreTorneo,$sexoP,$condicion,$catego
     }
     $torneo=$this->infoTorneo($nombreTorneo);
     $participantes=new ParticipanteArray();
-    if($categoria==$categoriaP && $sexo==$sexoP && $torneo->getParaKarate=="si" && $condicion!="Ninguna" ||$categoria==$categoriaP && $sexo==$sexoP && $torneo->getParaKarate=="no" && $condicion=="Ninguna"  ){
+    if($categoria==$categoriaP && $sexo==$sexoP && $torneo->getParaKarate()=="si" && $condicion!="Ninguna" ||$categoria==$categoriaP && $sexo==$sexoP && $torneo->getParaKarate()=="no" && $condicion=="Ninguna"  ){
        $puedeParticipar=true;
+       echo "HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
     }
+   echo $categoria .$categoriaP . $sexo. $sexoP. $torneo->getParaKarate().$condicion; 
     return $puedeParticipar;
 }
 

@@ -22,7 +22,6 @@ function Envio() {
         return response.text();
       })
       .then(data => {
-        alert("funciono todo bien");
         mensaje.innerHTML = data;
       })
       .catch(error => {

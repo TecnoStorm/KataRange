@@ -20,7 +20,6 @@ $sexo=$_POST['sexo'];
 $idKata=$_POST['idKata'];
 $condicion=$_POST["Condicion"];
 $nombreEscuela=$_POST["nombreEscuela"];
-$tecnica=$_POST["tecnica"];
 $nombreTorneo=$_POST["nombreTorneo"];
 $torneos=new TorneoArray();
 $puedeParticipar=$torneos->mismaCategoriaIndividual($nombreTorneo,$sexo,$condicion,$categoria);
@@ -31,18 +30,9 @@ if($puedeParticipar){
     $_participantes->guardar($nombre, $apellido,$ci,$sexo,$condicion,$categoria);
     $katas->guardarKata($ci,$idKata);
     $torneo=$torneos->infoTorneo($nombreTorneo);
-    $existeEscuela=$escuelas->existeEscuela($nombreEscuela);
-    if($existeEscuela){
-        $escuela=$escuelas->infoEscuela($nombreEscuela);
-        $escuelas->guardarParticipante($escuela->getId(),$ci);
-        $torneos->ParticipantesTorneo($ci,$torneo->getIdTorneo(),0,"null");
-    }
-   else{
-    $escuelas->guardar($tecnica,$nombreEscuela);
     $escuela=$escuelas->infoEscuela($nombreEscuela);
     $escuelas->guardarParticipante($escuela->getId(),$ci);
-    $torneos->ParticipantesTorneo($ciP,$torneo->getIdTorneo(),0,"null");
-   }
+    $torneos->ParticipantesTorneo($ci,$torneo->getIdTorneo(),0,"null"); 
     echo "<div id='salir'>";
     echo "<a href='http://127.0.0.1/ProgramaPhp/Participantes.html'>Volver</a>"; 
     echo "</div>";

@@ -28,5 +28,4 @@ class KataArray{
         $conexion->close();
     }
 }
-}
 ?>

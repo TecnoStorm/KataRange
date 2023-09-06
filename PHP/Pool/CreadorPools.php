@@ -28,19 +28,29 @@ echo  "<select name='nombreTorneo'>";
 echo  "</select>";
 echo "<input type='submit' value='Sorteo'>";
 echo "</form>";
+echo "<form id='formularioCrear'>";
+echo  "<select name='nombreTorneo'>";
+       foreach($nombres as $nombre){
+       echo "<option value='$nombre'> $nombre </option>";
+       }
+echo  "</select>";
+echo "<input type='submit' value='Crear'>";
+echo "</form>";
+echo "<p id='mensajeCrear'></p>"
 ?>
 <section id="contenedor-formulario">
 <form id="formularioPool">
     <input type="number" placeholder="IdPool" name="id">
     <select name="estado">
-        <option value="abierto">Abierto</option>
-        <option value="cerrado">Cerrado</option>
+        <option value="abierto">Abrir</option>
+        <option value="cerrado">Cerrar</option>
     <input type="submit" value="enviar">
 </select>
 </form>
+<p id="mensaje">
 </section>
-<p id="mensaje">;
 <script src="../../js/AsignadorPool.js"></script>
+<script src="../../js/CreadorPool.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js%22%3E"></script>
 </body>
 </html>
