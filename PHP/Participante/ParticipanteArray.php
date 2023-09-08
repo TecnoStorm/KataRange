@@ -68,21 +68,41 @@ echo "</table>";
     
     public function eliminarParticipante($ci){
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-        $consulta = $conexion ->prepare(
-            "DELETE FROM persona WHERE ci=?");
-            if (!$consulta) {
-                die('Error en la consulta 1: ' . $conexion->error);
+        $existe=$this->ExisteParticipante($ci);
+        $existeenPool=$this->ExisteParticipanteenPool($ci);
+        if($existe){
+            if($existeenPool){
+                echo "<p style='color:#EDAD14'> el participante pertenece a un pool</p>";
             }
-         $consulta->bind_param("i", $ci);
-         $consulta->execute();
-         $consulta->close();
-         $conexion->close();
+            else{
+                $consulta = $conexion ->prepare("DELETE FROM estudia WHERE ciP=?");
+                $consulta2 = $conexion ->prepare("DELETE FROM utiliza2 WHERE ciP=?");
+                $consulta3 = $conexion ->prepare("DELETE FROM participante WHERE ciP=?");
+               
+                    if (!$consulta) {
+                        die('Error en la consulta 1: ' . $conexion->error);
+                    }
+                 $consulta->bind_param("i", $ci);
+                 $consulta2->bind_param("i", $ci);
+                 $consulta3->bind_param("i", $ci);
+                 $consulta->execute();
+                 $consulta->close();
+                 $consulta2->execute();
+                 $consulta2->close();
+                 $success=$consulta3->execute();
+                echo "<p style='color:green'> participante borrado con existo </p>";
+                 
+                 $conexion->close();
+            }
+        }
+        else{
+            echo "<p style='color:red'> no se encuentra registrado el participante</p>";
+        }
          
     }
     public function eliminarPersona($ci){
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-        $consulta2 = $conexion ->prepare(
-            "DELETE FROM Participante WHERE ciP=?");
+        $consulta2 = $conexion ->prepare("DELETE FROM persona WHERE ci=?");
             if (!$consulta2) {
                 die('Error en la consulta 1: ' . $conexion->error);
             }
@@ -245,7 +265,14 @@ public function notas($ciJ,$ciP,$idP,$nota){
     "INSERT INTO puntua (ciJ,ciP,idP,Nota_Final)
     values (?,?,?,?)");
     $consulta->bind_param("iiii", $ciJ, $ciP, $idP,$nota);
-    $consulta->execute();
+    $success=$consulta->execute();
+    if(!$success){
+        echo "<p style='color:#EDAD14'> La nota ya ha sido ingresada </p>";
+    }
+    else{
+        echo  "<p style='color:green'> nota ingresada con exito </p>"; 
+       
+    }
     $consulta->close();
     $conexion->close();
 }
@@ -335,7 +362,6 @@ public function participanteAPuntuar(){
         $notas[]=$fila['notaFinal'];
     }
     $posicion=array_search(0,$notas);
-    echo  "posicion: ". $posicion;
     return $posicion;   
 }
 public function Existe0(){
@@ -353,23 +379,47 @@ public function Existe0(){
     return $existe;
 }
 
-public function cantParticipantesTorneo($idTorneo){
+public function cantParticipantesTorneo(){
     $participantes=[];
     $contador=0;
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
     $consulta="SELECT * FROM compite";
     $resultado = mysqli_query($conexion, $consulta);
     while($fila = $resultado->fetch_assoc()){
-        if($fila['idTorneo']==$idTorneo){
+      
             $participantes[]=$fila['ciP'];
-        }
+        
     }
     for($x=0;$x<count($participantes);$x++){
         $contador++;
     }
     return $contador;
 }
+public function ExisteParticipante($ci){
+    foreach($this->_participantes as $participante){
+        if($participante->getCi()==$ci){
+            return true;
+        }
+    }
+    return false;
+}
 
+public function ExisteParticipanteenPool($ci){
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta = "SELECT * FROM estan";
+    $resultado = mysqli_query($conexion, $consulta);
+    if (!$resultado){
+    die('Error en la consulta SQL: ' . $consulta);
+    }
+while($fila = $resultado->fetch_assoc()){
+    if($fila['ciP']==$ci){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+}
 
 }
 ?> 

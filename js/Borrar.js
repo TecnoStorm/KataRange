@@ -1,12 +1,10 @@
 var FormularioBorrar=document.getElementById("FormularioBorrar")
 var mensajeBorrar=document.getElementById("mensajeBorrar");
 FormularioBorrar.addEventListener('submit',function(e){
-    alert("hola");
     e.preventDefault();
     EnvioBorrar();
 })
 function EnvioBorrar(){
-    alert("adios")
     var datos = new FormData(FormularioBorrar);
     var ci = datos.get('ciBorrar');
     var formData = new FormData();
@@ -22,7 +20,6 @@ function EnvioBorrar(){
         return response.text(); 
       })
       .then(data => {
-        alert("funciono todo bien");
         mensajeBorrar.innerHTML = data;
       })
       .catch(error => {

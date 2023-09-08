@@ -8,5 +8,4 @@ $torneo=$torneos->infoTorneo($nombreTorneo);
 $participantes=new ParticipanteArray();
 $cantParticipantes=$participantes->cantParticipantesTorneo($torneo->getIdTorneo());
 $pools->CrearPool($torneo->getIdTorneo(),$cantParticipantes);
-
-?>
+?> 

@@ -31,6 +31,7 @@ public function guardar($fecha,$categoria,$cantParticipantes,$estado,$paraKarate
         $consulta->execute();
         $consulta->close();
         $conexion->close();
+        echo "<p style='color:green'> torneo creado con exito</p>";
 }
 
 public function mostrar(){
@@ -41,9 +42,9 @@ public function mostrar(){
     die('Error en la consulta SQL: ' . $consulta);
     }
 echo "<table border='2' class='torneos'>";
-echo "<tr> <td> idTorneo </td> <td> Fecha </td> <td> Categoria </td> </td><td> cantParticipantes </td> <td> Estado </td><td> ParaKarate </td> <td> Sexo </td><td> Nombre  </td> </tr>";
+echo "<tr> <td> idTorneo </td> <td> Fecha </td> <td> Categoria </td> </td><td> cantParticipantes </td> <td> Estado </td><td> ParaKarate </td> <td> Sexo </td><td> Nombre  </td> <td> direccion </td></tr>";
 while($fila = $resultado->fetch_assoc()){
-echo "<tr> <td>".$fila['idTorneo'] . " </td><td>" . $fila['fecha'] . "</td><td>  " . $fila['Categoria'] . "</td> <td>" . $fila['cantParticipantes'] . "</td><td>" . $fila ['estado'] ."</td> <td>". $fila['ParaKarate']. "</td><td>". $fila['sexo']. "</td><td>". $fila['nombre']."</td></tr>";
+echo "<tr> <td>".$fila['idTorneo'] . " </td><td>" . $fila['fecha'] . "</td><td>  " . $fila['Categoria'] . "</td> <td>" . $fila['cantParticipantes'] . "</td><td>" . $fila ['estado'] ."</td> <td>". $fila['ParaKarate']. "</td><td>". $fila['sexo']. "</td><td>". $fila['nombre']."</td> <td>" . $fila['direccion']. "</td> </tr>";
 }
 echo "</table>";
 }
@@ -130,7 +131,6 @@ public function ciParticipantesTorneo(){
     }
 
     while($fila = $resultado->fetch_assoc()){
-        if($fila[''])
         $ciParticipantes[]=$fila['ciP'];
     }
     return $ciParticipantes;

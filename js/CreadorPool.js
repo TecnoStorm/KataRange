@@ -20,7 +20,6 @@ function EnvioCrear() {
         return response.text();
       })
       .then(data => {
-        alert("funciono todo bien");
         mensajeCrear.innerHTML = data;
       })
       .catch(error => {

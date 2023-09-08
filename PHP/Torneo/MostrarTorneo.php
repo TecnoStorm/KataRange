@@ -7,8 +7,6 @@
     <link rel="stylesheet" href="../../CSS/Torneo/MostrarTorneo.css">
 </head>
 <body>
-    
-
 <?php
 echo   "<div id='contenedorTotal'>";
 include "TorneoArray.php";

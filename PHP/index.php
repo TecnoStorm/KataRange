@@ -10,8 +10,8 @@
 <main>
 <?php    
 session_start();
-if (isset($_GET['borrar']) && $_GET['borrar'] === 'true') {
-session_destroy();
+if(isset($_SESSION['usuario'])){
+    session_destroy();
 }
  echo   "<div id='contenedor'>";
  echo  " <h1> Gestión de Usuarios</h1>";

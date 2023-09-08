@@ -17,7 +17,6 @@ if(isset($_SESSION["clave"]) && isset($_SESSION["usuario"])){
 else{
     $usuario=$_POST['usuario'];
     $clave=$_POST['clave']; 
-    
 }
 
 

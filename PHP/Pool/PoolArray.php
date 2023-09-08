@@ -109,6 +109,7 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/Torneo/TorneoArray.php");
           echo "<p style='color:green'>pools creados correctamente reinice la pagina para ver los cambios </p>";
 }  
     public function Listar(){
+       
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
         $consulta = "SELECT * FROM Pool";
         $resultado = mysqli_query($conexion, $consulta);
@@ -278,6 +279,7 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/Torneo/TorneoArray.php");
             $cambiarPool=false;
             $contador=0;
             $pool=1;
+            
             for($x=1;$x<=count($ciParticipantes);$x++){ 
                 if($pool==8 && $cambiarPool){
                     $pool=1;
@@ -285,6 +287,7 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/Torneo/TorneoArray.php");
                 
                 if($contador>$cantpool){
                     $pool++;
+                    $id++;
                     if($pool==9 && !$cambiarPool){
                         $pool-=1;
                         $cambiarPool=true;
@@ -295,10 +298,14 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/PHP/Torneo/TorneoArray.php");
                     }
                     
                 }
-                $consulta->bind_param("iiii",$ciParticipantes[$x-1],$pool,$notaFinal,$clasificados);
-                $consulta->execute();
+                $consulta->bind_param("iiii",$ciParticipantes[$x-1],$numero,$notaFinal,$clasificados);
+                $success=$consulta->execute();
+                if(!$success){
+                    echo $consulta->error;
+                }
                 if($cambiarPool && $pool!=8){
-                    $pool++;   
+                    $pool++;
+                    $id++;   
                    }
                    else{
                     $contador++;
@@ -335,7 +342,7 @@ return $cantRondas;
 public function idsPool(){
     $ids=[];
     foreach($this->_pools as $pool){
-        $ids[]=$pool->getId();
+        $ids[]=$pool->getIdP();
     }
     return $ids;
 }
@@ -368,6 +375,61 @@ public function mismoEstado($idPool,$estado){
         }
     }
     return $existe;
+}
+
+public function retornarNumero($idP){
+    foreach($this->_pools as $pool){
+        if($idP==$pool->getIdp()){
+            return $pool->getNumero();
+        }
+    }
+}
+public function poolTorneos($idT,$idP){
+    $existe=false;
+    $existeTiene=$this->ExisteTiene($idP);
+    if($existeTiene){
+
+    }
+    else{
+        $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+        $consulta= $conexion->prepare("INSERT INTO tiene (idP,IdT)  values (?,?)");
+        $consulta->bind_param("ii",$idP,$idT);
+        $success=$consulta->execute();
+        if(!$success){
+           $existe=true;
+        }
+        $consulta->close();
+        $conexion->close();
+        return $existe;  
+    }
+}
+public function ExisteTiene($idP){
+    $ids=[];
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta = "SELECT * FROM tiene";
+    $resultado = mysqli_query($conexion, $consulta);
+    if (!$conexion) {
+        die('Error en la conexión: ' . mysqli_connect_error());
+    }
+    if (!$resultado){
+        die('Error en la consulta SQL: ' . $consulta);
+    }
+    while($fila = $resultado->fetch_assoc()){
+        $ids[]=$fila['idP'];
+    }
+    if(empty($ids)){
+
+    }
+    else{
+        if($ids[0]==$idP){
+            return true;
+        }
+        $posicion=array_search($idP,$ids);
+        if($posicion!=0){
+            return true;
+        }
+    }
+return false;
 }
 }
 ?>

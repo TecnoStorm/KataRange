@@ -19,8 +19,6 @@ $nombre=$_POST['nombre'];
 $direccion=$_POST['direccion'];
 $torneos=new TorneoArray();
 $torneos->guardar($formatoFecha,$categoria,$cantParticipantes,$estado,$paraPakarate,$sexo,$nombre,$direccion);
-echo "nombre:" .$nombre ."direccion:" .$direccion;
 ?>
-<a href="MostrarTorneo.php"> Mostrar Torneos</a>
 </body>
 </html>

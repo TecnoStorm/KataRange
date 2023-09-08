@@ -20,6 +20,7 @@ if(isset($_SESSION["usuario"])){
     $usuario=$_SESSION["usuario"];
 }
 $jueces=new JuezArray();
+echo $usuario;
 $ciJ=$jueces->obtenerCi($usuario);
 $idP=$participantes->obtenerPool($ciParticipantes[$contador]);
 $nota=$_POST['nota'];

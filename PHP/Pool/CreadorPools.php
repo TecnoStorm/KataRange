@@ -36,19 +36,28 @@ echo  "<select name='nombreTorneo'>";
 echo  "</select>";
 echo "<input type='submit' value='Crear'>";
 echo "</form>";
-echo "<p id='mensajeCrear'></p>"
+echo "<p id='mensajeCrear'></p>";
+echo "<form id='formularioMostrarPool'>";
+echo  "<select name='nombreTorneo'>";
+       foreach($nombres as $nombre){
+       echo "<option value='$nombre'> $nombre </option>";
+       }
+echo "<input type='submit' value='mostrar'>";
+echo "</form>";
+echo "<form id='formularioGuardarPool'>";
+echo  "<select name='nombreTorneo'>";
+       foreach($nombres as $nombre){
+       echo "<option value='$nombre'> $nombre </option>";
+       }
+echo "<input type='submit' value='guardar'>";
+echo "<p id='mensajePoolsTorneos'></p>";
+echo "<p id='mensajeMostrarPool'> </p>";
+echo "</form>";
+
 ?>
-<section id="contenedor-formulario">
-<form id="formularioPool">
-    <input type="number" placeholder="IdPool" name="id">
-    <select name="estado">
-        <option value="abierto">Abrir</option>
-        <option value="cerrado">Cerrar</option>
-    <input type="submit" value="enviar">
-</select>
-</form>
-<p id="mensaje">
 </section>
+<script src="../../js/PoolsTorneo.js"></script>
+<script src="../../js/MostrarPool.js"></script>
 <script src="../../js/AsignadorPool.js"></script>
 <script src="../../js/CreadorPool.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js%22%3E"></script>

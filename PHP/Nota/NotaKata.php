@@ -12,6 +12,8 @@ session_start();
 require_once("../Participante/ParticipanteArray.php");
 require_once ("../Torneo/TorneoArray.php");
 require_once("notaArray.php");
+
+
 $torneos=new TorneoArray();
 $notas=new NotaArray();
 $participantes=new ParticipanteArray();
