@@ -94,7 +94,6 @@ echo   "<section id='borrar'>
      Volver</a>
    </section>";
 ?>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js%22%3E"></script>
   <script src="../../Controlador/js/RegistrarEscuela.js"> </script>
   <script src="../../Controlador/js/RegistrarParticipante.js"></script>
   <script src="../../Controlador/js/Borrar.js"> </script>

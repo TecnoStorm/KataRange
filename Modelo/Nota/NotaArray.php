@@ -1,9 +1,9 @@
 <?php
 require_once ('Nota.php');
-require_once ("../../Controlador/config.php");
-require_once ("../../Modelo/Pool/PoolArray.php");
-require_once ("../../Modelo/Torneo/TorneoArray.php");
-require_once ("../../Modelo/Participante/ParticipanteArray.php");
+require_once ("C:/xampp/htdocs/ProgramaPhp/Controlador/config.php");
+require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Pool/PoolArray.php");
+require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
+require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Participante/ParticipanteArray.php");
 class NotaArray{
     private $_notas=array();
     public function __construct(){

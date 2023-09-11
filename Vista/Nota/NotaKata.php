@@ -12,8 +12,6 @@ session_start();
 require_once("../../Modelo/Participante/ParticipanteArray.php");
 require_once ("../../Modelo/Torneo/TorneoArray.php");
 require_once("../../Modelo/Nota/notaArray.php");
-
-
 $torneos=new TorneoArray();
 $notas=new NotaArray();
 $participantes=new ParticipanteArray();
@@ -28,7 +26,8 @@ if($cantNotas){
     $participantes->borrarNotas();
 }
 $ciParticipantes=$torneos->ciParticipantesTorneo();
-$participantes->devolverInfo($ciParticipantes[$contador]); 
+$participante=$participantes->devolverInfo($ciParticipantes[$contador]);
+echo "participante: " .$participante->getNombre(). " " . $participante->getApellido();
 echo "<form id='formularioNotas'>";
 echo "<input type='number' min='5' max='10' step='0.1' name='nota' placeholder='Nota' id='nota'>";
 echo "<input type='submit' value='Enviar'>";

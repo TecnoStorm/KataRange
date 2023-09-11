@@ -8,10 +8,14 @@ $participantes=new ParticipanteArray();
 $torneos=new TorneoArray();
 $participantesAsignados=$torneos->participantesAsignados($id);
 $existeTorneo=$torneos->existeTorneo($id);
+
 if($existeTorneo){
+    
     if(!$participantesAsignados){
+        
         $participantesMismaCategoria=$torneos->mismaCategoria();
         for($x=0;$x<count($participantesMismaCategoria);$x++){
+                echo "hola";
                 $torneos->ParticipantesTorneo($participantesMismaCategoria[$x]->getCi(),$id,$puesto,$cinturon);
             }
             echo "<p style='color: green'> Participantes Asignados correctamente </p>";

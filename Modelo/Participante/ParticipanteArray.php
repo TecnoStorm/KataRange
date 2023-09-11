@@ -1,8 +1,7 @@
 <?php
 require_once("Participante.php");
-require_once ("../../Modelo/Nota/NotaArray.php"); 
-require_once ("../../Controlador/config.php");
-
+require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Nota/NotaArray.php"); 
+require_once ("C:/xampp/htdocs/ProgramaPhp/Controlador/config.php");
 class ParticipanteArray{
     private $_participantes=array();    
     public function __construct(){
@@ -77,6 +76,7 @@ echo "</table>";
             else{
                 $consulta = $conexion ->prepare("DELETE FROM estudia WHERE ciP=?");
                 $consulta2 = $conexion ->prepare("DELETE FROM utiliza2 WHERE ciP=?");
+                $consulta4=$conexion->prepare("DELETE FROM compite WHERE ciP=?");
                 $consulta3 = $conexion ->prepare("DELETE FROM participante WHERE ciP=?");
                
                     if (!$consulta) {
@@ -85,13 +85,20 @@ echo "</table>";
                  $consulta->bind_param("i", $ci);
                  $consulta2->bind_param("i", $ci);
                  $consulta3->bind_param("i", $ci);
+                 $consulta4->bind_param("i",$ci);
                  $consulta->execute();
                  $consulta->close();
                  $consulta2->execute();
                  $consulta2->close();
+                 $consulta4->execute();
+                 $consulta4->close();
                  $success=$consulta3->execute();
-                echo "<p style='color:green'> participante borrado con existo </p>";
-                 
+                 if(!$success){
+                    echo $consulta3->error;
+                 }
+                 else{
+                    echo "<p style='color:green'> participante borrado con existo </p>";
+                 }
                  $conexion->close();
             }
         }
@@ -111,11 +118,7 @@ echo "</table>";
         $consulta2->close();
         $conexion->close();
     }
-    public function borrarArchivo(){
-        $archivo = fopen("C:/xampp/htdocs/ProgramaPhp/TXT/participantes.txt","w");
-        fwrite($archivo, "");
-        fclose($archivo);
-    }
+  
 
     public function comparar($ci){
         foreach ($this->_participantes as $participante) {
@@ -147,9 +150,6 @@ echo "</table>";
     return $apellido;    
 }
 
-public function pool() {
-    
-}
 
 public function mostrarPool(){
     foreach($this->_participantes as $participante){
@@ -351,7 +351,7 @@ public function participanteAPuntuar(){
     $posicion=array_search(0,$notas);
     return $posicion;   
 }
-public function Existe0(){
+public function existe0(){
     $notas=[];
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
     $consulta = "SELECT * FROM estan ORDER BY notaFinal DESC";

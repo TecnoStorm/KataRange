@@ -1,7 +1,7 @@
 <?php
 require_once ("Pool.php");
-require_once ("../../Modelo/Participante/ParticipanteArray.php");
-require_once ("../../Modelo/Torneo/TorneoArray.php");
+require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Participante/ParticipanteArray.php");
+require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
     class PoolArray{
     private $_pools=array();    
     public function __construct(){
@@ -182,6 +182,7 @@ require_once ("../../Modelo/Torneo/TorneoArray.php");
         $participantesArray=$participantes->devolverArray();
         $ids=[];
         $idsTiene=$this->idPTiene($idTorneo);
+        var_dump($idsTiene);
         $id=0;
         $consulta2= "SELECT * FROM pool";
         $resultado = mysqli_query($conexion, $consulta2);
@@ -272,7 +273,10 @@ require_once ("../../Modelo/Torneo/TorneoArray.php");
                     $contador=0;
                 }
                 $consulta->bind_param("iiii",$ciParticipantes[$x-1],$idsTiene[$id],$notaFinal,$clasificados);
-                $consulta->execute();
+                $success=$consulta->execute();
+                if(!$success){
+                    echo $consulta->error;
+                }
                 $contador++;
             }
             $consulta->close(); 

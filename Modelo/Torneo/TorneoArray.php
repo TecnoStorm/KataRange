@@ -1,7 +1,7 @@
 <?php
 require_once ("Torneo.php");
-require_once ("../../Controlador/config.php");
-require_once ("../../Modelo/Participante/ParticipanteArray.php");
+require_once ("C:/xampp/htdocs/ProgramaPhp/Controlador/config.php");
+require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Participante/ParticipanteArray.php");
 class TorneoArray{
 private $_torneos= array();
 public function __construct(){
@@ -85,17 +85,20 @@ public function mismaCategoria(){
             }
         }
     }
+
     $participantes=new ParticipanteArray();
     $participantesArray=$participantes->getParticipantes();
     $cantParticipantes=$participantes->cantParticipantes();
     $participantesMismaCategoria=[];
+    echo   "categoria: ".$categoria.$paraKarate."sexo".$sexo.$cantParticipantes;
     for($x=0;$x<$cantParticipantes;$x++){
         if($participantesArray[$x]->getCondicion()=="Ninguna" && !$paraKarate && $participantesArray[$x]->getCategoria()==$categoria && $participantesArray[$x]->getSexo()==$sexo){
-            echo "hola";
+            
             $participantesMismaCategoria[]=$participantesArray[$x];
         }
         if($participantesArray[$x]->getCondicion()!="Ninguna" && $paraKarate && $participantesArray[$x]->getCategoria()==$categoria && $participantesArray[$x]->getSexo()==$sexo){
             $participantesMismaCategoria[]=$participantesArray[$x];
+            echo "hola";
         }
     }
     return $participantesMismaCategoria;
@@ -106,12 +109,14 @@ public function ParticipantesTorneo($ciP,$idTorneo,$puesto,$cinturon){
     if (!$conexion) {
         die('Error en la conexión: ' . mysqli_connect_error());
     }
-    $consulta = $conexion ->prepare(
-        "INSERT INTO Compite (ciP,idTorneo,puesto,cinturon)
-        values (?,?,?,?)");
+    $consulta = $conexion ->prepare("INSERT INTO compite (ciP,idTorneo,puesto,cinturon) values (?,?,?,?)");
     
     $consulta->bind_param("iiss", $ciP,$idTorneo,$puesto,$cinturon);
-    $consulta->execute();
+
+    $success=$consulta->execute();
+        if(!$success){
+       echo $consulta->error;
+    }
     $consulta->close();
     $conexion->close();
 }
@@ -242,9 +247,7 @@ public function mismaCategoriaIndividual($nombreTorneo,$sexoP,$condicion,$catego
     $participantes=new ParticipanteArray();
     if($categoria==$categoriaP && $sexo==$sexoP && $torneo->getParaKarate()=="si" && $condicion!="Ninguna" ||$categoria==$categoriaP && $sexo==$sexoP && $torneo->getParaKarate()=="no" && $condicion=="Ninguna"  ){
        $puedeParticipar=true;
-       echo "HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
     }
-   echo $categoria .$categoriaP . $sexo. $sexoP. $torneo->getParaKarate().$condicion; 
     return $puedeParticipar;
 }
 

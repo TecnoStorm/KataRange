@@ -1,6 +1,6 @@
 <?php
 require_once("Juez.php");
-require_once ("../../Controlador/config.php");
+require_once ("C:/xampp/htdocs/ProgramaPhp/Controlador/config.php");
     class JuezArray{
         private $_jueces=array(); 
         public function __construct(){
@@ -32,7 +32,7 @@ require_once ("../../Controlador/config.php");
             $consulta2->bind_param("sssis", $nombre, $apellido,$usuario,$ci,$contraseña);
             $success=$consulta2->execute();
             if(!$success){
-                echo "<p style='color: #B9CF34; font-size: 25px;'> juez ya registrado";
+                echo "<p style='color: #EDAD14; font-size: 25px;'> juez ya registrado";
             }
             else{
                 $consulta2->close();

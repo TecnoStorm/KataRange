@@ -9,7 +9,7 @@ $existeTorneo=$torneos->existeTorneo($id);
 if($existeTorneo){
     $existe=$torneos->mismoEstado($estado,$id);
     if($existe){
-        echo "<p style='color: #B9CF34';> el torneo ya esta ". $estado. "</p>";
+        echo "<p style='color: #EDAD14';> el torneo ya esta ". $estado. "</p>";
     }
     else{
         $torneos->cambiarEstado($id,$estado);
