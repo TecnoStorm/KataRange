@@ -20,23 +20,23 @@ echo "<section id='registrar'>
         <form id='registrarParticipante'>
         <section class='registrar-contenedor'>
           <section class='registrar1'>
-            <input type='number' name='ci' placeholder='CI' id='ci'>
-            <input type='text' name='nombre' placeholder='Nombre' id='nombre'>
-            <input type='text' name='apellido' placeholder='Apellido' id='apellido'>
+            <input type='number'name='ci' placeholder='CI' id='ci' min=10000000 max=99999999 required>
+            <input type='text' name='nombre' placeholder='Nombre' id='nombre' required>
+            <input type='text' name='apellido' placeholder='Apellido' id='apellido'required>
           </section>
         <section class='registrar1'>
-          <select name='categoria' id='categoria'> Categoria
+          <select name='categoria' id='categoria'required> Categoria
               <option value='12/13'>12/13</option>
               <option value='14,15'>14/15</option>
               <option value='16/17'>16/17</option>
               <option value='mayores'>Mayores</option>
           </select>
-            <input type='number' placeholder='Id kata' min='1' max='102' name='idKata' class='opcion2' id='idKata'>
-            <select name='sexo' id='sexo'>
+            <input type='number' placeholder='Id kata' min='1' max='102' name='idKata' class='opcion2' id='idKata'required>
+            <select name='sexo' id='sexo'required>
             <option value='Masculino'>Masculino</option>
             <option value='Femenino'>Femenino</option>
           </select>
-          <select name='Condicion' id='Condicion'>
+          <select name='Condicion' id='Condicion'required>
             <option value='Ninguna'>Ninguna</option>
             <option value='K10'> K10</option>
             <option value='K21'> K21</option>
@@ -45,12 +45,12 @@ echo "<section id='registrar'>
           </select>
         </section>
       </section>
-  <select name='nombreEscuela'>";
+  <select name='nombreEscuela'required>";
        foreach($nombres as $nombre){
               echo "<option value='$nombre'> $nombre </option>";
        }
        echo "</select>;
-       <select name='nombreTorneo'>";
+       <select name='nombreTorneo'required>";
        foreach($nombresTorneo as $nombre){
               echo "<option value='$nombre'> $nombre </option>";
        }
@@ -63,8 +63,8 @@ echo  "</select>
     </form>
  <h2> Registrar escuela</h2>
  <form id='formularioEscuela'>
-  <input type='text' name='nombreEscuela' id='nombreEscuela' placeholder='Nombre de la escuela'>
-  <input type='text' name='tecnica' id='nombreEscuela' placeholder='Técnica que enseña'>
+  <input type='text' name='nombreEscuela' id='nombreEscuela' placeholder='Nombre de la escuela'required>
+  <input type='text' name='tecnica' id='nombreEscuela' placeholder='Técnica que enseña'required>
   <section class='boton-registrar'>
  <input type='submit' name='registrarEscuela' value='Registrar' class='btnregistrar'>
  </section>
@@ -79,7 +79,7 @@ $torneos->mostrar();
 echo   "<section id='borrar'>
    <h2>Borrar participante</h2>
    <form id='FormularioBorrar'>
-   <input type='number' name='ciBorrar' placeholder='CI' id='ciBorrar'>
+   <input type='number' name='ciBorrar' placeholder='CI' id='ciBorrar'required>
    <section class='boton-registrar'>
    <input type='submit' name='Borrar' value='Borrar' class='btnregistrar'>
    </section>

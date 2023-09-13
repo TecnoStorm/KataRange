@@ -7,20 +7,29 @@
     <title>Document</title>
 </head>
 <body>
-    <div id="contenedor">
+    <?php
+    require_once("../../Modelo/Torneo/TorneoArray.php");
+    $torneos=new TorneoArray();
+    $nombresTorneo=$torneos->nombresTorneo();
+    echo '<section id="contenedor">
     <h1>Registarse</h1>
     <form id="formularioJuez">
-    <input type="text" name="nombre" placeholder="Nombre" id="nombre">
-    <input type="text" name="apellido" placeholder="Apellido" id="apellido">
-    <input type="text" name="usuario" placeholder="Usuario" id="usuario">
-    <input type="number" name="ci" placeholder="CI" id="ci">
-    <input type="password" name="clave" placeholder="Contraseña" id="clave">
-    <input type="password" name="confirmacion" placeholder="Confirmacion" id="confirmacion">
+    <input type="text" name="nombre" placeholder="Nombre" id="nombre" required>
+    <input type="text" name="apellido" placeholder="Apellido" id="apellido" required>
+    <input type="text" name="usuario" placeholder="Usuario" id="usuario" required>
+    <input type="number" name="ci" placeholder="CI" id="ci" min=10000000 max=99999999 required>
+    <input type="password" name="clave" placeholder="Contraseña" id="clave" required>
+    <input type="password" name="confirmacion" placeholder="Confirmacion" id="confirmacion" required>
     <input type="submit" name="registrar" value="REGISTRAR" id="boton">
-    </form> 
-    <p id="mensajeJuez"></p>
-</div>
-
+    <select name="nombreTorneo"required>';
+       foreach($nombresTorneo as $nombre){
+              echo "<option value='$nombre'> $nombre </option>";
+       }
+       echo  '</select>;
+    </form>
+    <p id="mensajeJuez"></p>;
+</section>';
+?>
 <a href="../../index.php"> 
     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
         <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z"/>

@@ -12,6 +12,7 @@ function Envio() {
     var ci = datos.get('ci');
     var clave = datos.get('clave');
     var confirmacion = datos.get('confirmacion');   
+    var nombreTorneo=datos.get('nombreTorneo');
     var formData = new FormData();
     formData.append('nombre', nombre);
     formData.append('apellido', apellido);
@@ -19,6 +20,7 @@ function Envio() {
     formData.append('ci', ci);
     formData.append('clave', clave);
     formData.append('confirmacion', confirmacion);
+    formData.append('nombreTorneo',nombreTorneo);
     fetch('../../Controlador/Juez/RegistrarJuez.php', {
       method: 'POST',
       body: formData

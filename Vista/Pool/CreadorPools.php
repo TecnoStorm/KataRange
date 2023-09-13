@@ -8,14 +8,20 @@
 </head>
 <body>
 <?php
+session_start();
 echo "<section id='contenedor-tabla'>";
 include "../../Modelo/Pool/PoolArray.php";
 require_once ("../../Modelo/Participante/ParticipanteArray.php");
 require_once ("../../Modelo/Torneo/TorneoArray.php");
+require_once("../../Modelo/Juez/JuezArray.php");
 $pool = new PoolArray();
 $torneos=new TorneoArray();
+$jueces=new JuezArray();
 $nombres=$torneos->nombresTorneo();
-$pool->listar();
+$usuario=$_SESSION['usuario'];
+$ciJuez=$jueces->obtenerCi($usuario);
+$idTorneo=$jueces->obtenerIdTorneo($ciJuez);
+$pool->listar($idTorneo);
 $participanteArray= new ParticipanteArray();
 $arrayParticipante=$participanteArray->devolverArray();
 shuffle($arrayParticipante);
@@ -37,7 +43,7 @@ echo  "<select name='nombreTorneo'>";
 echo  "</select>";
 echo "<input type='submit' value='Crear'>";
 echo "</form>";
-echo "<p id='mensajeCrear'></p>";
+
 
        echo "<form id='formularioGuardarPool'>";
        echo  "<select name='nombreTorneo'>";
@@ -48,12 +54,19 @@ echo "<p id='mensajeCrear'></p>";
        echo "<p id='mensajePoolsTorneos'></p>";
        echo "<p id='mensajeMostrarPool'> </p>";
        echo "</form>";
-echo "</section>";
+       echo "<form id='formularioPool'>";
+       echo  "<select name='nombreTorneo'>";
+              foreach($nombres as $nombre){
+              echo "<option value='$nombre'> $nombre </option>";
+              }
+       echo "<input type='submit' value='guardar'>";
+       echo "</section>
+       <p id='mensajeCrear'></p>;";
+
 ?>
 </section>
 <script src="../../Controlador/js/PoolsTorneo.js"></script>
 <script src="../../Controlador/js/CreadorPool.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js%22%3E"></script>
 </body>
 </html>
 

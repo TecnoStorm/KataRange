@@ -15,7 +15,8 @@ function  EnvioRegistrarParticipante() {
     var idkata = datos.get('idKata');
     var nombreTorneo = datos.get('nombreTorneo');
     var tecnica = datos.get('tecnica');
-    var nombreEscuela = datos.get('nombreEscuela');   
+    var nombreEscuela = datos.get('nombreEscuela');
+ 
     var formData = new FormData();
     formData.append('ci', ci);
     formData.append('nombre', nombre);
@@ -27,7 +28,7 @@ function  EnvioRegistrarParticipante() {
     formData.append('nombreTorneo', nombreTorneo);
     formData.append('tecnica', tecnica);
     formData.append('nombreEscuela', nombreEscuela);
-
+    
   
     fetch('../../Controlador/Participante/Registrar.php', {
       method: 'POST',

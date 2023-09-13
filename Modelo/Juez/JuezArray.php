@@ -16,21 +16,21 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Controlador/config.php");
             }
         }
 
-        public function guardar($nombre, $apellido,$usuario,$ci,$contraseña){
+        public function guardar($nombre, $apellido,$usuario,$ci,$contraseña,$idTorneo){
             $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
             if (!$conexion) {
                 die('Error en la conexión: ' . mysqli_connect_error());
             }
-            $consulta = $conexion ->prepare(
-                "INSERT INTO Persona (ci,nombre,apellido)
-                values (?,?,?)");
-
+            $consulta = $conexion ->prepare("INSERT INTO Persona (ci,nombre,apellido) values (?,?,?)");
             $consulta->bind_param("iss", $ci, $nombre, $apellido);
             $consulta->execute();
             $consulta->close();
             $consulta2 = $conexion ->prepare("INSERT INTO Juez (nombre,Apellido,usuario,ciJ,contraseña) values (?,?,?,?,?)");
+            $consulta3= $conexion->prepare("INSERT INTO Juzga (ciJ,idTorneo) values (?,?)");
             $consulta2->bind_param("sssis", $nombre, $apellido,$usuario,$ci,$contraseña);
             $success=$consulta2->execute();
+            $consulta3->bind_param("ii", $ci,$idTorneo);
+            $consulta3->execute();
             if(!$success){
                 echo "<p style='color: #EDAD14; font-size: 25px;'> juez ya registrado";
             }
@@ -82,6 +82,22 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Controlador/config.php");
             }
         }
     return $ciUsuario;
+    }
+    public function obtenerIdTorneo($ci){
+        $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+            $consulta = "SELECT * FROM Juzga";
+            
+            $resultado = mysqli_query($conexion, $consulta);
+            
+            if (!$resultado){
+                die('Error en la consulta SQL: ' . $consulta);
+            }
+            while($fila = $resultado->fetch_assoc()){
+                if($fila["ciJ"] == $ci){
+                    return $fila["idTorneo"];
+                }
+            }
+        
     }
 }
 ?>

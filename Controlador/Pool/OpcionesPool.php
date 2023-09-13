@@ -12,6 +12,7 @@ $id=$_POST["id"];
 $estado=$_POST["estado"];
 $poolArray=new PoolArray();
 $existe=$poolArray->mismoEstado($id,$estado);
+
 if($existe){
     echo "<p style='color:#EDAD14'> el pool ya esta " . $estado . "</p>";
 }

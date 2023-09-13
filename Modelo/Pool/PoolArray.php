@@ -21,6 +21,8 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
     public function CrearPool($idTorneo,$cantParticipantes){
         $participantes=new ParticipanteArray();
         $arrayParticipantes= (array) $participantes->devolverArray();
+        $uno=1;
+        $mayorPool=$this->MayorId();
         $estado="cerrado";
         $horaInicio="null";
         $horaFinal="null";
@@ -29,31 +31,24 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
             die('Error en la conexión: ' . mysqli_connect_error());
         }
         $consulta = $conexion ->prepare("INSERT INTO Pool (estado,hora_inicio,hora_final,numero) values (?,?,?,?)");
-        $consulta2 = "SELECT * FROM Pool";
-        $resultado = mysqli_query($conexion, $consulta2);
+
         $idsPool=[];
-        while($fila = $resultado->fetch_assoc()){
-            $idsPool[]=$fila['idP'];
-        }
         $consulta3 = $conexion ->prepare("INSERT INTO tiene (idP,idT) values (?,?)");
         if($cantParticipantes==3){
-            $consulta->bind_param("sssi", $estado, $horaInicio,$horaFinal,1);
-            $consulta->execute();
-            $consulta->close();
-            for($x=0;$x<count($idsPool);$x++){
-            $consulta3->bind_param("ii",$idTorneo,$idsPool[$x]);
-            $consulta3->execute();
+            $consulta->bind_param("sssi", $estado, $horaInicio,$horaFinal,$uno);
+            $success=$consulta->execute();
+            if(!$success){
+                $consulta->error;
             }
+            $consulta->close();
+            
+            
         }
         if($cantParticipantes==4){
           for($x=1;$x<=2;$x++){
             $consulta->bind_param("sssi", $estado, $horaInicio,$horaFinal,$x);
             $consulta->execute();
           }
-          for($x=0;$x<count($idsPool);$x++){
-            $consulta3->bind_param("ii",$idTorneo,$idsPool[$x]);
-            $consulta3->execute();
-            }
         }
         if($cantParticipantes==5){
             for($x=1;$x<=4;$x++){
@@ -61,67 +56,66 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
               $consulta->execute();
         
             }
-            for($x=0;$x<count($idsPool);$x++){
-                $consulta3->bind_param("ii",$idTorneo,$idsPool[$x]);
-                $consulta3->execute();
-                }
           }
           if($cantParticipantes>5 && $cantParticipantes<=10){
             for($x=1;$x<=5;$x++){
               $consulta->bind_param("sssi", $estado, $horaInicio,$horaFinal,$x);
               $consulta->execute();
             }
-            for($x=0;$x<count($idsPool);$x++){
-                $consulta3->bind_param("ii",$idTorneo,$idsPool[$x]);
-                $consulta3->execute();
-                }
           }
           if($cantParticipantes>10 && $cantParticipantes<=24){
             for($x=1;$x<=7;$x++){
               $consulta->bind_param("sssi", $estado, $horaInicio,$horaFinal,$x);
               $consulta->execute();
             }
-            for($x=0;$x<count($idsPool);$x++){
-                $consulta3->bind_param("ii",$idTorneo,$idsPool[$x]);
-                $consulta3->execute();
-                }
           }
           if($cantParticipantes>24 && $cantParticipantes <=48){
             for($x=1;$x<=11;$x++){
               $consulta->bind_param("sssi", $estado, $horaInicio,$horaFinal,$x);
               $consulta->execute();
             }
-            for($x=0;$x<count($idsPool);$x++){
-                $consulta3->bind_param("ii",$idTorneo,$idsPool[$x]);
-                $consulta3->execute();
-                }
           }
           if($cantParticipantes>49 && $cantParticipantes <=96){
             for($x=1;$x<=19;$x++){
               $consulta->bind_param("ssis", $estado, $horaInicio,$horaFinal,$x);
               $consulta->execute();
             }
-            for($x=0;$x<count($idsPool);$x++){
-                $consulta3->bind_param("ii",$idTorneo,$idsPool[$x]);
-                $consulta3->execute();
+          }  
+          $consulta2 = "SELECT * FROM Pool";
+            $resultado = mysqli_query($conexion, $consulta2);
+            while($fila = $resultado->fetch_assoc()){
+                if($fila['idP']>$mayorPool){
+                    $idsPool[]=$fila['idP'];
                 }
-          }      
+                for($x=0;$x<count($idsPool);$x++){
+                    $consulta3->bind_param("ii",$idsPool[$x],$idTorneo);
+                    $success=$consulta3->execute();
+                    if(!$success){
+                        echo $consulta3->error;
+                    }
+                    }
+            }
           echo "<p style='color:green'>pools creados correctamente reinice la pagina para ver los cambios </p>";
 }  
-    public function Listar(){
-       
-        $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-        $consulta = "SELECT * FROM Pool";
-        $resultado = mysqli_query($conexion, $consulta);
-        if (!$resultado){
-            die('Error en la consulta SQL: ' . $consulta);
-        }
-        echo "<table border='2'>";
-        echo "<tr> <td> Estado </td> <td> Hora inicio </td> <td> Id pool </td> </td><td> Hora cierre </td> </tr> ";
-        while($fila = $resultado->fetch_assoc()){
-            echo "<tr> <td>".$fila['estado']. " </td><td>" . $fila['hora_inicio'] . "</td><td>  " . $fila['idP'] . "</td> <td>" . $fila['hora_final']. "</td> </tr>";
-        }
-        echo "</table>";
+    public function Listar($idTorneo){
+        $ids=$this->idPTiene($idTorneo);
+            $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+            $consulta = $conexion->prepare("SELECT * FROM Pool where idP=?");
+            echo "<table border='2'>";
+            echo "<tr> <td> Estado </td> <td> Hora inicio </td> <td> Id pool </td> </td><td> Hora cierre </td> </tr> ";
+            for($x=0;$x<count($ids);$x++){
+                $consulta->bind_param("i",$ids[$x]);
+                $consulta->execute();
+                $resultado = $consulta->get_result();
+            if (!$resultado){
+                die('Error en la consulta SQL: ' . $consulta);
+            }
+            while($fila = $resultado->fetch_assoc()){
+                echo "<tr> <td>".$fila['estado']. " </td><td>" . $fila['hora_inicio'] . "</td><td>  " . $fila['idP'] . "</td> <td>" . $fila['hora_final']. "</td> </tr>";
+            }
+            }
+            echo "</table>";
+        
     }
     public function EditarPool($id,$estado){ 
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
@@ -182,7 +176,6 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
         $participantesArray=$participantes->devolverArray();
         $ids=[];
         $idsTiene=$this->idPTiene($idTorneo);
-        var_dump($idsTiene);
         $id=0;
         $consulta2= "SELECT * FROM pool";
         $resultado = mysqli_query($conexion, $consulta2);
@@ -476,5 +469,41 @@ public function DevolverPool($ci){
         }
     }
 }
+public function poolSinGuardar($idTorneo){
+    $ids=[];
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta = "SELECT * FROM tiene";
+    $resultado = mysqli_query($conexion, $consulta);
+    if (!$conexion) {
+        die('Error en la conexión: ' . mysqli_connect_error());
+    }
+    if (!$resultado){
+        die('Error en la consulta SQL: ' . $consulta);
+    }
+    while($fila = $resultado->fetch_assoc()){
+        if($idTorneo==$fila['idT']){
+            $ids[]=$fila['idP'];
+        }
+        
+    }
+}
+public function MayorId(){
+    $contador=0;
+    $consulta = "SELECT * FROM tiene";
+        $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+        $resultado = mysqli_query($conexion, $consulta);
+        if (!$conexion) {
+            die('Error en la conexión: ' . mysqli_connect_error());
+        }
+        if (!$resultado){
+            die('Error en la consulta SQL: ' . $consulta);
+        }
+        while($fila = $resultado->fetch_assoc()){
+            if($contador<$fila['idP']){
+                $contador=$fila['idP'];
+            };
+        }
+return $contador;
+    }
 }
 ?>

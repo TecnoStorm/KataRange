@@ -19,12 +19,12 @@ if(isset($_SESSION['usuario'])){
  echo   " <a href='Vista/Participante/FormularioParticipantes.php'> Ingresar participante</a>";
  echo  " <p> Si es juez regístrese o ingrese su usuario</p>";
  echo   "<form id='formularioIndex'>";
- echo   " <input type='text' name='usuario' placeholder='Usuario'>";
- echo   " <input type='password' name='clave' placeholder='Contraseña'>";
+ echo   " <input type='text' name='usuario' placeholder='Usuario'required>";
+ echo   " <input type='password' name='clave' placeholder='Contraseña'required>";
  echo  "<input type='submit' name='login' value='Login'>";
  echo   "</form>";
  echo "<p id='mensajeIndex'></p>";
- echo  " <a href='Vista/Juez/RegistrarJuez.html'> Registrar juez </a>";
+ echo  " <a href='Vista/Juez/RegistrarJuez.php'> Registrar juez </a>";
  echo "</div>";
  echo "</main>";
 ?>

@@ -54,7 +54,6 @@ input[type="submit"]{
 input[type="submit"]:hover{
 cursor: pointer;
 background: rgb(30, 80, 156);
-background: linear-gradient(90deg, rgba(30,80,156,1) 0%, rgba(24,81,167,1) 35%, rgba(23,90,191,1) 100%);
 transition: all 0.2s;
 }
 
