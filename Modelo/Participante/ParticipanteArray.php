@@ -58,9 +58,9 @@ class ParticipanteArray{
     die('Error en la consulta SQL: ' . $consulta);
     }
 echo "<table border='2'>";
-echo "<tr> <td> Nombre </td> <td> apellido </td> <td> Ci </td> </td><td> sexo </td> <td> condicion </td><td> categoria </td> </tr>";
+echo "<tr> <td class='Traducir'> Nombre </td> <td class='Traducir'> apellido </td> <td> Ci </td> </td><td class='Traducir'> sexo </td> <td class='Traducir'> condicion </td><td class='Traducir'> categoria </td> </tr>";
 while($fila = $resultado->fetch_assoc()){
-echo "<tr> <td>".$fila['nombreP'] . " </td><td>" . $fila['apellidoP'] . "</td><td>  " . $fila['ciP'] . "</td> <td>" . $fila['sexo'] . "</td><td>" . $fila ['condicion'] . " </td><td>" . $fila ['categoriaP']. "</td> </tr>";
+echo "<tr> <td>".$fila['nombreP'] . " </td><td>" . $fila['apellidoP'] . "</td><td>  " . $fila['ciP'] . "</td> <td class='Traducir'>" . $fila['sexo'] . "</td><td class='Traducir'>" . $fila ['condicion'] . " </td><td class='Traducir'>" . $fila ['categoriaP']. "</td> </tr>";
 }
 echo "</table>";
     }

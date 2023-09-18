@@ -18,7 +18,7 @@ $participantes=new ParticipanteArray();
 $nombreTorneo=$_POST['nombreTorneo'];
 $torneo=$torneos->infoTorneo($nombreTorneo);
 $pools->AsignarPool($torneo->getIdTorneo());
-$pools->MostrarAsignados(); 
+$pools->MostrarAsignados($torneo->getIdTorneo()); 
 $_SESSION['pools']=serialize($pools);
 echo "</section>";
 ?>

@@ -42,9 +42,9 @@ public function mostrar(){
     die('Error en la consulta SQL: ' . $consulta);
     }
 echo "<table border='2' class='torneos'>";
-echo "<tr> <td> idTorneo </td> <td> Fecha </td> <td> Categoria </td> </td><td> cantParticipantes </td> <td> Estado </td><td> ParaKarate </td> <td> Sexo </td><td> Nombre  </td> <td> direccion </td></tr>";
+echo "<tr> <td class='Traducir'> idTorneo </td> <td class='Traducir'> Fecha </td> <td class='Traducir'> Categoria </td> <td class='Traducir'> cantParticipantes </td> <td class='Traducir'> Estado </td><td> ParaKarate </td> <td class='Traducir'> Sexo </td><td class='Traducir'> Nombre  </td> <td class='Traducir'> direccion </td></tr>";
 while($fila = $resultado->fetch_assoc()){
-echo "<tr> <td>".$fila['idTorneo'] . " </td><td>" . $fila['fecha'] . "</td><td>  " . $fila['Categoria'] . "</td> <td>" . $fila['cantParticipantes'] . "</td><td>" . $fila ['estado'] ."</td> <td>". $fila['ParaKarate']. "</td><td>". $fila['sexo']. "</td><td>". $fila['nombre']."</td> <td>" . $fila['direccion']. "</td> </tr>";
+echo "<tr> <td>".$fila['idTorneo'] . " </td><td>" . $fila['fecha'] . "</td><td class='Traducir'>  " . $fila['Categoria'] . "</td> <td>" . $fila['cantParticipantes'] . "</td><td class='Traducir'>" . $fila ['estado'] ."</td> <td class='Traducir'>". $fila['ParaKarate']. "</td><td class='Traducir'>". $fila['sexo']. "</td><td>". $fila['nombre']."</td> <td>" . $fila['direccion']. "</td> </tr>";
 }
 echo "</table>";
 }
@@ -90,7 +90,6 @@ public function mismaCategoria(){
     $participantesArray=$participantes->getParticipantes();
     $cantParticipantes=$participantes->cantParticipantes();
     $participantesMismaCategoria=[];
-    echo   "categoria: ".$categoria.$paraKarate."sexo".$sexo.$cantParticipantes;
     for($x=0;$x<$cantParticipantes;$x++){
         if($participantesArray[$x]->getCondicion()=="Ninguna" && !$paraKarate && $participantesArray[$x]->getCategoria()==$categoria && $participantesArray[$x]->getSexo()==$sexo){
             
@@ -98,7 +97,6 @@ public function mismaCategoria(){
         }
         if($participantesArray[$x]->getCondicion()!="Ninguna" && $paraKarate && $participantesArray[$x]->getCategoria()==$categoria && $participantesArray[$x]->getSexo()==$sexo){
             $participantesMismaCategoria[]=$participantesArray[$x];
-            echo "hola";
         }
     }
     return $participantesMismaCategoria;

@@ -1,5 +1,11 @@
 var  formularioIndex=document.getElementById("formularioIndex")
 var mensajeIndex=document.getElementById("mensajeIndex");
+var elementosTraducir=document.querySelectorAll(".Traducir");
+var elementosTraducirInput=document.querySelectorAll(".TraducirInput");
+
+
+
+
 formularioIndex.addEventListener('submit',function(e){
     e.preventDefault();
     EnvioIndex();
@@ -35,4 +41,3 @@ function EnvioIndex() {
         alert("Error en la solicitud" + usuario + clave);
       });
   }
-  

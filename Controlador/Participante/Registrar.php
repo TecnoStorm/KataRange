@@ -38,7 +38,7 @@ if($puedeParticipar){
     echo "</div>";
 }
 else{
-    echo "no cumple los requisitos del torneo indicado";
+    echo "<p style='color:red'>no cumple los requisitos del torneo indicado</p>";
 }
 ?>
 </body>

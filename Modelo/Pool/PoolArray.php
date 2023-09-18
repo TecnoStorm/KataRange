@@ -99,24 +99,24 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
 }  
     public function Listar($idTorneo){
         $ids=$this->idPTiene($idTorneo);
-            $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-            $consulta = $conexion->prepare("SELECT * FROM Pool where idP=?");
-            echo "<table border='2'>";
-            echo "<tr> <td> Estado </td> <td> Hora inicio </td> <td> Id pool </td> </td><td> Hora cierre </td> </tr> ";
-            for($x=0;$x<count($ids);$x++){
-                $consulta->bind_param("i",$ids[$x]);
-                $consulta->execute();
-                $resultado = $consulta->get_result();
+        $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+        $consulta = $conexion->prepare("SELECT * FROM Pool where idP=?");
+        echo "<table border='2'>";
+        echo "<tr> <td class='Traducir'> Estado </td> <td class='Traducir'> Hora inicio </td> <td> Id pool </td> </td><td class='Traducir'> Hora cierre </td> </tr> ";
+        for($x=0;$x<count($ids);$x++){
+            $consulta->bind_param("i",$ids[$x]);
+            $consulta->execute();
+            $resultado = $consulta->get_result();
             if (!$resultado){
                 die('Error en la consulta SQL: ' . $consulta);
             }
             while($fila = $resultado->fetch_assoc()){
-                echo "<tr> <td>".$fila['estado']. " </td><td>" . $fila['hora_inicio'] . "</td><td>  " . $fila['idP'] . "</td> <td>" . $fila['hora_final']. "</td> </tr>";
+                echo "<tr> <td class='Traducir'>".$fila['estado']. " </td><td>" . $fila['hora_inicio'] . "</td><td>  " . $fila['idP'] . "</td> <td>" . $fila['hora_final']. "</td> </tr>";
             }
-            }
-            echo "</table>";
-        
+        }
+        echo "</table>"; 
     }
+    
     public function EditarPool($id,$estado){ 
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
         $consulta = $conexion ->prepare(
@@ -144,24 +144,37 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
             $conexion->close();
     }
     
-    public function MostrarAsignados(){
+    public function MostrarAsignados($idTorneo){
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-        $consulta = "SELECT * FROM estan";
+        $consulta = "SELECT * FROM estan"; 
+        $idsTiene = $this->idPTiene($idTorneo);
         $resultado = mysqli_query($conexion, $consulta);
-        $ids=$this->idsEstan();
+        
         if (!$resultado){
             die('Error en la consulta SQL: ' . $consulta);
         }
-        $pools=[];
         
+        $pools=[];
         echo "<table border='2'>";
         $ci=[];
+        $existe;
         while($fila = $resultado->fetch_assoc()){
-            $ci[]=$fila['ciP'];
+            if($fila['idP']==$idsTiene[0]){
+                $existe=true;
+            }
+            else{
+                $existe=array_search($fila['idP'],$idsTiene);
+            }
+            if($existe){
+                $ci[]=$fila['ciP']; 
+                $pools[]=$fila['idP'];
+            }
         }
-        echo "<tr> <td> ciP </td> <td> Pool </td> </tr>";
+        
+        echo "<tr> <td> CI Participante </td> <td> Pool </td> </tr>";
+
         for($x=0;$x<count($ci);$x++){
-            echo "<tr> <td>".$ci[$x]. " </td><td>" . $this->DevolverNumero($ids[$x]). "</td> </tr>";
+            echo "<tr> <td>".$ci[$x]. " </td><td>" . $this->DevolverNumero($pools[$x]). "</td> </tr>";
         }
 
         echo "</table>";
@@ -188,18 +201,17 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
         }
         $notaFinal=0;
         $clasificados="null";
-        if (count($participantesMismaCategoria) < 3) {
+        if (count($ciParticipantes) < 3) {
             echo "el torneo se realizará a partir de 3 participantes";
         }
         if (count($ciParticipantes) == 3) {
-            echo "hola";
             $consulta = $conexion ->prepare(
-            "INSERT INTO  estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
-            for($x=0;$x<count($participantesMismaCategoria);$x++){
-                $consulta->bind_param("iiis", $ciParticipantes[$x],$ids[$x],$notaFinal,$clasificados);
+            "INSERT INTO estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
+            for($x=0;$x<count($ciParticipantes);$x++){
+                $consulta->bind_param("iiis", $ciParticipantes[$x],$idsTiene[0],$notaFinal,$clasificados);
                 $success=$consulta->execute();
                 if(!$success){
-                    echo $consulta->error();
+                    echo $consulta->error;
                 }
             }
             $consulta->close();
@@ -240,7 +252,6 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
         } elseif (count($ciParticipantes) > 10 && count($ciParticipantes)<=24) {
             $consulta = $conexion ->prepare("INSERT INTO estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
             $pool1=count($ciParticipantes)/2;
-            var_dump($idsTiene);
             $uno=1;
             $dos=2;
             for($x=1;$x<=count($participantesMismaCategoria);$x++){ 
@@ -448,6 +459,7 @@ public function idPTiene($idTorneo){
     while($fila = $resultado->fetch_assoc()){
         if($idTorneo==$fila['idT']){
             $ids[]=$fila['idP'];
+            
         }
         
     }

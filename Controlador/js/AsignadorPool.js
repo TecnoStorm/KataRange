@@ -6,8 +6,13 @@ formularioPool.addEventListener('submit',function(e){
 })
 function Envio() {
     var datos = new FormData(formularioPool);
+    datos.forEach(function(value, key) {
+      console.log(key + ": " + value);
+    });
     var id = datos.get('id'); 
-    var estado = datos.get('estado'); 
+    var estado = datos.get('estado');
+    alert (id);
+    alert (estado);
     var formData = new FormData();
     formData.append('id', id);
     formData.append('estado', estado);  

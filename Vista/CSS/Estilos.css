@@ -29,13 +29,15 @@ body{
     border-radius: 15px;
 }
 
+
+
 input[type="text"],input[type="password"]{
     height: 30px;
     font-size:20px;
     border:0.3px;
 }
-input[type="submit"]{
 
+input[type="submit"]{
     background-color: rgba(25, 85, 175, 0.87);
     backdrop-filter: blur(10px);
     border-radius: 30px;

@@ -1,4 +1,4 @@
-
+console.log("prueba2");
 var  formularioGuardarPool=document.getElementById("formularioGuardarPool")
 var mensajePoolsTorneos=document.getElementById("mensajePoolsTorneos");
 formularioGuardarPool.addEventListener('submit',function(e){

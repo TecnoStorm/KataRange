@@ -74,7 +74,6 @@ select{
     border: 1.5px solid gray;
     border-radius: 15px;
     transition: ease-out 0.5s;
-    width: 100%;
 }
 
 .btnregistrar:hover{
@@ -93,7 +92,6 @@ a{
     transition: ease-out 0.5s; 
     text-decoration: none;
     color:black;
-    width: 100%;
 }
 
 a:visited{
@@ -127,10 +125,6 @@ a:hover{
     border-radius: 15px;
 }
 
-p{
-    font-size: 20px;
-    color:red
-}
 
 .torneos{
     background-color: white;
@@ -191,6 +185,15 @@ table th,td{
     text-align: center;
 }
 
+p{
+    font-size: 18px;
+}
+
+#FormularioBorrar{
+    display: flex;
+    flex-direction: column;
+}
+
 @media screen and (min-width:701px) and (max-width:1199px){
     form{
         font-size: 150%;
@@ -216,20 +219,21 @@ table th,td{
         height: 43px;
         font-size: 22px;
     }
-    
 }
+
 @media screen and (max-width:700px){
     html{
         width: 100%;
     }
+
     body{
         width: 100%;
     }
+
     form{
         font-size: 20%;
         width: fit-content;
     }
-    
     
     #btnregistrar{
         font-size:50%; 
@@ -241,15 +245,19 @@ table th,td{
         height: 23px;
         font-size: 12px;
     }
+
     #registrar{
         width: fit-content;
     }
+
     #registrar1{
         width: fit-content;
     }
+
     h2{
         font-size: 30px;
     }
+
     table{
         font-size: 10px;
         justify-content: center;
@@ -258,9 +266,10 @@ table th,td{
         width: 100%;
         margin: 0;
     }
-    input[type="text"],input[type="password"]{
-        height: 20px;
-        font-size:15px;
+
+    input[type="text"],input[type="password"], input[type="number"]{
+        height: 23px;
+        font-size:16px;
         border:0.3px;
     }
 }

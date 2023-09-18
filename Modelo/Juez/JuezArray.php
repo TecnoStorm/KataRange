@@ -57,9 +57,9 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Controlador/config.php");
                 die('Error en la consulta SQL: ' . $consulta);
             }
             echo "<table border='2'>";
-            echo "<tr> <td> Nombre </td> <td> apellido </td> <td> Ci </td> </td><td> sexo </td> <td> condicion</td> </tr>";
+            echo "<tr> <td class='Traducir'> Nombre </td> <td class='Traducir'> apellido </td><td> ci </td> </tr>";
             while($fila = $resultado->fetch_assoc()){
-            echo "<tr> <td>".$fila['nombre'] . " </td><td>" . $fila['Apellido'] . "</td><td>  " . $fila['usuario'] . "</td> <td>" . $fila['ciJ'] . "</td><td>" . $fila ['contraseña'] ."</td> </tr>";
+            echo "<tr> <td>".$fila['nombre'] . " </td><td>" . $fila['Apellido'] . "</td><td>" . $fila['ciJ'] . "</td></tr>";
             }
             echo "</table>";
         }
