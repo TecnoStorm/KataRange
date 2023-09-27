@@ -166,7 +166,7 @@ public function Puestos(){
         $puestos[]=$fila['puesto'];
     }
     for($x=0;$x<count($puestos);$x++){
-        if(in_array(3,$puestos)){
+        if(in_array("3ro",$puestos)){
             $existe=true;
         }
     }

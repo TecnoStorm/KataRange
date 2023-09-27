@@ -98,7 +98,16 @@ p {
   width: 100%;
   text-align: center;
 }
-
+#selectTorneo{
+  width: 180px;
+  height: 38px;
+}
+.contenedorInputs{
+  margin: 5px;
+}
+input{
+  margin:2px
+}
 @media screen and (max-width: 700px) {
   input[type="submit"] {
     width: 100%;
@@ -114,14 +123,28 @@ p {
     align-items: center;
     flex-direction: column;
   }
+  .contenedorInputs{
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 @media screen and (min-width: 701px) and (max-width: 1199px) {
   
-
+  #formularioJuez{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
   #Volver {
     font-size: 45px;
   }
+ 
+ 
+
+}
+@media screen and (min-width:1200px){
   #formularioJuez {
     display: flex;
     justify-content: center;
@@ -130,7 +153,8 @@ p {
     width: 500px;
  
   }
-  input[type="text"], input[type="number"], input[type="password"] {
-    width: 100%;
-}
+  .contenedorInputs{
+    display: flex;
+    align-items: center;
+  }
 }

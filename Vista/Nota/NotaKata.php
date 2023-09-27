@@ -9,22 +9,27 @@
 </head>
 <body>
 <section id='contenedorIdioma'>
-<p>Español</p>
+<p>es</p>
 <input type="checkbox" id="idioma">
-<p>Ingles</p>
+<p>in</p>
 </section>
 <?php
 session_start();
 require_once("../../Modelo/Participante/ParticipanteArray.php");
 require_once ("../../Modelo/Torneo/TorneoArray.php");
 require_once("../../Modelo/Nota/notaArray.php");
+require_once("../../Modelo/Juez/JuezArray.php");
 $torneos=new TorneoArray();
 $notas=new NotaArray();
+$jueces=new JuezArray();
 $participantes=new ParticipanteArray();
 $contador=$participantes->participanteAPuntuar();
-$existe=$participantes->existe0();
+$usuario=$_SESSION['usuario'];
+$ciJ=$jueces->obtenerCi($usuario);
+$idT=$jueces->obtenerIdTorneo($ciJ);
+$existe=$participantes->existe0($idT);
 if(!$existe){
-    $notas->ganadores();
+    $notas->ganadores($idT); 
 }
 else{
 $cantNotas=$participantes->cantidadNotas($contador);

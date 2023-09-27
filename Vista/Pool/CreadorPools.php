@@ -9,9 +9,9 @@
 </head>
 <body>
 <section id='contenedorIdioma'>
-<p>Español</p>
+<p>es</p>
 <input type="checkbox" id="idioma">
-<p>Ingles</p>
+<p>in</p>
 </section>
 <?php
 session_start();
@@ -50,7 +50,6 @@ echo  "</select>";
 echo "<input type='submit' value='Crear' class='TraducirValue'>";
 echo "</form>";
 echo "</section>";
-echo "<p id='mensajeCrear'></p>";
 echo "<form id='formularioPool'>";
 echo "<input type='number' placeholder='idPool' name='id'>";
 echo "<select name='estado' id='estado'>";
@@ -60,6 +59,7 @@ echo "</select>";
 echo "<input type='submit' value='enviar' class='TraducirValue'>";
 echo "</form>";
 echo "<p id='mensaje'></p>";
+echo "<p id='mensajeCrear'></p>";
 ?>
 </section>
 <script src="../../Controlador/js/CreadorPool.js"></script>

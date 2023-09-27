@@ -2,6 +2,7 @@
 require_once("Participante.php");
 require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Nota/NotaArray.php"); 
 require_once ("C:/xampp/htdocs/ProgramaPhp/Controlador/config.php");
+require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Pool/PoolArray.php");
 class ParticipanteArray{
     private $_participantes=array();    
     public function __construct(){
@@ -257,13 +258,13 @@ public function notas($ciJ,$ciP,$idP,$nota){
     $consulta = $conexion ->prepare(
     "INSERT INTO puntua (ciJ,ciP,idP,Nota_Final)
     values (?,?,?,?)");
-    $consulta->bind_param("iiii", $ciJ, $ciP, $idP,$nota);
+    $consulta->bind_param("iiid", $ciJ, $ciP, $idP,$nota);
     $success=$consulta->execute();
     if(!$success){
         echo "<p style='color:#EDAD14'> La nota ya ha sido ingresada </p>";
     }
     else{
-        echo  "<p style='color:green'> nota ingresada con exito </p>"; 
+        echo  "<p style='color:green'> nota ingresada con exito nota ingresada </p>"; 
        
     }
     $consulta->close();
@@ -351,17 +352,21 @@ public function participanteAPuntuar(){
     $posicion=array_search(0,$notas);
     return $posicion;   
 }
-public function existe0(){
+public function existe0($idTorneo){
+    $pools=new PoolArray();
+    $existe=false;
+    $ids=$pools->RangoPools($idTorneo);
     $notas=[];
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-    $consulta = "SELECT * FROM estan ORDER BY notaFinal DESC";
-    $resultado = mysqli_query($conexion, $consulta);
-    $existe=false;
+    $consulta = $conexion->prepare("select estan.notaFinal from estan join tiene on estan.idP=tiene.idP where tiene.idT=? order by estan.idP,notaFinal DESC;");
+    $consulta->bind_param("i",$idTorneo);
+    $consulta->execute();
+    $resultado = $consulta->get_result();
     while($fila = $resultado->fetch_assoc()){
         $notas[]=$fila['notaFinal'];
     }
-    if(in_array(0,$notas)){
-      $existe=true;
+    if(in_array(0,$notas)){     
+        $existe=true;
     }
     return $existe;
 }

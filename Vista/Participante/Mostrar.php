@@ -9,9 +9,9 @@
 </head>
 <body>
 <section id='contenedorIdioma'>
-<p>Español</p>
+<p>es</p>
 <input type="checkbox" id="idioma">
-<p>Ingles</p>
+<p>in</p>
 </section>
 <?php
 include "../../Modelo/Participante/ParticipanteArray.php";

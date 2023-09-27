@@ -8,9 +8,9 @@
     <title>Document</title>
 </head>
 <section id='contenedorIdioma'>
-<p>Español</p>
+<p>es</p>
 <input type="checkbox" id="idioma">
-<p>Ingles</p>
+<p>in</p>
 </section>
 <body>
     <?php
@@ -20,18 +20,23 @@
     echo '<section id="contenedor">
     <h1 class="Traducir">Registarse</h1>
     <form id="formularioJuez">
+    <section class="contenedorInputs">
     <input type="text" name="nombre" placeholder="Nombre" id="nombre " class="TraducirInput"required>
     <input type="text" name="apellido" placeholder="Apellido" id="apellido" class="TraducirInput"required>
     <input type="text" name="usuario" placeholder="Usuario" id="usuario" class="TraducirInput"required>
+    </section>
+    <section class="contenedorInputs">
     <input type="number" name="ci" placeholder="CI" id="ci" min=10000000 class="TraducirInput" max=99999999 required>
     <input type="password" name="clave" placeholder="Contraseña" id="clave" class="TraducirInput" required>
     <input type="password" name="confirmacion" placeholder="Confirmacion" id="confirmacion"class="TraducirInput" required>
+    </section>
+    <select name="nombreTorneo" id=selectTorneo required>';
+    echo "<option selected hidden class='Traducir'>Ingrese categoria</option>";
+    foreach($nombresTorneo as $nombre){
+           echo "<option value='$nombre'> $nombre </option>";
+    }
+    echo  '</select>
     <input type="submit" name="registrar" value="REGISTRAR" id="boton" class="TraducirValue">
-    <select name="nombreTorneo"required>';
-       foreach($nombresTorneo as $nombre){
-              echo "<option value='$nombre'> $nombre </option>";
-       }
-       echo  '</select>
     </form>
     <p id="mensajeJuez"></p>
 </section>'

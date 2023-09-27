@@ -33,9 +33,6 @@ if($puedeParticipar){
     $escuela=$escuelas->infoEscuela($nombreEscuela);
     $escuelas->guardarParticipante($escuela->getId(),$ci);
     $torneos->ParticipantesTorneo($ci,$torneo->getIdTorneo(),0,"null"); 
-    echo "<div id='salir'>";
-    echo "<a href='http://127.0.0.1/ProgramaPhp/Participantes.html'>Volver</a>"; 
-    echo "</div>";
 }
 else{
     echo "<p style='color:red'>no cumple los requisitos del torneo indicado</p>";

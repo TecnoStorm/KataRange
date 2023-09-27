@@ -185,9 +185,7 @@ table th,td{
     text-align: center;
 }
 
-p{
-    font-size: 18px;
-}
+
 
 #FormularioBorrar{
     display: flex;

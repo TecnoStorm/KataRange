@@ -9,9 +9,9 @@
 </head>
 <body>
 <section id='contenedorIdioma'>
-<p>Español</p>
+<p>Es</p>
 <input type="checkbox" id="idioma">
-<p>Ingles</p>
+<p>In</p>
 </section>
 <main>
 <?php    

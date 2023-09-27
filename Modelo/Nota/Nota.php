@@ -4,12 +4,15 @@ class Nota{
     private $_idP;
     private $_notaFinal;
     private $_Clasificados;
+    private $_numero;
 
-    public function __construct($ciP,$idP, $notaFinal,$Clasificados){
+    public function __construct($ciP,$idP, $notaFinal,$Clasificados,$numero){
         $this->_ciP=$ciP;
         $this->_idP=$idP;
         $this->_notaFinal=$notaFinal;
         $this->_Clasificados=$Clasificados;
+        $this->_numero=$numero;
+
     }
 
     public function getCiP(){
@@ -44,12 +47,16 @@ class Nota{
         return $this->_Clasificados=$Clasificados;
     }
 
+    public function getNumero(){
+        return $this->_numero;
+    }
+
+    public function setNumero($numero){
+        $this->_numero=$numero; 
+    }
+
     public function __toString(){
         return "<tr><td>". $this->_ciP . "</td> <td>". $this->_idP . "</td> <td>" . $this->_notaFinal . "</td><td>". $this->_Clasificados . "</td> </tr>";
     }
-
-
-
-
 }
 ?>    
