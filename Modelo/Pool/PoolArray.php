@@ -38,7 +38,7 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
             $consulta->bind_param("sssi", $estado, $horaInicio,$horaFinal,$uno);
             $success=$consulta->execute();
             if(!$success){
-                $consulta->error;
+                echo "cantidad de participantes: ".$cantParticipantes . $consulta->error;
             }
             $consulta->close();
             
@@ -295,39 +295,48 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
             $consulta->close(); 
         } elseif (count($ciParticipantes) > 48 && count($ciParticipantes)<97){
             $consulta = $conexion ->prepare("INSERT INTO estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
-            $cantpool=count($ciParticipantes)/8-1;
+            $consulta2=$conexion->prepare("Update compite set cinturon=? where ciP=?");
+            $cantpool=count($ciParticipantes)/8 -1;
             $cambiarPool=false;
             $contador=0;
+            $contador2=0;
             $pool=1;
-            
+            $posicion=9;
+            $id=11;
             for($x=1;$x<=count($ciParticipantes);$x++){ 
-                if($pool==8 && $cambiarPool){
+                if($pool==9 && $cambiarPool){
                     $pool=1;
-                    $id=0;
+                    $id=11;
+                    echo "holaaaaaaaa";
                 }
+                    if($contador>$cantpool){
+                        $pool++;
+                        $id++;
+                        if($pool==9 && !$cambiarPool){
+                            $id=18;
+                            $pool=1;
+                            $cambiarPool=true;
+                            $contador=0;
+                            echo "llego ACAAAAAAAAAAAAAAAAAAA";
+                        }
+                        else{
+                            $contador=0;
+                        }
+                        
+                    }
                 
-                if($contador>$cantpool){
-                    $pool++;
-                    $id++;
-                    if($pool==9 && !$cambiarPool){
-                        $pool-=1;
-                        $id--;
-                        $cambiarPool=true;
-                        $contador=0;
-                    }
-                    else{
-                        $contador=0;
-                    }
-                    
-                }
+               
+                $contador2++;
+                echo "id: ". $id;
                 $consulta->bind_param("iiii",$ciParticipantes[$x-1],$idsTiene[$id],$notaFinal,$clasificados);
                 $success=$consulta->execute();
                 if(!$success){
                     echo $consulta->error;
                 }
                 if($cambiarPool && $pool!=8){
+                    echo "id al final: ". $id;
                     $pool++;
-                    $id++;   
+                    $id--;   
                    }
                    else{
                     $contador++;

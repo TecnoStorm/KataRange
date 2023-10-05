@@ -13,6 +13,7 @@ function EnvioCrear() {
     var sexo = datos.get('sexo');  
     var nombre=datos.get('nombre');
     var direccion=datos.get('direccion');
+    var nombreEvento=datos.get('nombreEvento');
     var formData = new FormData();
     formData.append('fecha', fecha);
     formData.append('categoria', categoria);
@@ -21,7 +22,7 @@ function EnvioCrear() {
     formData.append('sexo', sexo);
     formData.append('nombre',nombre);
     formData.append('direccion',direccion);
-  
+    formData.append('nombreEvento',nombreEvento);
     fetch('../../Controlador/Torneo/CrearTorneo.php', {
       method: 'POST',
       body: formData

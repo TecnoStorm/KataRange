@@ -7,6 +7,7 @@ formularioCrear.addEventListener('submit',function(e){
 function EnvioCrear() {
     var datos = new FormData(formularioCrear);
     var nombreTorneo = datos.get('nombreTorneo'); 
+    alert (nombreTorneo);
     var formData = new FormData();
     formData.append('nombreTorneo', nombreTorneo);
     fetch('../../Controlador/Pool/CrearPool.php', {

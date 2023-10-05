@@ -18,18 +18,23 @@ public function __construct(){
             $this->_torneos[]= new Torneo($fila['idTorneo'],$fila['fecha'],$fila['Categoria'],$fila['cantParticipantes'],$fila['estado'],$fila['ParaKarate'],$fila['sexo'],$fila['nombre'],$fila['direccion']);
         }
 }
-public function guardar($fecha,$categoria,$cantParticipantes,$estado,$paraKarate,$sexo,$nombre,$direccion){
+public function guardar($fecha,$categoria,$cantParticipantes,$estado,$paraKarate,$sexo,$nombre,$direccion,$nombreEvento){
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
         if (!$conexion) {
             die('Error en la conexión: ' . mysqli_connect_error());
         }
-        $consulta = $conexion ->prepare(
-            "INSERT INTO Torneo (fecha,Categoria,cantParticipantes,estado,paraKarate,sexo,nombre,direccion)
-            values (?,?,?,?,?,?,?,?)");
-        
+        $consulta = $conexion ->prepare("INSERT INTO Torneo (fecha,Categoria,cantParticipantes,estado,paraKarate,sexo,nombre,direccion)
+        values (?,?,?,?,?,?,?,?)");
+        $consulta2 =$conexion ->prepare("INSERT INTO contiene (idTorneo,idEvento) values (?,?)");
         $consulta->bind_param("ssisssss", $fecha, $categoria, $cantParticipantes, $estado,$paraKarate,$sexo,$nombre,$direccion);
         $consulta->execute();
         $consulta->close();
+        $torneo=$this->infoTorneo($nombre);
+        $idTorneo=$torneo->getIdTorneo();
+        echo "id Torneo: ". $idTorneo;
+        $idEvento=$this->idEvento($nombreEvento);
+        $consulta2->bind_param("ii",$idTorneo,$idEvento);
+        $consulta2->execute();
         $conexion->close();
         echo "<p style='color:green'> torneo creado con exito</p>";
 }
@@ -251,12 +256,57 @@ public function mismaCategoriaIndividual($nombreTorneo,$sexoP,$condicion,$catego
 
 public function infoTorneo($nombre){
     $torneoEleccion;
-    foreach($this->_torneos as $torneo){
-        if($torneo->getNombre()==$nombre){
-            $torneoEleccion=$torneo;
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta = "select  * from Torneo";
+    $resultado = mysqli_query($conexion, $consulta);
+    while($fila = $resultado->fetch_assoc()){
+        if($nombre==$fila['nombre']){
+            $torneoEleccion=new torneo($fila['idTorneo'],$fila['fecha'],$fila['Categoria'],$fila['cantParticipantes'],$fila['estado'],$fila['ParaKarate'],$fila['sexo'],$fila['nombre'],$fila['direccion']);
         }
-    }
+        }
  return $torneoEleccion;
+}
+
+public function CrearEvento($nombre){
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta = $conexion->prepare("Insert into Evento (nombreEvento) values (?) ");
+    $consulta->bind_param("s",$nombre);
+    $success=$consulta->execute();
+    if(!$success){
+        echo "<p style='color:red'> Nombre ya en uso";
+    }
+    else{
+        echo "<p style='color:green'> Evento Creado Correctamente";
+    }
+    $consulta->close();
+}
+public function nombresEvento(){
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta = "select  * from Evento";
+    $resultado = mysqli_query($conexion, $consulta);
+    $nombres=[];
+        if (!$conexion) {
+            die('Error en la conexión: ' . mysqli_connect_error());
+        }
+        if (!$resultado){
+            die('Error en la consulta SQL: ' . $consulta);
+            }
+        while($fila = $resultado->fetch_assoc()){
+        $nombres[]=$fila['nombreEvento'];
+        }
+return $nombres;
+}
+public function idEvento($nombre){
+    $id;
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta = "select  * from Evento";
+    $resultado = mysqli_query($conexion, $consulta);
+    while($fila = $resultado->fetch_assoc()){
+        if($nombre==$fila['nombreEvento']){
+            $id=$fila['idEvento'];
+        }
+        }
+ return $id;
 }
 } 
 ?> 

@@ -59,7 +59,7 @@ if($existe){
     echo "</form>
     <h2 class='Traducir'>Gestionar torneos</h2>
     <section class='boton-gestion'>";
-    echo "<a href='../Torneo/Torneos.html' class='Traducir'> Gestión de Torneos</a>
+    echo "<a href='../Torneo/Torneos.php' class='Traducir'> Gestión de Torneos</a>
     </section>
     </div>";
     $_SESSION["usuario"]=$usuario;

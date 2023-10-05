@@ -51,7 +51,8 @@ class NotaArray{
         if(count($notas)==3){
             for($x=0;$x<count($notas);$x++){
                 $puesto=1+$x;
-                $consulta->bind_param("iii", $puesto, $notas[$x]->getCiP(),$idTorneo);
+                $ciP=$notas[$x]->getCiP();
+                $consulta->bind_param("iii", $puesto,$ciP,$idTorneo);
                 $consulta->execute();
             }
             $consulta->close();
@@ -82,7 +83,8 @@ class NotaArray{
                             $puesto='2do';
                         }
                         echo "posicion:" .$posicion."puesto:". $puesto;
-                        $consulta3->bind_param("iii",$puesto,$nota->getCiP(),$idTorneo); 
+                        $ci=$nota->getCiP();
+                        $consulta3->bind_param("iii",$puesto,$ci,$idTorneo); 
                         $consulta3->execute();
                     }
                     else{
@@ -95,7 +97,8 @@ class NotaArray{
                         }
                         else{
                             $consulta3 = $conexion ->prepare("UPDATE compite SET puesto = ?  WHERE ciP=? and idTorneo=? ;"); 
-                            $consulta3->bind_param("iii", $tercero,$nota->getCiP(),$idTorneo);
+                            $ci=$nota->getCiP();
+                            $consulta3->bind_param("iii", $tercero,$ci,$idTorneo);
                             $consulta3->execute();
                             }    
                         }
@@ -104,7 +107,8 @@ class NotaArray{
                     if($existePuesto){
                         $quinto=5;
                         $cero=0;
-                        $consulta4->bind_param("iii",$tercero,$notas[$posicionTercero]->getCiP(),$idTorneo);
+                        $posicionTercero=$notas[$posicionTercero]->getCiP();
+                        $consulta4->bind_param("iii",$tercero,$posicionTercero,$idTorneo);
                         echo $notas[$posicionTercero]->getCiP(); 
                         $consulta4->execute();
                         $consulta4->close();
@@ -118,9 +122,11 @@ class NotaArray{
                     for($x=0;$x<2;$x++){
                         $consulta2=$conexion->prepare("delete estan from estan join compite on estan.ciP=compite.ciP where estan.ciP=? and idTorneo=?;
                         ");
-                        $consulta2->bind_param("ii", $clasificados[$x]->getCiP(),$idTorneo);
+                        $ci=$clasificados[$x]->getCiP();
+                        $Posicionclasificados=$clasificados[$x]->getClasificados();
+                        $consulta2->bind_param("ii",$ci,$idTorneo);
                         $consulta2->execute();
-                        $consulta->bind_param("iiis",$clasificados[$x]->getCiP(),$pool,$nota0,$clasificados[$x]->getClasificados());
+                        $consulta->bind_param("iiis",$ci,$pool,$nota0,$Posicionclasificados);
                         $success=$consulta->execute();
                         if(!$success){
                             echo $consulta->error;
@@ -142,12 +148,13 @@ class NotaArray{
             $clasificadosTerceros[]=$notas[1];
             $clasificadosTerceros[]=$notas[4];
             $consulta3 = $conexion ->prepare("UPDATE compite SET puesto = ?  WHERE ciP=? and idTorneo=?;");
-            $consulta3->bind_param("iii",$tercero,$notas[3]->getCiP(),$idTorneo); 
+            $ci=$notas[3]->getCiP();
+            $consulta3->bind_param("iii",$tercero,$ci,$idTorneo); 
             $consulta3->execute();
             $consulta3->close();
             $consulta5=$conexion->prepare("delete estan from estan join compite on estan.ciP=compite.ciP where estan.ciP=? and idTorneo=?;
             ");
-            $consulta5->bind_param("ii",$notas[3]->getCiP(),$idTorneo);
+            $consulta5->bind_param("ii",$ci,$idTorneo);
             $consulta5->execute();
             $consulta5->close();
             for($x=0;$x<count($notas);$x++){ 
@@ -163,12 +170,15 @@ class NotaArray{
             for($x=0;$x<2;$x++){
                 $consulta2=$conexion->prepare("delete estan from estan join compite on estan.ciP=compite.ciP where estan.ciP=? and idTorneo=?;
                 ");
-                $consulta2->bind_param("ii", $clasificados[$x]->getCiP(),$idTorneo);
+                $ci=$clasificados[$x]->getCiP();
+                $posicionClasificados=$clasificados[$x]->getClasificados();
+                $posicionClasificadosTerceros=$clasificadosTerceros[$x]->getCiP();
+                $consulta2->bind_param("ii",$ci,$idTorneo);
                 $consulta2->execute();
                 $consulta2->close();
-                $consulta->bind_param("iiis",$clasificados[$x]->getCiP(),$poolFinal,$nota0,$clasificados[$x]->getClasificados());
+                $consulta->bind_param("iiis",$ci,$poolFinal,$nota0,$posicionClasificados);
                 $consulta->execute();
-                $consultaCambio->bind_param("iii",$poolTerceros,$clasificadosTerceros[$x]->getCiP(),$idTorneo);
+                $consultaCambio->bind_param("iii",$poolTerceros,$posicionClasificadosTerceros,$idTorneo);
                 $consultaCambio->execute();
             }
             $consulta->close();
@@ -205,16 +215,17 @@ class NotaArray{
                         $consulta3->execute(); 
                         $consulta3->close();
                         for($x=1;$x<=count($clasificados4);$x++){
-                            $consulta->bind_param("iii", $clasificados4[$x-1]->getCiP(),$poolsTiene[$x-1], $cero); 
+                            $posicionClasificados4=$clasificados4[$x-1]->getCiP();
+                            $posicionClasificados3=$clasificados3[$x-1]->getCiP();
+                            $pools=$poolsTiene[$x-1];
+                            $pools2=$poolsTiene[$posicion];
+                            $consulta->bind_param("iii",$posicionClasificados4,$pools, $cero); 
                             $success1 = $consulta->execute();
-                            if (!$success1) {
-                                echo "Error en consulta 1: " . $consulta->error;
-                            }
-                            $consulta4->bind_param("iii",$clasificados4[$x-1]->getCiP(),$cero,$tres);
+                            $consulta4->bind_param("iii",$posicionClasificados4,$cero,$tres);
                             $consulta4->execute();
-                            $consulta->bind_param("iii",$clasificados3[$x-1]->getCiP(),$poolsTiene[$posicion], $cero); 
+                            $consulta->bind_param("iii",$posicionClasificados3,$pools2, $cero); 
                             $consulta->execute();
-                            $consulta4->bind_param("iii",$clasificados3[$x-1]->getCiP(),$cero,$tres);
+                            $consulta4->bind_param("iii",$posicionClasificados3,$cero,$tres);
                             if ($x == 1) {
                                 $posicion = 2;
                             } elseif ($x == 2) {
@@ -231,7 +242,8 @@ class NotaArray{
                             $consulta = $conexion ->prepare("UPDATE compite SET puesto = ?  WHERE ciP=? and idTorneo=?;");
                             $tercero=3;
                             for($x=0;$x<2;$x++){
-                                $consulta->bind_param("iii", $contador, $notas[$x]->getCiP(),$idTorneo);
+                                $ci=$notas[$x]->getCiP();
+                                $consulta->bind_param("iii", $contador,$ci,$idTorneo);
                                 $consulta->execute();
                                 $contador++;
                             }
@@ -240,8 +252,10 @@ class NotaArray{
                             $consulta->close();
                             $consulta2 = $conexion->prepare("UPDATE compite SET puesto = ?  WHERE ciP=? and idTorneo=?");
                             $consulta3 = $conexion->prepare("UPDATE compite SET puesto = ?  WHERE ciP=? and idTorneo=?");
-                            $consulta2->bind_param("iii", $tercero, $notas[$posicion3]->getCiP(),$idTorneo);
-                            $consulta3->bind_param("iii", $tercero, $notas[$posicion32]->getCiP(),$idTorneo);
+                            $ciNotas3=$notas[$posicion3]->getCiP();
+                            $ciNotas32=$notas[$posicion32]->getCiP();
+                            $consulta2->bind_param("iii", $tercero, $ciNotas3 ,$idTorneo);
+                            $consulta3->bind_param("iii", $tercero, $ciNotas32,$idTorneo);
                             $consulta2->execute();
                             $consulta2->close();
                             $consulta3->execute();
@@ -252,13 +266,24 @@ class NotaArray{
                             $ronda = 2;
                             if($cantRondas==3){
                                 foreach ($notas as $nota) {
-                                    if ($nota->getNumero() == 6) {
+                                    if ($nota->getNumero() == 8) {
                                         $pool1[] = $nota;
                                     } else {
                                         $pool2[] = $nota;
                                     }
                                 }
                                 $ronda=4;
+                            }
+                            
+                            if($cantRondas=4){
+                                foreach ($notas as $nota) {
+                                    if ($nota->getNumero() == 16) {
+                                        $pool1[] = $nota;
+                                    } else {
+                                        $pool2[] = $nota;
+                                    }
+                                }
+                                $ronda=5;
                             }
                             else{
                                 foreach ($notas as $nota) {
@@ -293,8 +318,13 @@ class NotaArray{
                                 } elseif ($x == 2) {
                                     $posicion = 1;
                                 }
-                                $consulta->bind_param("iii", $clasificados1[$x]->getCiP(),$poolsTiene[$posicion], $cero);
-                                $consulta5->bind_param("iii",$clasificados1[$x]->getciP(),$cero,$ronda);
+                                $ci=$clasificados1[$x]->getCiP();
+                                $pools=$poolsTiene[$posicion];
+                                $consulta->bind_param("iii",$ci,$pools, $cero);
+                                $success=$consulta5->bind_param("iii",$ci,$cero,$ronda);
+                                if(!$success){
+                                    echo "error en clasificados1: ". $consulta5->error;
+                                }
                                 $consulta->execute(); 
                                 $consulta5->execute();
                                 
@@ -307,12 +337,17 @@ class NotaArray{
                                     $posicion = 1;
                                 }
                                 var_dump($clasificados2);     
-                                $consulta2->bind_param("iii",$clasificados2[$posicion]->getCiP(),$poolsTiene[$posicion], $cero); 
+                                $ci2=$clasificados2[$posicion]->getCiP();
+                                $consulta2->bind_param("iii",$ci2,$pools, $cero); 
                                 $success=$consulta2->execute();
                                 if(!$success){
                                     echo $consulta2->error;
                                 }  
-                                $consulta5->bind_param("iii",$clasificados2[$x]->getCiP(),$cero,$ronda);
+                                $posicionClasificados2=$clasificados2[$posicion]->getCiP();
+                                $success5=$consulta5->bind_param("iii",$posicionClasificados2,$cero,$ronda);
+                                if(!$success5){
+                                    echo "error en clasificados2:".$consulta5->error;
+                                }
                                 $consulta5->execute();
                             }
                             
@@ -331,7 +366,7 @@ class NotaArray{
             $clasificados13=[];
             $dos=2;
             $cuatro=4;
-            $uno=1;
+            $kata=0;
             $clasificados14 = array_slice($notas, 0, 4);
             $pool13 = [];
             $pool15 = 15;
@@ -346,7 +381,7 @@ class NotaArray{
             $consulta5->execute();
             $consulta5->close();
             foreach($notas as $nota){
-                if($nota->getIdP()==13){
+                if($nota->getNumero()==13){
                     array_push($pool13,$nota);
                 }
             }
@@ -357,10 +392,14 @@ class NotaArray{
             $consulta6->execute();
             $consulta6->close();
             for($x=0;$x<count($clasificados14);$x++){ 
-                $consulta->bind_param("iii",$clasificados14[$x]->getCiP(),$pool16,$cero);
-                $consulta2->bind_param("iii",$clasificados13[$x]->getCiP(),$pool15,$cero);
-                $consulta3->bind_param("iii",$clasificados14[$x]->getCiP(),$uno,$cuatro); 
-                $consulta4->bind_param("iii",$clasificados13[$x]->getCiP(),$uno,$cuatro);
+                $posicionClasificados14=$clasificados14[$x]->getCiP();
+                $posicionClasificados13=$clasificados13[$x]->getCiP();
+                $pools3=$poolsTiene[3];
+                $pools4=$poolsTiene[4];
+                $consulta-> bind_param("iii",$posicionClasificados14,$pools3,$cero);
+                $consulta2->bind_param("iii",$posicionClasificados13,$pools4,$cero);
+                $consulta3->bind_param("iii",$posicionClasificados14,$kata,$cuatro); 
+                $consulta4->bind_param("iii",$posicionClasificados13,$kata,$cuatro);
                 $consulta->execute();
                 $consulta2->execute();
                 $success1 = $consulta3->execute();
@@ -404,13 +443,17 @@ class NotaArray{
                 $consulta6->close();
                 echo "<h1>hola</h1>";
                 for($x=0;$x<count($clasificados6);$x++){
-                    $consulta->bind_param("iii",$clasificados5[$x]->getCiP(),$poolsTiene[7],$cero);
+                    $ci5=$clasificados5[$x]->getCiP();
+                    $ci6=$clasificados6[$x]->getCiP();
+                    $pools4=$poolsTiene[4];
+                    $pools3=$poolsTiene[3];
+                    $consulta->bind_param("iii",$ci5,$pools4,$cero);
                     $consulta->execute();
-                    $consulta->bind_param("iii",$clasificados6[$x]->getCiP(),$poolsTiene[8],$cero);
+                    $consulta->bind_param("iii",$ci6,$pools3,$cero);
                     $consulta->execute();
-                    $consulta2->bind_param("iii",$clasificados5[$x]->getCiP(),$uno,$tres); 
+                    $consulta2->bind_param("iii",$ci5,$uno,$tres); 
                     $consulta2->execute();
-                    $consulta2->bind_param("iii",$clasificados6[$x]->getCiP(),$uno,$tres);
+                    $consulta2->bind_param("iii",$ci6,$uno,$tres);
                     $consulta2->execute();
                     
                                     
@@ -444,11 +487,15 @@ class NotaArray{
                 $consulta3->close(); 
                 echo "<h1>hola</h1>";
                 for($x=0;$x<count($clasificados1);$x++){
-                    $consulta->bind_param("iii",$clasificados1[$x]->getCiP(),$poolsTiene[4],$cero);
-                    $consulta2->bind_param("iii",$clasificados2[$x]->getCiP(),$poolsTiene[3],$cero);
-                    $consulta5->bind_param("iii",$clasificados1[$x]->getCiP(),$cero,$dos);
+                    $ci1=$clasificados1[$x]->getCiP();
+                    $ci2=$clasificados2[$x]->getCiP();
+                    $pools4=$poolsTiene[4];
+                    $pools3=$poolsTiene[3];
+                    $consulta->bind_param("iii",$ci1,$pools4,$cero);
+                    $consulta2->bind_param("iii",$ci2,$pools3,$cero);
+                    $consulta5->bind_param("iii",$ci1,$cero,$dos);
                     $consulta5->execute();
-                    $consulta5->bind_param("iii",$clasificados2[$x]->getCiP(),$cero,$dos);
+                    $consulta5->bind_param("iii",$ci2,$cero,$dos);
                     $consulta5->execute();
                     $consulta->execute();
                     $consulta2->execute();
@@ -484,44 +531,44 @@ class NotaArray{
             $clasificados9=array_slice($pool9,0,4);
             $pool13=13;
             $pool14=14;
-            $kata=1;  
+            $kata=0;  
             $consulta= $conexion->prepare("DELETE estan FROM estan join compite on estan.ciP=compite.ciP where idTorneo=?");
             $consulta->bind_param("i",$idTorneo);
             $consulta->execute();
             $consulta->close();
             $consulta2 = $conexion->prepare("INSERT INTO estan (ciP,idP,notaFinal) VALUES (?,?,?);");
             $consulta3 = $conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda) VALUES (?,?,?);");
-            $consulta4= $conexion->prepare("DELETE utuliza2 FROM utiliza2 join compite on utiliza2.ciP=compite.ciP where idTorneo=?");
+            $consulta4= $conexion->prepare("DELETE utiliza2 FROM utiliza2 join compite on utiliza2.ciP=compite.ciP where idTorneo=?");
             $consulta4->bind_param("i",$idTorneo);
             $consulta4->execute();
             $consulta4->close();
             for($x=0;$x<count($clasificados11);$x++){ 
-                $consulta2->bind_param("iii", $clasificados12[$x]->getCiP(),$pool14,$cero);
+                $ci12=$clasificados12[$x]->getCiP();
+                $ci11=$clasificados11[$x]->getCiP();
+                $ci10=$clasificados10[$x]->getCiP();
+                $ci9=$clasificados9[$x]->getCiP();
+                $pools5=$poolsTiene[5];
+                $pools6=$poolsTiene[6];
+                $consulta2->bind_param("iii",$ci12,$pools5,$cero);
                 $consulta2->execute();
-                $consulta2->bind_param("iii", $clasificados11[$x]->getCiP(),$pool13,$cero);
+                $consulta2->bind_param("iii",$ci11,$pools6,$cero);
                 $consulta2->execute();
-                $consulta2->bind_param("iii", $clasificados10[$x]->getCiP(),$pool14,$cero);
+                $consulta2->bind_param("iii",$ci10,$pools5,$cero);
                 $consulta2->execute();
-                $consulta2->bind_param("iii", $clasificados9[$x]->getCiP(),$pool13,$cero);
+                $consulta2->bind_param("iii", $ci9,$pools6,$cero);
                 $consulta2->execute();
-                $consulta3->bind_param("iii", $clasificados12[$x]->getCiP(),$kata,$tres);
+                $consulta3->bind_param("iii", $ci12 ,$kata,$tres);
                 $consulta3->execute();
-                $consulta3->bind_param("iii", $clasificados11[$x]->getCiP(),$kata,$tres);
+                $consulta3->bind_param("iii", $ci11,$kata,$tres);
                 $consulta3->execute();
-                $consulta3->bind_param("iii", $clasificados10[$x]->getCiP(),$kata,$tres);
+                $consulta3->bind_param("iii", $ci10,$kata,$tres);
                 $consulta3->execute();
-                $consulta3->bind_param("iii", $clasificados9[$x]->getCiP(),$kata,$tres);
+                $consulta3->bind_param("iii",$ci9,$kata,$tres);
                 $consulta3->execute();
              
             }
-            $consulta->close();
             $consulta2->close();
             $consulta3->close();
-            $consulta4->close();
-            $consulta5->close();
-            $consulta6->close();
-            $consulta7->close();
-            $consulta8->close();
            }
            else{
             $clasificados4=array_slice($notas,0,4);
@@ -558,21 +605,27 @@ class NotaArray{
             $consulta2 = $conexion->prepare("INSERT INTO estan (ciP,idP,notaFinal) VALUES (?,?,?);");
             $consulta3 = $conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda) VALUES (?,?,?);");
             for($x=0;$x<count($clasificados1);$x++){
-                $consulta2->bind_param("iii", $clasificados1[$x]->getCiP(),$poolsTiene[6],$cero);
+                $ci1=$clasificados1[$x]->getCiP();
+                $ci2=$clasificados2[$x]->getCiP();
+                $ci3=$clasificados3[$x]->getCiP();
+                $ci4=$clasificados4[$x]->getCiP();
+                $pools6=$poolsTiene[6];
+                $pools5=$poolsTiene[5];
+                $consulta2->bind_param("iii", $ci1 ,$pools6,$cero);
                 $consulta2->execute();
-                $consulta2->bind_param("iii", $clasificados2[$x]->getCiP(),$poolsTiene[5],$cero);
+                $consulta2->bind_param("iii", $ci2 ,$pools5,$cero);
                 $consulta2->execute();
-                $consulta2->bind_param("iii", $clasificados3[$x]->getCiP(),$poolsTiene[6],$cero);
+                $consulta2->bind_param("iii", $ci3,$pools6,$cero);
                 $consulta2->execute();
-                $consulta2->bind_param("iii", $clasificados4[$x]->getCiP(),$poolsTiene[5],$cero);
+                $consulta2->bind_param("iii", $ci4,$pools5,$cero);
                 $consulta2->execute();
-                $consulta3->bind_param("iii", $clasificados1[$x]->getCiP(),$kata,$dos);
+                $consulta3->bind_param("iii",  $ci1 ,$kata,$dos);
                 $consulta3->execute();
-                $consulta3->bind_param("iii", $clasificados2[$x]->getCiP(),$kata,$dos);
+                $consulta3->bind_param("iii", $ci2 ,$kata,$dos);
                 $consulta3->execute();
-                $consulta3->bind_param("iii", $clasificados3[$x]->getCiP(),$kata,$dos);
+                $consulta3->bind_param("iii", $ci3,$kata,$dos);
                 $consulta3->execute();
-                $consulta3->bind_param("iii", $clasificados4[$x]->getCiP(),$kata,$dos);
+                $consulta3->bind_param("iii", $ci4,$kata,$dos);
                 $consulta3->execute();
             }
             $consulta2->close();
@@ -596,25 +649,25 @@ class NotaArray{
         $uno=1;
         $dos=2; 
         foreach($notas as $nota){
-            if($nota->getIdP()==1){
+            if($nota->getNumero()==1){
                 $pool1[]=$nota;
             }
-            if($nota->getIdP()==2){
+            if($nota->getNumero()==2){
                 $pool2[]=$nota;
             }
-            if($nota->getIdP()==3){
+            if($nota->getNumero()==3){
                 $pool3[]=$nota;
             }
-            if($nota->getIdP()==4){
+            if($nota->getNumero()==4){
                 $pool4[]=$nota;
             }
-            if($nota->getIdP()==5){
+            if($nota->getNumero()==5){
                 $pool5[]=$nota;
             }
-            if($nota->getIdP()==6){
+            if($nota->getNumero()==6){
                 $pool6[]=$nota;
             }
-            if($nota->getIdP()==7){
+            if($nota->getNumero()==7){
                 $pool7[]=$nota;
             }
         }
@@ -637,84 +690,64 @@ class NotaArray{
         $pool11=11;
         $pool10=10;
         $pool9=9;
-        $kata=1;
+        $kata=0;
         $consulta = $conexion->prepare("INSERT INTO estan (ciP,idP,notaFinal) VALUES (?,?,?);");
-        $consulta2 = $conexion->prepare("INSERT INTO estan (ciP,idP,notaFinal) VALUES (?,?,?);");
-        $consulta3 = $conexion->prepare("INSERT INTO estan (ciP,idP,notaFinal) VALUES (?,?,?);");
-        $consulta4 = $conexion->prepare("INSERT INTO estan (ciP,idP,notaFinal) VALUES (?,?,?);");
-        $consulta5 = $conexion->prepare("INSERT INTO estan (ciP,idP,notaFinal) VALUES (?,?,?);");
-        $consulta6 = $conexion->prepare("INSERT INTO estan (ciP,idP,notaFinal) VALUES (?,?,?);");
-        $consulta7 = $conexion->prepare("INSERT INTO estan (ciP,idP,notaFinal) VALUES (?,?,?);");
-        $consulta8 = $conexion->prepare("INSERT INTO estan (ciP,idP,notaFinal) VALUES (?,?,?);");
-        $consulta9= $conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda) VALUES (?,?,?);");
-        $consulta10 = $conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda) VALUES (?,?,?);");
-        $consulta11 = $conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda) VALUES (?,?,?);");
-        $consulta12= $conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda) VALUES (?,?,?);");
-        $consulta13 = $conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda) VALUES (?,?,?);");
-        $consulta14 = $conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda) VALUES (?,?,?);");
-        $consulta15= $conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda) VALUES (?,?,?);");
-        $consulta16= $conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda) VALUES (?,?,?);");
-        $consulta17= $conexion->prepare("DELETE FROM utiliza2 where ronda=?;");
-        $consulta18= $conexion->prepare("DELETE FROM estan");
-        $consulta18->execute();
-        $consulta18->close();
+        $consulta2= $conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda) VALUES (?,?,?);");
+        $consulta3= $conexion->prepare("DELETE utiliza2 FROM utiliza2 join compite on utiliza2.ciP=compite.ciP where ronda=? and idTorneo=?;");
+        $consulta4= $conexion->prepare("DELETE estan FROM estan join compite on estan.ciP=compite.ciP  where idTorneo=? ");
+        $consulta4->bind_param("i",$idTorneo);
+        $consulta4->execute();
+        $consulta4->close();
         for($x=0;$x<count($clasificados1);$x++){
-            $consulta->bind_param("iii", $clasificados1[$x]->getCiP(),$pool12,$cero);
-            $consulta2->bind_param("iii", $clasificados2[$x]->getCiP(),$pool11,$cero);
-            $consulta3->bind_param("iii", $clasificados3[$x]->getCiP(),$pool12,$cero);
-            $consulta4->bind_param("iii", $clasificados4[$x]->getCiP(),$pool11,$cero);
-            $consulta5->bind_param("iii", $clasificados5[$x]->getCiP(),$pool10,$cero);
-            $consulta6->bind_param("iii", $clasificados6[$x]->getCiP(),$pool9,$cero);
-            $consulta7->bind_param("iii", $clasificados7[$x]->getCiP(),$pool10,$cero);
-            $consulta8->bind_param("iii", $clasificados8[$x]->getCiP(),$pool9,$cero);
-            
-            $consulta9->bind_param("iii",  $clasificados1[$x]->getCiP(),$kata,$dos);
-            $consulta10->bind_param("iii", $clasificados2[$x]->getCiP(),$kata,$dos);
-            $consulta11->bind_param("iii", $clasificados3[$x]->getCiP(),$kata,$dos);
-            $consulta12->bind_param("iii", $clasificados4[$x]->getCiP(),$kata,$dos);
-            $consulta13->bind_param("iii", $clasificados5[$x]->getCiP(),$kata,$dos);
-            $consulta14->bind_param("iii", $clasificados6[$x]->getCiP(),$kata,$dos);
-            $consulta15->bind_param("iii", $clasificados7[$x]->getCiP(),$kata,$dos);
-            $consulta16->bind_param("iii", $clasificados8[$x]->getCiP(),$kata,$dos); 
-            
+            $ci1=$clasificados1[$x]->getCiP();
+            $ci2=$clasificados2[$x]->getCiP();
+            $ci3=$clasificados3[$x]->getCiP();
+            $ci4=$clasificados4[$x]->getCiP();
+            $ci5=$clasificados5[$x]->getCiP();
+            $ci6=$clasificados6[$x]->getCiP();
+            $ci7=$clasificados7[$x]->getCiP();
+            $ci8=$clasificados8[$x]->getCiP();
+            $pools7=$poolsTiene[7];
+            $pools8=$poolsTiene[8];
+            $pools9=$poolsTiene[9];
+            $pools10=$poolsTiene[10];
+            $consulta->bind_param("iii", $ci1 ,$pools7,$cero);
             $consulta->execute();
+            $consulta->bind_param("iii", $ci2 ,$pools8,$cero);
+            $consulta->execute();
+            $consulta->bind_param("iii", $ci3 ,$pools7,$cero);
+            $consulta->execute();
+            $consulta->bind_param("iii", $ci4,$pools8,$cero);
+            $consulta->execute();
+            $consulta->bind_param("iii", $ci5 ,$pools9,$cero);
+            $consulta->execute();
+            $consulta->bind_param("iii", $ci6 ,$pools10,$cero);
+            $consulta->execute();
+            $consulta->bind_param("iii", $ci7,$pools9,$cero);
+            $consulta->execute();
+            $consulta->bind_param("iii", $ci8,$pools10,$cero);
+            $consulta->execute();
+
+            $consulta2->bind_param("iii", $ci1 ,$kata,$dos);
             $consulta2->execute();
-            $consulta3->execute();
-            $consulta4->execute();
-            $consulta5->execute();
-            $consulta6->execute();
-            $consulta7->execute();
-            $consulta8->execute();
-            $consulta9->execute();
-            $consulta10->execute();
-            $consulta11->execute();
-            $consulta12->execute();
-            $consulta13->execute();
-            $consulta14->execute();
-            $consulta15->execute();
-            $consulta16->execute();
+            $consulta2->bind_param("iii", $ci2,$kata,$dos);
+            $consulta2->execute();
+            $consulta2->bind_param("iii", $ci3,$kata,$dos);
+            $consulta2->execute();
+            $consulta2->bind_param("iii", $ci4,$kata,$dos);
+            $consulta2->execute();
+            $consulta2->bind_param("iii", $ci5,$kata,$dos);
+            $consulta2->execute();
+            $consulta2->bind_param("iii", $ci6,$kata,$dos);
+            $consulta2->execute();
+            $consulta2->bind_param("iii", $ci7,$kata,$dos);
+            $consulta2->execute();
+            $consulta2->bind_param("iii", $ci8 ,$kata,$dos); 
+            $consulta2->execute();
+
         }
         $consulta->close();
         $consulta2->close();
-        $consulta3->close();
-        $consulta4->close();
-        $consulta5->close();
-        $consulta6->close();
-        $consulta7->close();
-        $consulta8->close();
-        
-        $consulta9->close();
-        $consulta10->close();
-        $consulta11->close();
-        $consulta12->close();
-        $consulta13->close();
-        $consulta14->close();
-        $consulta15->close();
-        $consulta16->close();
-        
-        $consulta17->bind_param("i",$uno);
-        $consulta17->execute();
-        $consulta17->close();
     }
     
 }

@@ -17,8 +17,9 @@ $paraPakarate=$_POST['paraKarate'];
 $sexo=$_POST['sexo'];
 $nombre=$_POST['nombre'];
 $direccion=$_POST['direccion'];
+$nombreEvento=$_POST['nombreEvento'];
 $torneos=new TorneoArray();
-$torneos->guardar($formatoFecha,$categoria,$cantParticipantes,$estado,$paraPakarate,$sexo,$nombre,$direccion);
+$torneos->guardar($formatoFecha,$categoria,$cantParticipantes,$estado,$paraPakarate,$sexo,$nombre,$direccion,$nombreEvento);
 ?>
 </body>
 </html>

@@ -17,35 +17,45 @@
         <section class="formularioGestion">
     <h1 class="Traducir">Gestión De Torneos</h1>
     <form id="formularioTorneo">
-    <input type="date" name="fecha" id="fecha">
-    <select name="categoria" id="categoria">
+    <input type="date" name="fecha" id="fecha" required>
+    <select name="categoria" id="categoria" required>
     <option value="none" class="Traducir" selected disabled hidden>Seleccione categoria</option>
     <option value="12/13">12/13</option>
     <option value="14/15">14/15</option>
     <option value="16/17">16/17</option>
     <option value="mayores" class="Traducir">Mayores</option>
     </select>
-    <select name="paraKarate" id="paraKarate">
+    <select name="paraKarate" id="paraKarate" required>
     <option value="none" selected disabled hidden>Para-karate</option>
     <option value="si" class="Traducir"> Si</option>
     <option value="no"> No</option>
     </select>
 </section>
-    <input type="number" name="cantidad" max="96" placeholder="Cantidad de Participantes" id="cantidad" class="TraducirInput">
-    <select name="sexo" id="sexo">
+    <input type="number" name="cantidad" max="96" placeholder="Cantidad de Participantes" id="cantidad" class="TraducirInput" required>
+    <select name="sexo" id="sexo" required>
         <option value="none" class="Traducir" selected disabled hidden>Seleccione sexo</option>
         <option value="Femenino" class="Traducir" >Femenino</option>;
         <option value="Masculino" class="Traducir" >Masculino</option>;
         </select>
-    <input type="text" name="nombre" placeholder="Nombre del torneo" class="TraducirInput">
-    <input type="text" name="direccion" placeholder="Direccion" class="TraducirInput">
-    <input type="submit" value="Crear torneo" id="crearTorneo" class="TraducirValue">
+    <input type="text" name="nombre" placeholder="Nombre del torneo" class="TraducirInput" required>
+    <input type="text" name="direccion" placeholder="Direccion" class="TraducirInput" required>
+    <?php
+    require_once("../../Modelo/Torneo/TorneoArray.php");
+    $torneos=new TorneoArray();
+    $nombres=$torneos->nombresEvento();
+    echo "<select name='nombreEvento'required>
+    <option selected class='Traducir' hidden>Ingrese Evento</option>";
+    foreach($nombres as $nombre){
+        echo "<option value='$nombre'> $nombre </option>";
+    }
+ echo "</select>";
+    ?>
+    <input type="submit" value="Crear torneo" id="crearTorneo" class="TraducirValue" required>
     </form>
     <section class="formularios">
     <a href="MostrarTorneo.php" class="Traducir"> Mostrar Torneos</a>
     <p id="mensajeTorneo"></p>
     <p id="mensajeEditarTorneo"></p>
-    <p id="mensajeAsignarTorneo"></p>
 </section>
     <h2 class="Traducir">Abir/cerrar Torneo</h2>
     <form id="modificarTorneo">
@@ -59,11 +69,12 @@
     </section>
     <input type="submit" value="Modificar" id="Modificar" class="TraducirValue">    
     </form>
-    <h2 class="Traducir"> Asignar Participantes </h2>
-    <form id="asignarTorneo">
-    <input type="number" name="id" placeholder="Id Torneo" id="id">
+    <h2 class="Traducir"> Crear Evento </h2>
+    <form id="CrearEvento">
+    <input type="text" name="nombreEvento" placeholder="nombreEvento" id="nombreEvento">
     <input type="submit" value="Asignar" id="asignar" class="TraducirValue">
     </form>
+    <p id="mensajeCrearEvento"></p>
 </section>
 <section class="salir">
 <a href="../Juez/OpcionesJuez.php" class="Traducir"> 
@@ -75,7 +86,7 @@
     </section>
 <script src="../../Controlador/js/CrearTorneo.js"></script>
 <script src="../../Controlador/js/ModificarTorneo.js"></script>
-<script src="../../Controlador/js/AsignarParticipantesTorneo.js"></script>
+<script src="../../Controlador/js/CrearEvento.js"></script>
 <script src="../../Controlador/js/traduccion.js"> </script>
 </body>
 </html>
