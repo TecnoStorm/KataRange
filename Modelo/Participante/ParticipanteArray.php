@@ -416,5 +416,17 @@ public function devolverInfo($ci){
         }
     }
 }
+public function cinturon($ci){
+    $cinturon='';
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta = $conexion->prepare("select cinturon from compite join participante on compite.ciP=participante.ciP where participante.ciP=?");
+    $consulta->bind_param("i",$ci);
+    $consulta->execute();
+    $resultado=$consulta->get_result();
+    while($fila = $resultado->fetch_assoc()){
+        $cinturon=$fila['cinturon'];
+    }
+    return $cinturon;
+}
 }
 ?> 

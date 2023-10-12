@@ -1,3 +1,4 @@
+
 var  formularioCrear=document.getElementById("formularioCrear")
 var mensajeCrear=document.getElementById("mensajeCrear");
 formularioCrear.addEventListener('submit',function(e){
@@ -6,10 +7,10 @@ formularioCrear.addEventListener('submit',function(e){
 })
 function EnvioCrear() {
     var datos = new FormData(formularioCrear);
-    var nombreTorneo = datos.get('nombreTorneo'); 
-    alert (nombreTorneo);
+    var idTorneo = datos.get('idTorneo');
+    alert ("idTorneo" + idTorneo)
     var formData = new FormData();
-    formData.append('nombreTorneo', nombreTorneo);
+    formData.append('idTorneo', idTorneo);
     fetch('../../Controlador/Pool/CrearPool.php', {
       method: 'POST',
       body: formData

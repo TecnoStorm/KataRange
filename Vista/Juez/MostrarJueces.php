@@ -11,7 +11,7 @@
 <section id='contenedorIdioma'>
 <p>es</p>
 <input type="checkbox" id="idioma">
-<p>in</p>
+<p>en</p>
 </section>
 <?php
 include "../../Modelo/Juez/JuezArray.php";

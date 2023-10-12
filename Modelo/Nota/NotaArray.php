@@ -21,10 +21,11 @@ class NotaArray{
         }
     }
 
-    public function ganadorPool($pool){
+    public function ganadorPool($pool,$idTorneo){
         $ganador=0;
         $posicion=0;
-        foreach($this->_notas as $clave => $nota){
+        $notas=$this->notasTorneo($idTorneo);
+        foreach($notas as $clave => $nota){
             if($nota->getIdP()==$pool){
                 if($ganador<$nota->getNotaFinal()){
                     $ganador=$nota->getNotaFinal();
@@ -247,8 +248,10 @@ class NotaArray{
                                 $consulta->execute();
                                 $contador++;
                             }
-                            $posicion3=$this->ganadorPool($notas[2]->getIdP());
-                            $posicion32=$this->ganadorPool($notas[4]->getIdP());
+                            $posicion3=$this->ganadorPool($notas[2]->getIdP(),$idTorneo);
+                            $posicion32=$this->ganadorPool($notas[4]->getIdP(),$idTorneo);
+                            var_dump($notas);
+                            echo $posicion32;
                             $consulta->close();
                             $consulta2 = $conexion->prepare("UPDATE compite SET puesto = ?  WHERE ciP=? and idTorneo=?");
                             $consulta3 = $conexion->prepare("UPDATE compite SET puesto = ?  WHERE ciP=? and idTorneo=?");
@@ -792,7 +795,7 @@ public function notasTorneo($idTorneo){
 }
 public function mostrarGanadores($idTorneo){
 $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-$consulta2 = $conexion->prepare("SELECT compite.ciP as 'Ci participante',Concat(participante.nombreP, ' ',participante.apellidoP) as nombre,compite.cinturon as cinturon,compite.puesto from compite join participante on compite.ciP=participante.ciP where idTorneo=? and puesto in ('1ro','2do','3ro')
+$consulta2 = $conexion->prepare("SELECT compite.ciP as 'Ci participante',Concat(participante.nombreP, ' ',participante.apellidoP) as nombre,compite.cinturon as cinturon,compite.puesto from compite join participante on compite.ciP=participante.ciP where idTorneo=? and puesto en ('1ro','2do','3ro')
 order by  CASE
 WHEN puesto = '1ro' THEN 1
 WHEN puesto = '2do' THEN 2

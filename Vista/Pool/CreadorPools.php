@@ -11,7 +11,7 @@
 <section id='contenedorIdioma'>
 <p>es</p>
 <input type="checkbox" id="idioma">
-<p>in</p>
+<p>en</p>
 </section>
 <?php
 session_start();
@@ -23,30 +23,24 @@ require_once("../../Modelo/Juez/JuezArray.php");
 $pool = new PoolArray();
 $torneos=new TorneoArray();
 $jueces=new JuezArray();
+$nombreTorneo=$_POST['nombreTorneo'];
+$torneo=$torneos->infoTorneo($nombreTorneo);
 $nombres=$torneos->nombresTorneo();
 $usuario=$_SESSION['usuario'];
 $ciJuez=$jueces->obtenerCi($usuario);
 $idTorneo=$jueces->obtenerIdTorneo($ciJuez);
-$pool->listar($idTorneo);
+$pool->listar($torneo->getIdTorneo());
 $participanteArray= new ParticipanteArray();
 $arrayParticipante=$participanteArray->devolverArray();
 shuffle($arrayParticipante);
 echo "</section>";
 echo "<section id='formularios'>";
 echo "<form action='MostrarPool.php' method='post'>";
-echo  "<select name='nombreTorneo'>";
-foreach($nombres as $nombre){
-    echo "<option value='$nombre'> $nombre </option>";
-}
-echo  "</select>";
+echo "<input type='hidden' name='idTorneo' value='".$torneo->getIdTorneo()."'>";
 echo "<input type='submit' value='Sorteo' class='TraducirValue'>";
 echo "</form>";
 echo "<form id='formularioCrear'>";
-echo  "<select name='nombreTorneo'>";
-foreach($nombres as $nombre){
-    echo "<option value='$nombre'> $nombre </option>";
-}
-echo  "</select>";
+echo "<input type='hidden' name='idTorneo' value='".$torneo->getIdTorneo()."'>";
 echo "<input type='submit' value='Crear' class='TraducirValue'>";
 echo "</form>";
 echo "</section>";

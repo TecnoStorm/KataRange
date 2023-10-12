@@ -11,7 +11,7 @@
 <section id='contenedorIdioma'>
 <p>es</p>
 <input type="checkbox" id="idioma">
-<p>in</p>
+<p>en</p>
 </section>
 <?php
 session_start();
@@ -31,14 +31,12 @@ $torneos=new TorneoArray();
 $mismaCategoria=$torneos->mismaCategoria();
 $nombres=[];
 $cedulas=[];
-foreach($mismaCategoria as $participante){
-    $nombres[]=$participante->getNombre();
-    $cedulas[]=$participante->getCi();
-}
 $existe=$juezArray->comparar($usuario, $clave);
 
 if($existe){
     echo "<p id='oculto'>Inicio de sesión exitoso<p>";
+    $_SESSION["usuario"]=$usuario;
+    $_SESSION["clave"]=$clave;
     echo "<div id='contenedor'>";
     echo "<h1 class='Traducir'> Opciones de Juez</h1>";
     echo "<form action='MostrarJueces.php' method'post'>";
@@ -46,27 +44,10 @@ if($existe){
     echo "</form>";
     echo "<h2 class='Traducir'>Puntuar participante</h2>
     <a href='../Nota/NotaKata.php'> Puntaje</a>";
-    echo "<h2 class='Traducir'>Mostrar pools</h2>
-    <a href='../Pool/CreadorPools.php'> Pools </a>";
-    echo "</form>";
-    echo "<h2 class='Traducir'>Tanteador</h2>";
-    echo "<form action='../Participante/Tanteador.php' method='post'>";
-    echo "<select name='ciParticipante'>";
-    for($x=0;$x<count($nombres);$x++){
-      echo "<option value='$cedulas[$x]'> $nombres[$x] </option>";
-    }
-    echo "<input type='submit' value='Mostrar' class='TraducirValue'>";
-    echo "</form>
-    <h2 class='Traducir'>Gestionar torneos</h2>
-    <section class='boton-gestion'>";
-    echo "<a href='../Torneo/Torneos.php' class='Traducir'> Gestión de Torneos</a>
-    </section>
-    </div>";
-    $_SESSION["usuario"]=$usuario;
-    $_SESSION["clave"]=$clave;
+    
 }
 else{
-   echo "Usuario o contraseñas incorrectos ayuda";
+   echo "Usuario o contraseñas incorrectos";
 }
 ?>
 <div id="salir">

@@ -317,7 +317,7 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
                             $pool=1;
                             $cambiarPool=true;
                             $contador=0;
-                            echo "llego ACAAAAAAAAAAAAAAAAAAA";
+                    
                         }
                         else{
                             $contador=0;
@@ -327,14 +327,12 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
                 
                
                 $contador2++;
-                echo "id: ". $id;
                 $consulta->bind_param("iiii",$ciParticipantes[$x-1],$idsTiene[$id],$notaFinal,$clasificados);
                 $success=$consulta->execute();
                 if(!$success){
                     echo $consulta->error;
                 }
                 if($cambiarPool && $pool!=8){
-                    echo "id al final: ". $id;
                     $pool++;
                     $id--;   
                    }

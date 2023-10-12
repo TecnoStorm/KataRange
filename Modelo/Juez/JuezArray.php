@@ -99,5 +99,15 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Controlador/config.php");
             }
         
     }
+
+public function usuarioValido($usuario){
+    foreach ($this->_jueces as $juez){
+        if($usuario==$juez->getUsuario()){
+            return true;
+        }
+    }
+    return false;
+}
+
 }
 ?>
