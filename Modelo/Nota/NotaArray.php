@@ -77,13 +77,13 @@ class NotaArray{
                 $contador=0; 
                 foreach($notas as $clave => $nota){ 
                     if($cantidadPools <4 && $nota->getNumero()==3 || $cantidadPools==4 && $nota->getNumero()==4){
-                        echo "no se donde estoy"; 
+                        
                         $puesto='1ro';
                         $posicion=$clave+1;
                         if($posicion>1){
                             $puesto='2do';
                         }
-                        echo "posicion:" .$posicion."puesto:". $puesto;
+                       
                         $ci=$nota->getCiP();
                         $consulta3->bind_param("iii",$puesto,$ci,$idTorneo); 
                         $consulta3->execute();
@@ -108,8 +108,9 @@ class NotaArray{
                     if($existePuesto){
                         $quinto=5;
                         $cero=0;
-                        $posicionTercero=$notas[$posicionTercero]->getCiP();
-                        $consulta4->bind_param("iii",$tercero,$posicionTercero,$idTorneo);
+                        echo "posicion tercero: " . $posicionTercero;
+                        $notasTercero=$notas[$posicionTercero]->getCiP();
+                        $consulta4->bind_param("iii",$tercero,$notasTercero,$idTorneo);
                         echo $notas[$posicionTercero]->getCiP(); 
                         $consulta4->execute();
                         $consulta4->close();
@@ -120,14 +121,18 @@ class NotaArray{
                     $nota0=0; 
                     $pool=$poolsTiene[0];
                     $consulta = $conexion ->prepare("INSERT INTO  estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
+                    $consulta3 = $conexion ->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda,idP) values(?,?,?,?)");
+                    $cero=0;
+                    $dos=2;
                     for($x=0;$x<2;$x++){
-                        $consulta2=$conexion->prepare("delete estan from estan join compite on estan.ciP=compite.ciP where estan.ciP=? and idTorneo=?;
-                        ");
+                        $consulta2=$conexion->prepare("delete estan from estan join compite on estan.ciP=compite.ciP where estan.ciP=? and idTorneo=?;");
                         $ci=$clasificados[$x]->getCiP();
                         $Posicionclasificados=$clasificados[$x]->getClasificados();
                         $consulta2->bind_param("ii",$ci,$idTorneo);
                         $consulta2->execute();
                         $consulta->bind_param("iiis",$ci,$pool,$nota0,$Posicionclasificados);
+                        $consulta3->bind_param("iiii",$ci,$cero,$dos,$pool);
+                        $consulta3->execute();
                         $success=$consulta->execute();
                         if(!$success){
                             echo $consulta->error;
@@ -163,6 +168,8 @@ class NotaArray{
                     $existe=true;
                 }
             }
+            $cero=0;
+            $dos=2;
             $nota0=0; 
             $poolFinal=$poolsTiene[0];
             $poolTerceros=$poolsTiene[1];
@@ -177,9 +184,14 @@ class NotaArray{
                 $consulta2->bind_param("ii",$ci,$idTorneo);
                 $consulta2->execute();
                 $consulta2->close();
+                $consulta3= $conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda,idP) values (?,?,?,?)");
                 $consulta->bind_param("iiis",$ci,$poolFinal,$nota0,$posicionClasificados);
                 $consulta->execute();
+                $consulta3->bind_param("iiii",$ci,$cero,$dos,$poolFinal);
+                $consulta3->execute();
                 $consultaCambio->bind_param("iii",$poolTerceros,$posicionClasificadosTerceros,$idTorneo);
+                $consulta3->bind_param("iiii",$posicionClasificadosTerceros,$cero,$dos,$poolTerceros);
+                $consulta3->execute();
                 $consultaCambio->execute();
             }
             $consulta->close();
@@ -193,11 +205,7 @@ class NotaArray{
                 
                     if($notas[0]->getNumero()==4){  
                         $consulta = $conexion->prepare("INSERT INTO estan (ciP,idP,notaFinal) VALUES (?,?,?);");
-                        $consulta2 = $conexion->prepare("DELETE utiliza2 FROM utiliza2 join compite on utiliza2.ciP=compite.ciP where idTorneo=?");
-                        $consulta2->bind_param("i",$idTorneo);
-                        $consulta2->execute();
-                        $consulta2->close();
-                        $consulta4= $conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda) VALUES (?,?,?)");
+                        $consulta4= $conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda,idP) VALUES (?,?,?,?)");
                         $cero = 0;
                         $tres=3;
                         $clasificados4=[];
@@ -222,11 +230,12 @@ class NotaArray{
                             $pools2=$poolsTiene[$posicion];
                             $consulta->bind_param("iii",$posicionClasificados4,$pools, $cero); 
                             $success1 = $consulta->execute();
-                            $consulta4->bind_param("iii",$posicionClasificados4,$cero,$tres);
+                            $consulta4->bind_param("iiii",$posicionClasificados4,$cero,$tres,$pools);
                             $consulta4->execute();
                             $consulta->bind_param("iii",$posicionClasificados3,$pools2, $cero); 
                             $consulta->execute();
-                            $consulta4->bind_param("iii",$posicionClasificados3,$cero,$tres);
+                            $consulta4->bind_param("iiii",$posicionClasificados3,$cero,$tres,$pools2);
+                            $consulta4->execute();
                             if ($x == 1) {
                                 $posicion = 2;
                             } elseif ($x == 2) {
@@ -250,7 +259,7 @@ class NotaArray{
                             }
                             $posicion3=$this->ganadorPool($notas[2]->getIdP(),$idTorneo);
                             $posicion32=$this->ganadorPool($notas[4]->getIdP(),$idTorneo);
-                            var_dump($notas);
+                         
                             echo $posicion32;
                             $consulta->close();
                             $consulta2 = $conexion->prepare("UPDATE compite SET puesto = ?  WHERE ciP=? and idTorneo=?");
@@ -266,6 +275,7 @@ class NotaArray{
                             $this->mostrarGanadores($idTorneo);
                         }
                         else{ 
+                            $pool1=[];
                             $ronda = 2;
                             if($cantRondas==3){
                                 foreach ($notas as $nota) {
@@ -278,7 +288,7 @@ class NotaArray{
                                 $ronda=4;
                             }
                             
-                            if($cantRondas=4){
+                            if($cantRondas==4){
                                 foreach ($notas as $nota) {
                                     if ($nota->getNumero() == 16) {
                                         $pool1[] = $nota;
@@ -300,18 +310,16 @@ class NotaArray{
                             $clasificados1=[];
                             $clasificados2=[];
                             $clasificados1=array_slice($pool1,0,3);
-                            $clasificados2=array_slice($pool2,0,3) ;       
+                            $clasificados2=array_slice($pool2,0,3);
+                            echo "clasificados1:" . var_dump($clasificados1);
+                            echo "clasifacados2:" . var_dump($clasificados2);
                             $consulta3 = $conexion->prepare("DELETE estan FROM estan join compite on estan.ciP=compite.ciP where idTorneo=?");
                             $consulta3->bind_param("i",$idTorneo);
                             $consulta3->execute(); 
                             $consulta3->close();         
                             $consulta = $conexion->prepare("INSERT INTO estan (ciP,idP,notaFinal) VALUES (?,?,?);");
                             $consulta2 = $conexion->prepare("INSERT INTO estan (ciP,idP,notaFinal) VALUES (?,?,?);");
-                            $consulta4 = $conexion->prepare("delete utiliza2 from utiliza2 join compite on utiliza2.ciP=compite.cip where idTorneo=?");
-                            $consulta4->bind_param("i",$idTorneo);
-                            $consulta4->execute();
-                            $consulta4->close();
-                            $consulta5= $conexion->prepare("insert into utiliza2 (ciP,idKata,ronda) values (?,?,?);");
+                            $consulta5= $conexion->prepare("insert into utiliza2 (ciP,idKata,ronda,idP) values (?,?,?,?);");
                             $posicion = 0;
                             $cero = 0;
                             
@@ -324,7 +332,11 @@ class NotaArray{
                                 $ci=$clasificados1[$x]->getCiP();
                                 $pools=$poolsTiene[$posicion];
                                 $consulta->bind_param("iii",$ci,$pools, $cero);
-                                $success=$consulta5->bind_param("iii",$ci,$cero,$ronda);
+                                $success42=$consulta->execute();
+                                if(!$success42){
+                                    echo $consulta->error;
+                                }
+                                $success=$consulta5->bind_param("iiii",$ci,$cero,$ronda,$pools);
                                 if(!$success){
                                     echo "error en clasificados1: ". $consulta5->error;
                                 }
@@ -339,15 +351,13 @@ class NotaArray{
                                 } elseif ($x == 2) {
                                     $posicion = 1;
                                 }
-                                var_dump($clasificados2);     
+                                   
                                 $ci2=$clasificados2[$posicion]->getCiP();
+                                $pools=$poolsTiene[$x];
                                 $consulta2->bind_param("iii",$ci2,$pools, $cero); 
-                                $success=$consulta2->execute();
-                                if(!$success){
-                                    echo $consulta2->error;
-                                }  
+                                $consulta2->execute();
                                 $posicionClasificados2=$clasificados2[$posicion]->getCiP();
-                                $success5=$consulta5->bind_param("iii",$posicionClasificados2,$cero,$ronda);
+                                $success5=$consulta5->bind_param("iiii",$posicionClasificados2,$cero,$ronda,$pools);
                                 if(!$success5){
                                     echo "error en clasificados2:".$consulta5->error;
                                 }
@@ -429,11 +439,7 @@ class NotaArray{
                 $pool8 = 8;
                 $posicion=0;
                 $consulta = $conexion->prepare("INSERT INTO estan (ciP,idP,notaFinal) VALUES (?,?,?);");
-                $consulta2 = $conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda) VALUES (?,?,?);");
-                $consulta3= $conexion->prepare("DELETE utiliza2 FROM utiliza2 join compite on utiliza2.ciP=compite.ciP where idTorneo=?");
-                $consulta3->bind_param("i",$idTorneo);
-                $consulta3->execute();
-                $consulta3->close(); 
+                $consulta2 = $conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda,idP) VALUES (?,?,?,?);");
                 foreach($notas as $nota){
                     if($nota->getNumero()==5){
                         array_push($pool5,$nota);
@@ -454,9 +460,9 @@ class NotaArray{
                     $consulta->execute();
                     $consulta->bind_param("iii",$ci6,$pools3,$cero);
                     $consulta->execute();
-                    $consulta2->bind_param("iii",$ci5,$uno,$tres); 
+                    $consulta2->bind_param("iiii",$ci5,$uno,$tres,$pools4); 
                     $consulta2->execute();
-                    $consulta2->bind_param("iii",$ci6,$uno,$tres);
+                    $consulta2->bind_param("iiii",$ci6,$uno,$tres,$pools3);
                     $consulta2->execute();
                     
                                     
@@ -473,11 +479,7 @@ class NotaArray{
                 $posicion=0;
                 $consulta = $conexion->prepare("INSERT INTO estan (ciP,idP,notaFinal) VALUES (?,?,?);");
                 $consulta2 = $conexion->prepare("INSERT INTO estan (ciP,idP,notaFinal) VALUES (?,?,?);");
-                $consulta4 = $conexion->prepare("DELETE utiliza2 FROM utiliza2 join compite on utiliza2.ciP=compite.ciP where idTorneo=?");
-                $consulta4->bind_param("i",$idTorneo);
-                $consulta4->execute();
-                $consulta4->close();
-                $consulta5=$conexion->prepare("INSERT INTO utiliza2(ciP,idKata,ronda) VALUES(?,?,?)");
+                $consulta5=$conexion->prepare("INSERT INTO utiliza2(ciP,idKata,ronda,idP) VALUES(?,?,?,?)");
                 foreach($notas as $nota){
                     if($nota->getNumero()==1){
                         array_push($pool1,$nota);
@@ -496,9 +498,9 @@ class NotaArray{
                     $pools3=$poolsTiene[3];
                     $consulta->bind_param("iii",$ci1,$pools4,$cero);
                     $consulta2->bind_param("iii",$ci2,$pools3,$cero);
-                    $consulta5->bind_param("iii",$ci1,$cero,$dos);
+                    $consulta5->bind_param("iiii",$ci1,$cero,$dos,$pools4);
                     $consulta5->execute();
-                    $consulta5->bind_param("iii",$ci2,$cero,$dos);
+                    $consulta5->bind_param("iiii",$ci2,$cero,$dos,$pools3);
                     $consulta5->execute();
                     $consulta->execute();
                     $consulta2->execute();
@@ -606,7 +608,7 @@ class NotaArray{
             $consulta->execute();
             $consulta->close();
             $consulta2 = $conexion->prepare("INSERT INTO estan (ciP,idP,notaFinal) VALUES (?,?,?);");
-            $consulta3 = $conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda) VALUES (?,?,?);");
+            $consulta3 = $conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda,idP) VALUES (?,?,?,?);");
             for($x=0;$x<count($clasificados1);$x++){
                 $ci1=$clasificados1[$x]->getCiP();
                 $ci2=$clasificados2[$x]->getCiP();
@@ -622,21 +624,17 @@ class NotaArray{
                 $consulta2->execute();
                 $consulta2->bind_param("iii", $ci4,$pools5,$cero);
                 $consulta2->execute();
-                $consulta3->bind_param("iii",  $ci1 ,$kata,$dos);
+                $consulta3->bind_param("iiii",  $ci1 ,$kata,$dos,$pools6);
                 $consulta3->execute();
-                $consulta3->bind_param("iii", $ci2 ,$kata,$dos);
+                $consulta3->bind_param("iiii", $ci2 ,$kata,$dos,$pools5);
                 $consulta3->execute();
-                $consulta3->bind_param("iii", $ci3,$kata,$dos);
+                $consulta3->bind_param("iiii", $ci3,$kata,$dos,$pools6);
                 $consulta3->execute();
-                $consulta3->bind_param("iii", $ci4,$kata,$dos);
+                $consulta3->bind_param("iiii", $ci4,$kata,$dos,$pools5);
                 $consulta3->execute();
             }
             $consulta2->close();
             $consulta3->close();
-            $consulta4 = $conexion->prepare("DELETE utiliza2 FROM utiliza2 join compite on utiliza2.ciP=compite.ciP  where idTorneo=? and ronda=?;");
-            $consulta4->bind_param("ii",$idTorneo,$uno);
-            $consulta4->execute();
-            $consulta4->close();
         }
     }
 //torneo de a 48 a 96--------------------------------------------------------------------------------------------------------
@@ -795,7 +793,7 @@ public function notasTorneo($idTorneo){
 }
 public function mostrarGanadores($idTorneo){
 $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-$consulta2 = $conexion->prepare("SELECT compite.ciP as 'Ci participante',Concat(participante.nombreP, ' ',participante.apellidoP) as nombre,compite.cinturon as cinturon,compite.puesto from compite join participante on compite.ciP=participante.ciP where idTorneo=? and puesto en ('1ro','2do','3ro')
+$consulta2 = $conexion->prepare("SELECT compite.ciP as 'Ci participante',Concat(participante.nombreP, ' ',participante.apellidoP) as nombre,compite.cinturon as cinturon,compite.puesto from compite join participante on compite.ciP=participante.ciP where idTorneo=? and puesto in ('1ro','2do','3ro')
 order by  CASE
 WHEN puesto = '1ro' THEN 1
 WHEN puesto = '2do' THEN 2
