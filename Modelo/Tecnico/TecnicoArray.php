@@ -20,13 +20,23 @@ class TecnicoArray{
     }
 
     public function comparar($usuario, $clave){
-        $existe=false;
-        foreach($this->_tecnicos as $tecnico){
-            if($tecnico->getUsuario()==$usuario && $tecnico->getClave()==$clave){
-                $existe=true;
+        $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+            $contraseña='';
+            $consulta = $conexion->prepare("SELECT SHA2(?, 256) as clave;");
+            $consulta->bind_param("s",$clave);
+            $consulta->execute();
+            $resultado=$consulta->get_result();
+            while($fila = $resultado->fetch_assoc()){
+               $contraseña=$fila['clave'];
             }
-        }
-        return $existe;
+            echo $contraseña;
+            $existe=false;
+            foreach($this->_tecnicos as $tecnico){
+                if($tecnico->getUsuario()==$usuario && $tecnico->getClave()==$contraseña){
+                    $existe=true;
+                }
+            }
+            return $existe;
         }
 
 }

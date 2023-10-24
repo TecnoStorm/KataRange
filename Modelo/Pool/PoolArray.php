@@ -80,7 +80,7 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
           }
           if($cantParticipantes>49 && $cantParticipantes <=96){
             for($x=1;$x<=19;$x++){
-              echo "Adios";
+             
               $consulta->bind_param("ssis", $estado, $horaInicio,$horaFinal,$x);
               $consulta->execute();
             }
@@ -327,6 +327,7 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
             $pool=1;
             $posicion=9;
             $id=11;
+            $idKata=0;
             for($x=1;$x<=count($ciParticipantes);$x++){ 
                 if($pool==9 && $cambiarPool){
                     $pool=1;
@@ -352,11 +353,9 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
                
                 $contador2++;
                 $consulta->bind_param("iiii",$ciParticipantes[$x-1],$idsTiene[$id],$notaFinal,$clasificados);
-                
-                $success=$consulta->execute();
-                if(!$success){
-                    echo $consulta->error;
-                }
+                $consulta->execute();
+                $consulta3->bind_param("iiii",$ciParticipantes[$x-1],$idKata,$uno,$idsTiene[$id]);
+                $consulta3->execute();
                 if($cambiarPool && $pool!=8){
                     $pool++;
                     $id--;   

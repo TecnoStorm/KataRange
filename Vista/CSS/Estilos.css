@@ -37,7 +37,7 @@ body{
 input[type="text"],input[type="password"]{
     height: 30px;
     font-size:20px;
-    border:0.3px;
+    border:1px solid black;
 }
 
 input[type="submit"]{
@@ -70,6 +70,22 @@ transition: all 0.2s;
 }
 #contenedorBox{
     display: flex;
+}
+#contenedorContraseña{
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.bi-eye-fill {
+    position: absolute;
+    right: 5px;
+    cursor: pointer;
+}
+.bi-eye-slash{
+    display: none;
+    position: absolute;
+    right: 5px;
+    cursor: pointer;
 }
 
 @media screen and (max-width:700px) {

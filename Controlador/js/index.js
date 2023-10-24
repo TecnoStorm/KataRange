@@ -67,3 +67,26 @@ function EnvioIndex() {
     }
     return false;
   }
+
+  function verClave() {
+    var contraseña= document.getElementById("contraseña");
+    var verContraseña = document.querySelector(".bi-eye-fill");
+    var ocultarContraseña=document.querySelector(".bi-eye-slash");
+
+    if (contraseña.type === "password") {
+        contraseña.type = "text";
+        verContraseña.style.display="none";
+        ocultarContraseña.style.display="block";
+    } 
+}
+function ocultarClave(){
+    var contraseña= document.getElementById("contraseña");
+    var verContraseña = document.querySelector(".bi-eye-fill");
+    var ocultarContraseña=document.querySelector(".bi-eye-slash");
+    
+    if (contraseña.type === "text") {
+      contraseña.type = "password";
+      ocultarContraseña.style.display="none";
+      verContraseña.style.display="block";
+    } 
+} 

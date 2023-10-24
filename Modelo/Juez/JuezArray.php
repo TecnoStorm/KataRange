@@ -25,7 +25,7 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Controlador/config.php");
             $consulta->bind_param("iss", $ci, $nombre, $apellido);
             $consulta->execute();
             $consulta->close();
-            $consulta2 = $conexion ->prepare("INSERT INTO Juez (nombre,Apellido,usuario,ciJ,contraseña) values (?,?,?,?,?)");
+            $consulta2 = $conexion ->prepare("INSERT INTO Juez (nombre,Apellido,usuario,ciJ,contraseña) values (?,?,?,?,SHA2(?, 256))");
             $consulta3= $conexion->prepare("INSERT INTO Juzga (ciJ,idTorneo) values (?,?)");
             $consulta2->bind_param("sssis", $nombre, $apellido,$usuario,$ci,$contraseña);
             $success=$consulta2->execute();
@@ -65,9 +65,18 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Controlador/config.php");
         }
         
         public function comparar($usuario, $clave){
+            $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+            $contraseña='';
+            $consulta = $conexion->prepare("SELECT SHA2(?, 256) as clave;");
+            $consulta->bind_param("s",$clave);
+            $consulta->execute();
+            $resultado=$consulta->get_result();
+            while($fila = $resultado->fetch_assoc()){
+               $contraseña=$fila['clave'];
+            }
             $existe=false;
             foreach($this->_jueces as $juez){
-                if($juez->getUsuario()==$usuario && $juez->getClave()==$clave){
+                if($juez->getUsuario()==$usuario && $juez->getClave()==$contraseña){
                     $existe=true;
                 }
             }
