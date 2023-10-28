@@ -24,8 +24,8 @@ if(isset($_SESSION['usuario'])){
  echo  " <p id='texto3'class='Traducir'> Si es un juez o tecnico ingrese con su usuario</p>";
  echo   "<form id='formularioIndex'>";
  echo "<section id='contenedorBox'>";
- echo '<input type="checkbox" class="checkbox-input" name="rol" value="tecnico"> Técnico';
- echo '<input type="checkbox" class="checkbox-input" name="rol" value="Juez"> Juez';
+ echo '<input type="radio" class="checkbox-input" name="rol" value="tecnico"> Técnico';
+ echo '<input type="radio" class="checkbox-input" name="rol" value="Juez"> Juez';
  echo "</section>";
  echo   " <input type='text' name='usuario' placeholder='Usuario' id='usuario'required class='TraducirInput'>";
  echo "<section id='contenedorContraseña'>";
@@ -41,12 +41,13 @@ echo '<svg xmlns="http://www.w3.org/2000/svg" onclick="ocultarClave()" width="19
 </svg>';
  echo "</section>";
  echo  "<input type='submit' name='login' value='Login'>";
- echo   "</form>";
+ echo "</form>";
  echo "<p id='mensajeIndex'></p>";
  echo "</div>";
  echo "</main>";
+ echo '<script src="Controlador/js/index.js"> </script>';
+ echo '<script src="Controlador/js/Traduccion.js"> </script>';
 ?>
-<script src="Controlador/js/index.js"> </script>
-<script src="Controlador/js/Traduccion.js"> </script>
+
 </body>
 </html>

@@ -44,14 +44,14 @@ public function mostrar(){
     $consulta = "SELECT * FROM Torneo";
     $resultado = mysqli_query($conexion, $consulta);
     if (!$resultado){
-    die('Error en la consulta SQL: ' . $consulta);
+        die('Error en la consulta SQL: ' . $consulta);
     }
-echo "<table border='2' class='torneos'>";
-echo "<tr> <td class='Traducir'> idTorneo </td> <td class='Traducir'> Fecha </td> <td class='Traducir'> Categoria </td> <td class='Traducir'> cantParticipantes </td> <td class='Traducir'> Estado </td><td> ParaKarate </td> <td class='Traducir'> Sexo </td><td class='Traducir'> Nombre  </td> <td class='Traducir'> direccion </td></tr>";
-while($fila = $resultado->fetch_assoc()){
-echo "<tr> <td>".$fila['idTorneo'] . " </td><td>" . $fila['fecha'] . "</td><td class='Traducir'>  " . $fila['Categoria'] . "</td> <td>" . $fila['cantParticipantes'] . "</td><td class='Traducir'>" . $fila ['estado'] ."</td> <td class='Traducir'>". $fila['ParaKarate']. "</td><td class='Traducir'>". $fila['sexo']. "</td><td>". $fila['nombre']."</td> <td>" . $fila['direccion']. "</td> </tr>";
-}
-echo "</table>";
+    echo "<table border='2' class='torneos'><thead>";
+    echo "<tr> <th class='Traducir'> idTorneo </th> <th class='Traducir'> Fecha </th> <th class='Traducir'> Categoria </th> <th class='Traducir'> cantParticipantes </th> <th class='Traducir'> Estado </th><th> ParaKarate </th> <th class='Traducir'> Sexo </th><th class='Traducir'> Nombre  </th> <th class='Traducir'> direccion </th></tr></thead><tbody>";
+    while($fila = $resultado->fetch_assoc()){
+        echo "<tr> <td>".$fila['idTorneo'] . " </td><td>" . $fila['fecha'] . "</td><td class='Traducir'>  " . $fila['Categoria'] . "</td> <td>" . $fila['cantParticipantes'] . "</td><td class='Traducir'>" . $fila ['estado'] ."</td> <td class='Traducir'>". $fila['ParaKarate']. "</td><td class='Traducir'>". $fila['sexo']. "</td><td>". $fila['nombre']."</td> <td>" . $fila['direccion']. "</td> </tr>";
+    }
+    echo "</tbody></table>";
 }
 
 public  function cambiarEstado($id,$estado){

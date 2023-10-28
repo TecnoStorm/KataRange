@@ -28,7 +28,6 @@ function EnvioRegistrarParticipante() {
       var categoria = datos.get('categoria');
       var sexo = datos.get('sexo');
       var condicion = datos.get('Condicion');
-      var idkata = datos.get('idKata');
       var nombreTorneo = datos.get('nombreTorneo');
       var tecnica = datos.get('tecnica');
       var nombreEscuela = datos.get('nombreEscuela');
@@ -41,7 +40,6 @@ function EnvioRegistrarParticipante() {
       formData.append('categoria', categoria);
       formData.append('sexo', sexo);
       formData.append('Condicion', condicion);
-      formData.append('idKata', idkata);
       formData.append('nombreTorneo', nombreTorneo);
       formData.append('tecnica', tecnica);
       formData.append('nombreEscuela', nombreEscuela);

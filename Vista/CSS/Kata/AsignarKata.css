@@ -33,15 +33,11 @@ table {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
-.contenedor-thead {
-    border-radius: 10px;
-}
-
 table thead tr {
-    background-color: #009879;
+    background-color: #2aa0f5;
     color: #ffffff;
     text-align: left;
-    border: 1px solid #009879;
+    border: 1px solid #2aa0f5;
 }
 
 table th,
@@ -65,10 +61,42 @@ table tbody tr:nth-of-type(even) {
 }
 
 table tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
+    border-bottom: 2px solid #2aa0f5;
 }
 
 table tbody tr.active-row {
     font-weight: bold;
-    color: #009879;
+    color: #2aa0f5;
+}
+
+input[type="text"],input[type="number"]{
+    height: 38px;
+    width: 180px;
+    font-size:21px;
+    border: 0.4px solid black;
+    border-radius: 5px;
+    text-align: center;
+}
+
+select{
+    font-size:21px;
+    height: 38px;
+    width: 180px;
+}
+
+input[type="submit"]{
+    display: flex;
+    margin-top: 20px;
+    justify-content: center;
+    font-size: 25px;
+    background-color: aliceblue;
+    border: 1.5px solid gray;
+    border-radius: 15px;
+    transition: ease-out 0.5s;
+    width:100px
+}
+
+input[type="submit"]:hover{
+    background-color: gray;
+    transition: ease-in 0.5s;
 }

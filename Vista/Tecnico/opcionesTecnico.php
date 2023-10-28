@@ -48,15 +48,15 @@ if($existe){
     echo"</select>
     <input type='submit' value='pools'></input>
     </form>";
-    echo "<h2 class='Traducir'>Asignar Kata</h2>";
-    echo "<form action='AsignarKata.php' method='post'>";
+    echo "<h2 class='Traducir'>Asignar Kata</h2>";   
+    echo "<form action='AsignarKata.php' method='post'><section class='contenedor-kata'>";
     echo  "<select name='nombreTorneo'>";
     foreach($nombres as $nombre){
         echo "<option value='$nombre'> $nombre </option>";
         }
         echo"</select>";
     echo "<input type='submit' value='mostrar'>
-    </form>";
+    </section></form>";
     echo "<h2 class='Traducir'>Tanteador</h2>";
     echo "<form action='../Participante/Tanteador.php' method='post' id='FormularioTanteador'>";
     echo "<select name='ciParticipante'>";

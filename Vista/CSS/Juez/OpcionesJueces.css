@@ -4,6 +4,7 @@
 
 h1{
     text-align: center;
+    margin: 13px;
 }
 
 h2{
@@ -18,7 +19,7 @@ p{
 select{
     height: 30px;
     font-size:20px;
-    border:0.5px;
+    border: 0.5px solid black;
 }
 
 html{
@@ -36,12 +37,14 @@ body{
     flex-direction: column;
     align-items: center;
 } 
+
 #formularioPool,#FormularioTanteador{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+
 #contenedor{
     display: flex;
     justify-content: center;
@@ -62,7 +65,7 @@ body{
     background-color: rgba(25, 85, 175, 0.87);
     backdrop-filter: blur(10px);
     border-radius: 30px;
-    width: 125px;
+    width: 130px;
     padding: 7px;
     box-sizing: border-box;
     margin-top: 8px;
@@ -81,10 +84,18 @@ body{
     transition: all 0.2s;
 }
 
+.contenedor-kata{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 #salir{
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 15px;
 }
 
 #salir a{

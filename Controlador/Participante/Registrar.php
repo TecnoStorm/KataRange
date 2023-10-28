@@ -17,7 +17,6 @@ $ci=$_POST['ci'];
 $apellido=$_POST["apellido"];
 $categoria=$_POST['categoria'];
 $sexo=$_POST['sexo'];
-$idKata=$_POST['idKata'];
 $condicion=$_POST["Condicion"];
 $nombreEscuela=$_POST["nombreEscuela"];
 $nombreTorneo=$_POST["nombreTorneo"];
@@ -28,7 +27,6 @@ if($puedeParticipar){
     $escuelas=new EscuelaArray();
     $_participantes=new ParticipanteArray();
     $_participantes->guardar($nombre, $apellido,$ci,$sexo,$condicion,$categoria);
-    $katas->guardarKata($ci,$idKata);
     $torneo=$torneos->infoTorneo($nombreTorneo);
     $escuela=$escuelas->infoEscuela($nombreEscuela);
     $escuelas->guardarParticipante($escuela->getId(),$ci);

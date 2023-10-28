@@ -37,7 +37,7 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Controlador/config.php");
             else{
                 $consulta2->close();
                 $conexion->close();
-                echo "<p style='color: green;font-size: 25px'> juez ingresado correctamente </p>";
+                echo "<p style='color: green;font-size: 25px'> Judge entered correctly </p>";
             }
             
         }
@@ -117,6 +117,24 @@ public function usuarioValido($usuario){
     }
     return false;
 }
-
+public function idTorneoJuez($ci){
+    $idTorneo=0;
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta ="Select * from juzga";
+    $resultado = mysqli_query($conexion, $consulta);
+    while($fila = $resultado->fetch_assoc()){
+        if($ci==$fila['ciJ']){
+          $idTorneo=$fila['idTorneo'];
+        }
+    }
+return $idTorneo;
+}
+public function fechaHora($ciP,$ciJ,$idP){
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta = $conexion->prepare("update puntua set fecha=CURDATE(),hora=now() where ciP=? and ciJ=? and idP=?");
+    $consulta->bind_param("iii",$ciP,$ciJ,$idP);
+    $consulta->execute();
+    $consulta->close();
+}
 }
 ?>

@@ -104,8 +104,8 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
         $ids=$this->idPTiene($idTorneo);
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
         $consulta = $conexion->prepare("SELECT * FROM Pool where idP=?");
-        echo "<table border='2'>";
-        echo "<tr> <td class='Traducir'> Estado </td> <td class='Traducir'> Hora inicio </td> <td> Id pool </td> </td><td class='Traducir'> Hora cierre </td> </tr> ";
+        echo "<table border='2'><thead>";
+        echo "<tr> <th class='Traducir'> Estado </th> <th class='Traducir'> Hora inicio </th> <th> Id pool </th> </th><th class='Traducir'> Hora cierre </th> </tr></thead><tbody> ";
         for($x=0;$x<count($ids);$x++){
             $consulta->bind_param("i",$ids[$x]);
             $consulta->execute();
@@ -117,7 +117,7 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
                 echo "<tr> <td class='Traducir'>".$fila['estado']. " </td><td>" . $fila['hora_inicio'] . "</td><td>  " . $fila['idP'] . "</td> <td>" . $fila['hora_final']. "</td> </tr>";
             }
         }
-        echo "</table>"; 
+        echo "</tbody></table>"; 
     }
     
     public function EditarPool($id,$estado){ 
@@ -181,12 +181,17 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
         }
         
         if (count($ciParticipantes) == 3) {
+            $cero=0;
+            $uno=1;
             $consulta = $conexion->prepare("INSERT INTO estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
             $consulta2= $conexion->prepare("UPDATE compite set cinturon='Aka' where ciP=?");
+            $consulta3= $conexion->prepare("INSERT INTO utiliza2(ciP,idkata,ronda,idP) values (?,?,?,?)");
 
             for($x=0;$x<count($ciParticipantes);$x++){
                 $consulta->bind_param("iiis", $ciParticipantes[$x],$idsTiene[0],$notaFinal,$clasificados);
                 $success=$consulta->execute();
+                $consulta3->bind_param("iiii",$ciParticipantes[$x],$cero,$uno,$idsTiene[0]);
+                $consulta3->execute();
                 if(!$success){
                     echo $consulta->error;
                 }

@@ -50,7 +50,7 @@ input[type="text"],input[type="number"]{
     height: 38px;
     width: 180px;
     font-size:18px;
-    border:0.4px;
+    border: 0.4px solid black;
     border-radius: 5px;
     text-align: center;
 }
@@ -64,6 +64,7 @@ select{
 .opcion2{
     width: 100px;
 }
+
 
 .btnregistrar{
     display: flex;
@@ -79,6 +80,10 @@ select{
 .btnregistrar:hover{
     background-color: gray;
     transition: ease-in 0.5s;
+}
+
+#mensaje{
+    font-size: 22px;
 }
 
 a{
@@ -102,7 +107,6 @@ a:hover{
     background-color: gray;
     transition: ease-in 0.5s;
 }
-
 
 
 #Volver{
@@ -175,17 +179,51 @@ h2{
     transition: all 0.2s;
 }
 
-table{
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+table thead tr {
+    background-color: #2aa0f5;
+    color: #ffffff;
+    text-align: left;
+    border: 1px solid #2aa0f5;
+}
+
+table th,
+table td {
+    padding: 10px 13px;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+table tbody tr:nth-of-type(odd) {
+    background-color: #f3f3f3;
+    border: 1px solid #f3f3f3;
+
+}
+
+table tbody tr:nth-of-type(even) {
+    background-color: #eee7e7;
+    border: 1px solid #eee7e7;
+}
+
+table tbody tr:last-of-type {
+    border-bottom: 2px solid #2aa0f5;
+}
+
+table tbody tr.active-row {
     font-weight: bold;
+    color: #2aa0f5;
 }
-
-table th,td{
-    background-color: rgba(255, 255, 255, 0.719);
-    text-align: center;
-}
-
-
 
 #FormularioBorrar{
     display: flex;

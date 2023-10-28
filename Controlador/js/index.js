@@ -3,7 +3,7 @@ var mensajeIndex=document.getElementById("mensajeIndex");
 var elementosTraducir=document.querySelectorAll(".Traducir");
 var elementosTraducirInput=document.querySelectorAll(".TraducirInput");
 var url=''
-var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+var checkboxes = document.querySelectorAll('input[type="radio"]');
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener('change', () => {
                 if (checkbox.checked) {

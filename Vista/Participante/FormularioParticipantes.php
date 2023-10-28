@@ -38,7 +38,6 @@ echo "<section id='registrar'>
               <option value='16/17'>16/17</option>
               <option value='mayores'class='Traducir'>Mayores</option>
           </select>
-            <input type='number' placeholder='Id kata' min='1' max='102' name='idKata' class='opcion2' id='idKata'required>
             <select name='sexo' id='sexo'required>
             <option selected hidden class='Traducir'>Ingrese sexo</option>
             <option value='Masculino'class='Traducir'>Masculino</option>

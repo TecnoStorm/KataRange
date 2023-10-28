@@ -40,21 +40,37 @@ else{
     }
     else{
     $cantNotas=$participantes->cantidadNotas($contador);
-    if($cantNotas){
-        $participantes->borrarNotas();
-    }
+    
     $ciParticipantes=$torneos->ciParticipantesTorneo();
     $participante=$participantes->devolverInfo($ciParticipantes[$contador]);
-    echo "<p class='Traducir'>participante: " .$participante->getNombre(). " " . $participante->getApellido() ."</p>";
-    echo "<form id='formularioNotas'>";
+    echo "<p class='nombre'>" .$participante->getNombre(). " " . $participante->getApellido() ."</p>";
+    echo '<form id="formularioNotas">
+    <section class="contenedor-total">
+    <section class="contenedor-nota"><svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="resta2" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+  <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+</svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="resta1" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+</svg>
+';
     echo "<input type='number' min='5' max='10' step='0.1' name='nota' placeholder='Nota' id='nota' class='TraducirInput'>";
-    echo "<input type='submit' value='Enviar' class='TraducirValue'>";
-    echo "</form>";
+    echo '<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="cur<svg xmlns="httprentColor" class="aumento1" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+  </svg>
+  <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="aumento2" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
+  <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
+</svg></section>';
+    echo "<input type='submit' value='ENVIAR' class='TraducirValue'>";
+    echo "</section</form>";
     echo "<p id='mensajeNotas'></p>";
     }
     echo "<script src='../../Controlador/js/Notas.js'></script>";
+
 }
 ?>
 <script src="../../Controlador/js/Traduccion.js"> </script>
+<script src="../../Controlador/js/CambioNota.js"> </script>
 </body>
 </html>
