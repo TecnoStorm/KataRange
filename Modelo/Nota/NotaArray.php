@@ -311,8 +311,6 @@ class NotaArray{
                             $clasificados2=[];
                             $clasificados1=array_slice($pool1,0,3);
                             $clasificados2=array_slice($pool2,0,3);
-                            echo "clasificados1:" . var_dump($clasificados1);
-                            echo "clasifacados2:" . var_dump($clasificados2);
                             $consulta3 = $conexion->prepare("DELETE estan FROM estan join compite on estan.ciP=compite.ciP where idTorneo=?");
                             $consulta3->bind_param("i",$idTorneo);
                             $consulta3->execute(); 
@@ -764,6 +762,7 @@ public function devolverNota($ci){
 public function notasTorneo($idTorneo){
     $cis=[];
     $notas=[];
+    $notasFinales=[];
     $conexion= mysqli_connect(SERVIDOR,USUARIO,PASS,BD);
     $consulta = $conexion->prepare("select estan.ciP from estan join tiene on estan.idP=tiene.idP where tiene.idT=? order by estan.idP DESC,notaFinal DESC;");
     $consulta-> bind_param("i",$idTorneo);
@@ -779,8 +778,14 @@ public function notasTorneo($idTorneo){
             }
         }
     }
-    $consulta->close();
-    return $notas;
+    $duplicados=$this->valoresRepetidos($notas,$idTorneo);
+    $consulta2 = "select estan.*,pool.numero from estan join pool where estan.idP=pool.idP order by idP DESC,notaFinal desc";
+    $resultado = mysqli_query($conexion, $consulta2);
+    while ($fila = $resultado->fetch_assoc()){
+        $notasFinales[] = new Nota($fila['ciP'],$fila['idP'],$fila['notaFinal'],$fila['Clasificados'],$fila['numero']);
+    }
+    $this->notasOriginales($duplicados);
+    return $notasFinales;
 }
 public function mostrarGanadores($idTorneo){
 $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
@@ -803,6 +808,85 @@ END;");
                 echo "<tr> <td>".$fila['Ci participante'] . " </td><td>" . $fila['nombre'] ."</td><td>".$fila['cinturon']."</td><td>".$fila['puesto'] ."</td> </tr>"; 
             }
             echo "</table>";
+}
+
+public function valoresRepetidos($notas,$idTorneo){
+    $duplicados = [];
+    $valoresVistos = [];
+    $posicionVistos = [];
+
+foreach ($notas as $clave => $nota) {
+    $valor = $nota->getNotaFinal(); 
+
+    if (array_key_exists($valor, $posicionVistos)) {
+        $indice = $posicionVistos[$valor];
+        if (!in_array($notas[$indice], $duplicados)) {
+            $duplicados[] = $notas[$indice]; 
+        }
+        $duplicados[] = $nota; 
+    } else {
+        $valoresVistos[] = $valor;
+        $posicionVistos[$valor] = $clave;
+    }
+}
+$this->desempate($duplicados, $idTorneo);
+return $duplicados;
+
+}
+public function desempate ($duplicados,$idTorneo){
+    $conexion= mysqli_connect(SERVIDOR,USUARIO,PASS,BD);
+    
+    $consulta= $conexion->prepare("select ciP,idP,max(Nota_Final) 'nota maxima' from puntua where idP=? group by ciP order by max(Nota_Final) desc;");
+    $consulta2 = $conexion->prepare("update estan join tiene on estan.idP=tiene.idP set NotaFinal=? where ciP = ? and idT=? and estan.idP=? ");
+    for ($x = 0; $x < count($duplicados); $x++) { 
+        for ($j = 0; $j < count($duplicados); $j++) {
+            $primeraFila=true;
+            if ($x !== $j) {                
+                if ($duplicados[$x]->getIdP() == $duplicados[$j]->getIdP() && $duplicados[$x]->getNotaFinal()==$duplicados[$j]->getNotaFinal()) {
+                    $idP=$duplicados[$x]->getIdP();
+                    $consulta->bind_param("i",$idP);
+                    $consulta->execute();
+                    $resultado=$consulta->get_result();
+                    while($fila = $resultado->fetch_assoc()){
+                       if($primeraFila && $duplicados[$x]->getCiP()==$fila["ciP"]){
+                          $notaFinal=$duplicados[$x]->getNotaFinal()+1;
+                          $duplicados[$x]->setNotaFinal($notaFinal);
+                          $ci=$duplicados[$x]->getCiP();
+                          echo "ci: " . $ci;
+                          echo "notaFinal: ". $notaFinal;
+                          echo "nota final cambiada: " . $duplicados[$x]->getNotaFinal();
+                          $consulta2->bind_param("iiii",$notaFinal,$ci,$idTorneo,$idP);
+                          $consulta2->execute();
+                          $primeraFila=false;
+                       }
+                       if($primeraFila && $duplicados[$j]->getCiP()==$fila["ciP"]&& $duplicados[$x]->getNotaFinal()==$duplicados[$j]->getNotaFinal()){
+                        $notaFinal=$duplicados[$x]->getNotaFinal()+1;
+                        $duplicados[$j]->setNotaFinal($notaFinal);
+                        $ci=$duplicados[$j]->getCiP();
+                          echo "cidos: " . $ci;
+                          echo "notaFinaldos: ". $notaFinal;
+                          echo "nota final cambiadados: " . $duplicados[$j]->getNotaFinal();
+                        $consulta2->bind_param("iiii",$notaFinal,$ci,$idTorneo,$idP);
+                        $consulta2->execute();
+                        $primeraFila=false;
+                       }
+                    }
+                }
+            }
+        }
+    }
+}
+public function notasOriginales($notas){
+    $conexion= mysqli_connect(SERVIDOR,USUARIO,PASS,BD);
+    $consulta = $conexion->prepare("update estan set notaFinal=? where ciP=? and idP=?");
+    for($x=0;$x<count($notas);$x++){
+        $nota=$notas[$x]->getNotaFinal();
+        $ci=$notas[$x]->getCiP();
+        $idP=$notas[$x]->getIdP();
+        $consulta->bind_param("iii",$nota,$ci,$idP);
+        $consulta->execute();
+    }
+    $consulta->close();
 }
 }
 ?>

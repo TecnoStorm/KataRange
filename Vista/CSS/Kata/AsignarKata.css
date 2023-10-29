@@ -100,3 +100,32 @@ input[type="submit"]:hover{
     background-color: gray;
     transition: ease-in 0.5s;
 }
+
+#salir{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+#salir a{
+    font-size: 18px;
+    color:black;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    border-color: rgba(177, 177, 179, 0.705);
+    background-color: rgba(163, 163, 163, 0.719);
+    border-radius: 15px;
+    padding: 12px;
+    width: 100px;
+    margin-top: 2%;
+    text-decoration: none;
+    transition: ease-out 0.15s;
+}
+
+#salir a:hover{
+    cursor:pointer;
+    color: rgb(13, 13, 196);
+    transition: all 0.2s;
+}

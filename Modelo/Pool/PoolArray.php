@@ -154,12 +154,12 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
         $consulta->execute();
         $resultado = $consulta->get_result();
         
-        echo "<table border='1'> 
-        <tr> <td> CI Participante </td> <td> Nombre </td> <td> Pool </td> <td> Cinturón </td> </tr>"; 
+        echo "<table border='1'><thead> 
+        <tr> <th> CI Participante </th> <th> Nombre </th> <th> Pool </th> <th> Cinturón </th> </tr></thead><tbody>"; 
         while($fila = $resultado->fetch_assoc()){
             echo "<tr> <td>".$fila['Ci participante']. " </td><td>" . $fila['nombre']. "</td><td>". $fila['pool'] . "</td><td>". $fila['Cinturon']."</td></tr>";
         }
-        echo "</table>";
+        echo "</tbody></table>";
     }
 
     public function AsignarPool($idTorneo){
