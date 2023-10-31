@@ -24,7 +24,10 @@ $katas=new KataArray();
 $torneos=new TorneoArray();
 $jueces=new JuezArray();
 $participantes=new ParticipanteArray();
+$ciParticipantes=$torneos->ciParticipantesTorneo();
 $contador=$participantes->participanteAPuntuar();
+$idP=$participantes->obtenerPool($ciParticipantes[$contador]);
+$cantidad=$participantes->notasParticipante($ciParticipantes[$contador],$idP);
 $usuario=$_SESSION['usuario'];
 $ciJ=$jueces->obtenerCi($usuario);
 $idT=$jueces->obtenerIdTorneo($ciJ);
@@ -39,10 +42,11 @@ else{
         $notas->ganadores($idT); 
     }
     else{
-    $cantNotas=$participantes->cantidadNotas($contador);
-    
-    $ciParticipantes=$torneos->ciParticipantesTorneo();
+    $cantNotas=$participantes->cantidadNotas($ciParticipantes[$contador],$idP);
     $participante=$participantes->devolverInfo($ciParticipantes[$contador]);
+    if($cantidad==5){
+      echo "<h1> Nota Extra </h1>";
+    }
     echo "<p class='nombre'>" .$participante->getNombre(). " " . $participante->getApellido() ."</p>";
     echo '<form id="formularioNotas">
     <section class="contenedor-total">

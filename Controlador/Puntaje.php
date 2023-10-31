@@ -27,12 +27,18 @@ $ciJ=$jueces->obtenerCi($usuario);
 $idTorneo=$jueces->idTorneoJuez($ciJ);
 $idP=$participantes->obtenerPool($ciParticipantes[$contador]);
 $nota=$_POST['nota'];
-$participantes->notas($ciJ,$ciParticipantes[$contador],$idP,$nota);
-$jueces->fechaHora($ciParticipantes[$contador],$ciJ,$idP);
-$cantNotas=$participantes->cantidadNotas($ciParticipantes[$contador]); 
-if($cantNotas){
-    $participantes->notaFinal($idTorneo,$ciParticipantes[$contador]);
-    $participantes->devolverInfo($ciParticipantes[$contador]); 
+$participante=$participantes->devolverInfo($ciParticipantes[$contador]);
+$cantNotas=$participantes->notasParticipante($ciParticipantes[$contador],$idP);
+if($cantNotas==5){
+    $_SESSION['notaExtra']=$nota;
+}
+else{
+    $participantes->notas($ciJ,$ciParticipantes[$contador],$idP,$nota);
+    $jueces->fechaHora($ciParticipantes[$contador],$ciJ,$idP);
+}
+$existe=$participantes->cantidadNotas($ciParticipantes[$contador],$idP); 
+if($existe && $participante->getCondicion()!="Ninguna" && isset($_SESSION['notaExtra']) || $existe && $participante->getCondicion()=="Ninguna"){
+    $participantes->notaFinal($idP,$ciParticipantes[$contador]); 
     echo "<a href='NotaKata.php'> Reset </a>"; 
 }
 

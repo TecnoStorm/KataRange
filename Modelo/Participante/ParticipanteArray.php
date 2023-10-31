@@ -236,23 +236,13 @@ class ParticipanteArray{
 
     public function obtenerPool($ci){
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-        $consulta = "SELECT * FROM estan";
-        $resultado = mysqli_query($conexion, $consulta);
-        $ciParticipantes=[];
-        $pools=[];
-        $pool;
-        echo "ci:".$ci;
-        if (!$resultado){
-            die('Error en la consulta SQL: ' . $consulta);
-        }
+        $consulta = $conexion->prepare("SELECT idP FROM estan where Notafinal=0 and ciP=?");
+        $consulta->bind_param("i",$ci);
+        $consulta->execute();
+        $resultado = $consulta->get_Result();
+        $pool=0;
         while($fila = $resultado->fetch_assoc()){
-            $ciParticipantes[]=$fila['ciP'];
-            $pools[]=$fila['idP'];
-        }
-        for($x=0;$x<count($ciParticipantes);$x++){
-            if($ci==$ciParticipantes[$x]){
-                $pool=$pools[$x];
-            }
+           $pool=$fila['idP'];
         }
         return $pool;
     }
@@ -283,34 +273,33 @@ class ParticipanteArray{
 
 
 
-    public function cantidadNotas($ci){
+    public function cantidadNotas($ci,$idP){
         $contador=0;
         $notas=false;
+        $pools=new PoolArray();
+        $idP=$pools->getIdPool($ci);
+        $participante=$this->devolverInfo($ci);
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-        $consulta = "SELECT * FROM puntua";
-        $resultado = mysqli_query($conexion, $consulta);
-        if (!$resultado){
-            die('Error en la consulta SQL: ' . $consulta);
-        }
-
+        $consulta = $conexion->prepare("SELECT count(Nota_Final) 'cantidad de notas' FROM puntua where ciP=? and idP=?");
+        $consulta->bind_param("ii",$ci,$idP);
+        $consulta->execute();
+        $resultado = $consulta->get_Result();
         while($fila = $resultado->fetch_assoc()){
-            if($ci=$fila['ciP']){
-                $contador++;
-            }
-            if($contador>=5){
+            if($fila['cantidad de notas']==5){
                 $notas=true;
             }
         }
         return $notas;
     }
 
-    public function notaFinal($idTorneo,$ci){
+    public function notaFinal($idPool,$ci){
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-        $consulta = $conexion->prepare("select * from puntua join compite on puntua.ciP=compite.ciP where idTorneo=? and puntua.ciP=?");
-        $consulta->bind_param("ii",$idTorneo,$ci);
+        $consulta = $conexion->prepare("select * from puntua where idP=? and puntua.ciP=?");
+        $consulta->bind_param("ii",$idPool,$ci);
         $consulta->execute();
         $resultado = $consulta->get_result();
         $notas=[];
+        $existe=false;
         $contador=0;
         if (!$resultado){
             die('Error en la consulta SQL: ' . $consulta);
@@ -322,17 +311,27 @@ class ParticipanteArray{
             $contador++;
             echo $contador;
         }
-        if($contador==5){
+        $participante=$this->devolverInfo($ci);
+        if($participante->getCondicion()!="Ninguna"){
+           $existe=true;
+        }
+        if($contador==5 && !$existe || $contador==5 && $existe && isset($_SESSION['notaExtra']) ){
             $mayorPuntaje = array_search(max($notas), $notas);
             unset($notas[$mayorPuntaje]);
             $menorPuntaje = array_search(min($notas), $notas);
             unset($notas[$menorPuntaje]); 
             var_dump($notas);
             $notaFinal = array_sum($notas);
+            $notaExtra=0;
+            if(isset($_SESSION['notaExtra'])){
+                $notaExtra=$_SESSION['notaExtra'];
+            }
+            $notaFinal+=$notaExtra;
             $consulta2 = $conexion ->prepare("UPDATE estan SET notaFinal = ?  WHERE ciP=?;");
             $consulta2->bind_param("di", $notaFinal,$ci);
             $consulta2->execute();
             $consulta2->close();
+            unset($_SESSION['notaExtra']);
             $consulta3= $conexion->prepare("UPDATE utiliza2 set notaFinal=? WHERE ciP=? and notaFinal is null");
             $consulta3->bind_param("di",$notaFinal,$ci);
             $success=$consulta3->execute();
@@ -438,6 +437,18 @@ public function cinturon($ci){
         $cinturon=$fila['cinturon'];
     }
     return $cinturon;
+}
+public function notasParticipante($ci,$idP){
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta = $conexion->prepare("select count(Nota_Final) 'cantidad de notas' from puntua where ciP=? and idP=?");
+    $consulta->bind_param("ii",$ci,$idP);
+    $consulta->execute();
+    $cantidad=0;
+    $resultado = $consulta->get_result();
+    while($fila = $resultado->fetch_assoc()){
+      $cantidad=$fila['cantidad de notas'];
+    }
+    return $cantidad;
 }
 }
 ?> 

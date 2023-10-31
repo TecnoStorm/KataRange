@@ -575,5 +575,17 @@ public function RangoPools($idTorneo){
     $consulta->close();
     return $ids;
 }
+public function getIdPool($ci){
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta = $conexion->prepare("select idP from estan where notaFinal=0 and ciP=?");
+    $consulta->bind_param("i",$ci);
+    $consulta->execute();
+    $idP=0;
+    $resultado = $consulta->get_result();
+    while ($fila = $resultado->fetch_assoc()){
+        $idP=$fila['idP'];
+    }
+    return $idP;
+ }
 }
 ?>
