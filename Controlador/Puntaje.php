@@ -16,8 +16,7 @@ require_once("../Modelo/Nota/NotaArray.php");
 $participantes= new ParticipanteArray();
 $torneos=new TorneoArray();
 $notas=new NotaArray();
-$ciParticipantes=$torneos->ciParticipantesTorneo();
-$contador=$participantes->participanteAPuntuar();
+
 if(isset($_SESSION["usuario"])){
     $usuario=$_SESSION["usuario"];
 }
@@ -25,6 +24,8 @@ $jueces=new JuezArray();
 echo $usuario;
 $ciJ=$jueces->obtenerCi($usuario);
 $idTorneo=$jueces->idTorneoJuez($ciJ);
+$contador=$participantes->participanteAPuntuar($idTorneo);
+$ciParticipantes=$torneos->ciParticipantesTorneo($idTorneo);
 $idP=$participantes->obtenerPool($ciParticipantes[$contador]);
 $nota=$_POST['nota'];
 $participante=$participantes->devolverInfo($ciParticipantes[$contador]);
@@ -33,6 +34,8 @@ if($cantNotas==5){
     $_SESSION['notaExtra']=$nota;
 }
 else{
+    echo "el idp es: ". $idP;
+    echo "la ci del participante es:" . $ciParticipantes[$contador];
     $participantes->notas($ciJ,$ciParticipantes[$contador],$idP,$nota);
     $jueces->fechaHora($ciParticipantes[$contador],$ciJ,$idP);
 }

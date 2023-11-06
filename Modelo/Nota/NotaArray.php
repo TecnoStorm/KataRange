@@ -38,7 +38,9 @@ class NotaArray{
     
     public function ganadores($idTorneo){
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+        echo $idTorneo;
         $notas=$this->notasTorneo($idTorneo);
+        echo "cantidad de notas:". count($notas);
         $pools=new PoolArray();
         $cantRondas=$pools->cantRondas($idTorneo);
         $participantes=new ParticipanteArray();
@@ -503,7 +505,7 @@ class NotaArray{
     }    
     //torneo de 25 a 49--------------------------------------------------------------------------------------------------------
         if(count($notas)>24 && count($notas) <49){
-           if($cantRondas==2){
+            if($cantRondas==2){
             $clasificados12=array_slice($notas,0,4);
             $pool11=[];
             $pool10=[];
@@ -573,7 +575,6 @@ class NotaArray{
             $uno=1;
             $dos=2;
             foreach($notas as $nota){
-                echo "numero: ". $nota->getNumero();
                 if($nota->getNumero()==1){
                     $pool1[]=$nota;
                 }
@@ -764,6 +765,7 @@ public function notasTorneo($idTorneo){
     $notas=[];
     $notasFinales=[];
     $conexion= mysqli_connect(SERVIDOR,USUARIO,PASS,BD);
+    echo "torneo recibido:". $idTorneo;
     $consulta = $conexion->prepare("select estan.ciP from estan join tiene on estan.idP=tiene.idP where tiene.idT=? order by estan.idP DESC,notaFinal DESC;");
     $consulta-> bind_param("i",$idTorneo);
     $consulta-> execute();
@@ -779,8 +781,11 @@ public function notasTorneo($idTorneo){
         }
     }
     $duplicados=$this->valoresRepetidos($notas,$idTorneo);
-    $consulta2 = "select estan.*,pool.numero from estan join pool where estan.idP=pool.idP order by idP DESC,notaFinal desc";
-    $resultado = mysqli_query($conexion, $consulta2);
+    $consulta2 = $conexion->prepare("select estan.*,pool.numero from estan join pool on estan.idP=pool.idP join tiene on estan.idP=tiene.idP where idT=? 
+    order by idP DESC,notaFinal desc");
+    $consulta2->bind_param("i",$idTorneo);
+    $consulta2->execute();
+    $resultado = $consulta2->get_Result();
     while ($fila = $resultado->fetch_assoc()){
         $notasFinales[] = new Nota($fila['ciP'],$fila['idP'],$fila['notaFinal'],$fila['Clasificados'],$fila['numero']);
     }

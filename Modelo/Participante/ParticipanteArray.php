@@ -259,6 +259,7 @@ class ParticipanteArray{
         $success=$consulta->execute();
         if(!$success){
             echo "<p style='color:#EDAD14'> La nota ya ha sido ingresada </p>";
+            echo $consulta->error;
         }
         else{
             echo  "<p style='color:green'> nota ingresada con exito nota ingresada </p>"; 
@@ -320,7 +321,6 @@ class ParticipanteArray{
             unset($notas[$mayorPuntaje]);
             $menorPuntaje = array_search(min($notas), $notas);
             unset($notas[$menorPuntaje]); 
-            var_dump($notas);
             $notaFinal = array_sum($notas);
             $notaExtra=0;
             if(isset($_SESSION['notaExtra'])){
@@ -344,17 +344,16 @@ class ParticipanteArray{
         }
     }
 
-    public function participanteAPuntuar(){ 
+    public function participanteAPuntuar($idTorneo){ 
         $notas=[];
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-        $consulta = "SELECT * FROM estan ORDER BY notaFinal DESC";
-        $resultado = mysqli_query($conexion, $consulta);
-        if (!$resultado){
-            die('Error en la consulta SQL: ' . $consulta);
-        }
-
+        $consulta = $conexion->prepare("SELECT estan.* FROM estan join tiene on estan.idP=tiene.idP where idT=? ORDER BY idP;");
+        $consulta->bind_param("i",$idTorneo);
+        $consulta->execute();
+        $resultado = $consulta->get_Result();
         while($fila = $resultado->fetch_assoc()){
             $notas[]=$fila['notaFinal'];
+            
         }
         $posicion=array_search(0,$notas);
         return $posicion;   
@@ -366,7 +365,7 @@ class ParticipanteArray{
         $ids=$pools->RangoPools($idTorneo);
         $notas=[];
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-        $consulta = $conexion->prepare("select estan.notaFinal from estan join tiene on estan.idP=tiene.idP where tiene.idT=? order by estan.idP,notaFinal DESC;");
+        $consulta = $conexion->prepare("SELECT estan.* FROM estan join tiene on estan.idP=tiene.idP where idT=? ORDER BY idP;");
         $consulta->bind_param("i",$idTorneo);
         $consulta->execute();
         $resultado = $consulta->get_result();

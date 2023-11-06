@@ -109,7 +109,7 @@ public function ciSinAsignar($idTorneo){
 public function katasUtilizados($ci,$idTorneo,$numero){
     $katasUtilizados=[];
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-    $consulta = $conexion->prepare("select idKata from utiliza2 join compite on utiliza2.cip=compite.ciP where idTorneo=? and utiliza2.ciP=?;");
+    $consulta = $conexion->prepare("select idKata from utiliza2 join tiene on utiliza2.idP=tiene.idP where idT=? and utiliza2.ciP=?;");
     $consulta ->bind_param("ii",$idTorneo,$ci);
     $consulta->execute();
     $resultado = $consulta->get_result();

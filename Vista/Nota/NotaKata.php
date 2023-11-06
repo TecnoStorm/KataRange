@@ -24,14 +24,14 @@ $katas=new KataArray();
 $torneos=new TorneoArray();
 $jueces=new JuezArray();
 $participantes=new ParticipanteArray();
-$ciParticipantes=$torneos->ciParticipantesTorneo();
-$contador=$participantes->participanteAPuntuar();
-$idP=$participantes->obtenerPool($ciParticipantes[$contador]);
-$cantidad=$participantes->notasParticipante($ciParticipantes[$contador],$idP);
 $usuario=$_SESSION['usuario'];
 $ciJ=$jueces->obtenerCi($usuario);
 $idT=$jueces->obtenerIdTorneo($ciJ);
 $existe=$participantes->existe0($idT);
+$ciParticipantes=$torneos->ciParticipantesTorneo($idT);
+$contador=$participantes->participanteAPuntuar($idT);
+$idP=$participantes->obtenerPool($ciParticipantes[$contador]);
+$cantidad=$participantes->notasParticipante($ciParticipantes[$contador],$idP);
 $sinAsignar=$katas->sinAsignarKata($idT);
 if($sinAsignar){
     echo "todos los participantes deben tener un kata asignado";

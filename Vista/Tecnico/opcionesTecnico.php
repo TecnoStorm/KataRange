@@ -10,6 +10,9 @@
 <body>
 <?php
 session_start();
+if(isset($_SESSION['nombreTorneo'])){
+    unset($_SESSION['nombreTorneo']);
+}
 require_once ("../../Modelo/Tecnico/TecnicoArray.php");
 require_once ('../../Modelo/Torneo/TorneoArray.php');
 if(isset($_SESSION["clave"]) && isset($_SESSION["usuario"])){
@@ -58,13 +61,12 @@ if($existe){
     echo "<input type='submit' value='mostrar'>
     </section></form>";
     echo "<h2 class='Traducir'>Tanteador</h2>";
-    echo "<form action='../Participante/Tanteador.php' method='post' id='FormularioTanteador'>";
-    echo "<select name='ciParticipante'>";
-    for($x=0;$x<count($nombres);$x++){
-      echo "<option value='$cedulas[$x]'> $nombresParticipantes[$x] </option>";
+    echo "<form action='../Participante/ElegirParticipante.php' method='post' id='FormularioTanteador'>";
+    echo  "<select name='nombreTorneo'>";
+    foreach($nombres as $nombre){
+    echo "<option value='$nombre'> $nombre </option>";
     }
-    echo "</select>";
-    echo "<input type='submit' value='Mostrar' class='TraducirValue'>";
+    echo "<input type='submit' value='Elegir' class='TraducirValue'>";
     echo "</form>
     <h2 class='Traducir'>Gestionar torneos</h2>
     <section class='boton-gestion'>";

@@ -124,42 +124,29 @@ public function ParticipantesTorneo($ciP,$idTorneo,$puesto,$cinturon){
     $conexion->close();
 }
 
-public function ciParticipantesTorneo(){
-    $ciParticipantes=[];
-    $consulta = "SELECT * FROM estan ORDER BY notaFinal desc"; 
+public function ciParticipantesTorneo($idTorneo){
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-    $resultado = mysqli_query($conexion, $consulta);
-    if (!$conexion) {
-        die('Error en la conexión: ' . mysqli_connect_error());
-    }
-
-    if (!$resultado){
-        die('Error en la consulta SQL: ' . $consulta);
-    }
-
+    $ciParticipantes=[];
+    $consulta = $conexion->prepare("SELECT estan.* FROM estan join tiene on estan.idP=tiene.idP where idT=? ORDER BY idP;"); 
+    $consulta->bind_param("i",$idTorneo);
+    $consulta->execute();
+    $resultado = $consulta->get_Result();
     while($fila = $resultado->fetch_assoc()){
         $ciParticipantes[]=$fila['ciP'];
     }
     return $ciParticipantes;
 }
-public function ciParticipantesTorneoPools($idTorneo){
-    $ciParticipantes=[];
-    $consulta = "SELECT * FROM compite"; 
+public function idEscuelasTorneo($idTorneo){
+    $idEscuelas=[];
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-    $resultado = mysqli_query($conexion, $consulta);
-    if (!$conexion) {
-        die('Error en la conexión: ' . mysqli_connect_error());
-    }
-
-    if (!$resultado){
-        die('Error en la consulta SQL: ' . $consulta);
-    }
-
+    $consulta = $conexion->prepare("select idEscuela from compite join estudia on compite.ciP=estudia.ciP  where idTorneo=? group by idEscuela order by idEscuela ;"); 
+    $consulta->bind_param("i",$idTorneo);
+    $consulta->execute();
+    $resultado = $consulta->get_Result();
     while($fila = $resultado->fetch_assoc()){
-        if($fila['idTorneo']==$idTorneo)
-        $ciParticipantes[]=$fila['ciP'];
+        $idEscuelas[]=$fila['idEscuela'];
     }
-    return $ciParticipantes;
+    return $idEscuelas;
 }
 public function Puestos(){
     $puestos=[];

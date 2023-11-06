@@ -38,6 +38,12 @@
     echo  '</select>
     <input type="submit" name="registrar" value="REGISTRAR" id="boton" class="TraducirValue">
     </form>
+    <p> Requisitos minimos de la Contraseña</p>
+    <ul>
+    <li>6 caracteres</li>
+    <li>1 mayuscula</li>
+    <li>1 numero</li>
+    </ul>
     <p id="mensajeJuez"></p>
 </section>'
 ?>

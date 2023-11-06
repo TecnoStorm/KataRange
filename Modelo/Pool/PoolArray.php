@@ -166,8 +166,9 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
         $torneos=new TorneoArray();
         $participantesMismaCategoria=$torneos->mismaCategoria();
-        $ciParticipantes=$torneos->ciParticipantesTorneoPools($idTorneo);
-        $participantes=new ParticipanteArray();
+         $idEscuelas=$torneos->idEscuelasTorneo($idTorneo);
+         $ciParticipantes=$this->mismaEscuela($idEscuelas,$idTorneo);
+         $participantes=new ParticipanteArray();
         $participantesArray=$participantes->devolverArray();
         $ids=$this->RangoPools($idTorneo);
         $idsTiene=$this->idPTiene($idTorneo);
@@ -209,16 +210,21 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
             $consulta2=$conexion->prepare("Update compite set cinturon=? where ciP=?");
             $consulta3=$conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda,idP) values (?,?,?,?)");
             for($x=0;$x<count($ciParticipantes);$x++){
+                if($x%2!=0){
+                    $id=1;
+                    $cinturon="Ao";
+                }
+                else{
+                    $id=0;
+                    $cinturon="Aka";
+                }
                 $consulta->bind_param("iiis", $ciParticipantes[$x],$ids[$id],$notaFinal,$clasificados); 
                 $consulta->execute();
                 $consulta2->bind_param("si",$cinturon,$ciParticipantes[$x]);
                 $consulta2->execute();
                 $consulta3->bind_param("iiii",$ciParticipantes[$x],$cero,$uno,$ids[$id]);
                 $consulta3->execute();
-                if($x>=1){
-                    $id=1;
-                    $cinturon="Ao";
-                }
+                
             }
            $consulta->close();
            $consulta2->close();
@@ -226,33 +232,37 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
             $cinturon="Aka";
             $consulta = $conexion ->prepare("INSERT INTO  estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
             $consulta2=$conexion->prepare("Update compite set cinturon=? where ciP=?");
-            $consulta3=$conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda,idP) values (?,?,?,?)");
-            
-            for($x=0;$x<count($participantesMismaCategoria);$x++){
-            
-            $consulta->bind_param("iiis", $ciParticipantes[$x],$ids[$id],$notaFinal,$clasificados); 
-            $consulta->execute();
-            $consulta3->bind_param("iiii",$ciParticipantes[$x],$cero,$uno,$ids[$id]);
-            $consulta3->execute();
-            $consulta2->bind_param("si",$cinturon,$ciParticipantes[$x]);
-                    $consulta2->execute();        
-                    if($x>=2){
-                        $id=1;
-                        $cinturon="Ao";
-                    }
-                }
-                
-
-        } elseif (count($ciParticipantes) > 5 && count($ciParticipantes) <= 10) {
+            $consulta3=$conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda,idP) values (?,?,?,?)");    
+                        for($x=0;$x<count($ciParticipantes);$x++){
+                            if($x%2!=0){
+                                $id=1;
+                                $cinturon="Ao";       
+                                }
+                                else{
+                                    $id=0;
+                                    $cinturon="Aka";    
+                                }  
+                            $consulta->bind_param("iiis", $ciParticipantes[$x],$ids[$id],$notaFinal,$clasificados); 
+                            $consulta->execute();
+                            $consulta3->bind_param("iiii",$ciParticipantes[$x],$cero,$uno,$ids[$id]);
+                            $consulta3->execute();
+                            $consulta2->bind_param("si",$cinturon,$ciParticipantes[$x]);
+                            $consulta2->execute();                
+                            }     
+    } elseif (count($ciParticipantes) > 5 && count($ciParticipantes) <= 10) {
             $consulta = $conexion ->prepare("INSERT INTO  estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
             $consulta2=$conexion->prepare("Update compite set cinturon=? where ciP=?");
             $consulta3=$conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda,idP) values (?,?,?,?)");
             $cinturon="Aka";
             for($x=0;$x<count($ciParticipantes);$x++){
-                if($x>(count($ciParticipantes)/2)-1){
+                if($x%2!=0){
                     $id=1;
-                    $cinturon="Ao";
-                }
+                    $cinturon="Ao";       
+                    }
+                    else{
+                        $id=0;
+                        $cinturon="Aka";    
+                    }  
             $consulta->bind_param("iiis", $ciParticipantes[$x],$ids[$id],$notaFinal,$clasificados); 
             $consulta->execute();
             $consulta3->bind_param("iiii",$ciParticipantes[$x],$cero,$uno,$ids[$id]);
@@ -268,9 +278,9 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
             $pool1=count($ciParticipantes)/2;
             $uno=1;
             $dos=2;
-            for($x=1;$x<=count($participantesMismaCategoria);$x++){ 
-                if($x>$pool1){
-                    $cinturon="Aka";
+            for($x=1;$x<=count($ciParticipantes);$x++){ 
+                if(($x-1)%2!=0){
+                    $cinturon="Ao";
                     $consulta->bind_param("iiis", $ciParticipantes[$x-1],$idsTiene[6],$notaFinal,$clasificados);
                     $consulta->execute();
                     $consulta2->bind_param("si",$cinturon,$ciParticipantes[$x-1]);
@@ -279,7 +289,7 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
                     $consulta3->execute();
                 }
                 else{
-                    $cinturon="Ao";
+                    $cinturon="Aka";
                     $consulta->bind_param("iiis", $ciParticipantes[$x-1],$idsTiene[5],$notaFinal,$clasificados); 
                     $consulta->execute();
                     $consulta2->bind_param("si",$cinturon,$ciParticipantes[$x-1]);
@@ -298,15 +308,14 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
             $pool=1;
             $cinturon="Ao";
             $posicion=10;
-            for($x=1;$x<=count($ciParticipantes);$x++){ 
+            for($x=0;$x<=count($ciParticipantes);$x++){ 
                 if($contador>$cantpool && $pool!=4){
                     $pool++;
                     $contador=0;
                     $posicion--;
                 }
                 if($x>count($ciParticipantes)/2){
-                    $cinturon="Aka";
-                   
+                    $cinturon="Aka";       
                 }
                 $consulta->bind_param("iiii",$ciParticipantes[$x-1],$idsTiene[$posicion],$notaFinal,$clasificados);
                 $consulta3->bind_param("iiii",$ciParticipantes[$x-1],$cero,$uno,$idsTiene[$posicion]);
@@ -325,49 +334,31 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
             $consulta = $conexion ->prepare("INSERT INTO estan (ciP,idP,notaFinal,Clasificados) values (?,?,?,?)");
             $consulta2=$conexion->prepare("Update compite set cinturon=? where ciP=?");
             $consulta3=$conexion->prepare("INSERT INTO utiliza2 (ciP,idKata,ronda,idP) values (?,?,?,?)");
-            $cantpool=count($ciParticipantes)/8 -1;
-            $cambiarPool=false;
-            $contador=0;
-            $contador2=0;
-            $pool=1;
-            $posicion=9;
-            $id=11;
+            $posicionId=18;
+            $i=0;
+            $uno=1;
             $idKata=0;
-            for($x=1;$x<=count($ciParticipantes);$x++){ 
-                if($pool==9 && $cambiarPool){
-                    $pool=1;
-                    $id=11;
-                    echo "holaaaaaaaa";
-                }
-                    if($contador>$cantpool){
-                        $pool++;
-                        $id++;
-                        if($pool==9 && !$cambiarPool){
-                            $id=18;
-                            $pool=1;
-                            $cambiarPool=true;
-                            $contador=0;
-                    
-                        }
-                        else{
-                            $contador=0;
-                        }
-                        
-                    }
-                
-               
-                $contador2++;
-                $consulta->bind_param("iiii",$ciParticipantes[$x-1],$idsTiene[$id],$notaFinal,$clasificados);
+            $cinturon;
+            
+            for($x=count($ciParticipantes);$x>0;$x--){ 
+                echo "hola";
+                $consulta->bind_param("iiii",$ciParticipantes[$i],$idsTiene[$posicionId],$notaFinal,$clasificados);
                 $consulta->execute();
-                $consulta3->bind_param("iiii",$ciParticipantes[$x-1],$idKata,$uno,$idsTiene[$id]);
+                if($i%2!=0){
+                    $cinturon="Ao";       
+                    }
+                    else{
+                        $cinturon="Aka";    
+                    }
+                $consulta2->bind_param("si",$cinturon,$ciParticipantes[$i]);
+                $consulta2->execute();
+                $consulta3->bind_param("iiii",$ciParticipantes[$i],$idKata,$uno,$idsTiene[$posicionId]);
                 $consulta3->execute();
-                if($cambiarPool && $pool!=8){
-                    $pool++;
-                    $id--;   
-                   }
-                   else{
-                    $contador++;
-                   }
+                $posicionId--;
+                $i++;
+                if($posicionId==10){
+                    $posicionId=18;
+                }
         }
     }
 }
@@ -587,5 +578,38 @@ public function getIdPool($ci){
     }
     return $idP;
  }
+
+public function mismaEscuela($idEscuelas,$idTorneo){
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $cis=[];
+    $cisRespaldos=[];
+shuffle($idEscuelas);
+for($x=0;$x<count($idEscuelas);$x++){
+$competidores=[];
+$consulta2=$conexion->prepare("select estudia.* from estudia join compite on compite.ciP=estudia.ciP where idEscuela=? and  idTorneo=?;");
+$idEscuela=$idEscuelas[$x];
+$consulta2->bind_param("ii",$idEscuela,$idTorneo);
+$consulta2->execute();
+$idEscuela=0;
+$idP=0;
+$resultado2=$consulta2->get_Result();
+while ($fila = $resultado2->fetch_assoc()){
+    $competidores[]=$fila['ciP'];
+}
+shuffle($competidores);
+$posicionCompetidores=count($competidores);
+$cisRespaldos = array_merge($cisRespaldos,array_slice($competidores,0,$posicionCompetidores));
+}
+$posicionCis=count($cisRespaldos);
+$cis = array_merge($cis, array_slice($cisRespaldos, 0, $posicionCis));
+return $cis;
+}
+public function borrarEstan($idTorneo){
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $consulta = $conexion->prepare("delete estan from estan join tiene on estan.idP=tiene.idP where idT=?");
+    $consulta->bind_param("i",$idTorneo);
+    $consulta->execute();
+    $consulta->execute();
+}
 }
 ?>
