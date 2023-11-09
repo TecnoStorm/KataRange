@@ -21,7 +21,7 @@ $condicion=$_POST["Condicion"];
 $nombreEscuela=$_POST["nombreEscuela"];
 $nombreTorneo=$_POST["nombreTorneo"];
 $torneos=new TorneoArray();
-$puedeParticipar=$torneos->mismaCategoriaIndividual($nombreTorneo,$sexo,$condicion,$categoria);
+$puedeParticipar=$torneos->mismaCategoriaInsectionidual($nombreTorneo,$sexo,$condicion,$categoria);
 if($puedeParticipar){
     $katas=new KataArray();
     $escuelas=new EscuelaArray();
@@ -30,7 +30,7 @@ if($puedeParticipar){
     $torneo=$torneos->infoTorneo($nombreTorneo);
     $escuela=$escuelas->infoEscuela($nombreEscuela);
     $escuelas->guardarParticipante($escuela->getId(),$ci);
-    $torneos->ParticipantesTorneo($ci,$torneo->getIdTorneo(),0,"null"); 
+    $torneos->ParticipantesTorneo($ci,$torneo->getIdTorneo()); 
 }
 else{
     echo "<p style='color:red'>no cumple los requisitos del torneo indicado</p>";

@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +11,6 @@
 </head>
 <body>
 <?php
-session_start();
 require_once ("../Modelo/Nota/NotaArray.php");
 include "../Modelo/Participante/ParticipanteArray.php";
 $notaArray=new NotaArray();
@@ -18,9 +20,9 @@ if(isset($_SESSION["participantesPool"])){
 if($participantes->cantParticipantes()==4){
     if($notaArray->cantNotas()<4){
         echo "<p>no se ingresaron todas las notas</p>";
-        echo "<div class='salir'>";
+        echo "<section class='salir'>";
         echo "<a href='Juez/OpcionesJuez.php' id='Volver'> volver </a>";
-        echo "</div>";
+        echo "</section>";
     }
 
 }
@@ -28,19 +30,19 @@ if($participantes->cantParticipantes()>=10){
     if($notaArray->cantNotas()<$participantes->cantParticipantes()){
        
         echo "<p>no se ingresaron todas las notas</p>";
-        echo "<div class='salir'>";
+        echo "<section class='salir'>";
         echo "<a href='Juez/OpcionesJuez.php' id='Volver'> volver </a>";
-        echo "</div>";
+        echo "</section>";
     }
     else{        
         $pool=$_POST["pool"];
         $notaArray->ordenar();      
-        echo "<div id='ganadores'>";
+        echo "<section id='ganadores'>";
         $participantes->ganadoresDeRonda($pool);
-        echo "</div>";
-        echo "<div class='salir'>";
+        echo "</section>";
+        echo "<section class='salir'>";
         echo "<a href='Juez/OpcionesJuez.php' id='Volver'> volver </a>";
-        echo "</div>";
+        echo "</section>";
         }        
     }
 ?>  

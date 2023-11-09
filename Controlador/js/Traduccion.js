@@ -3,7 +3,13 @@ var elementosTraducirInput=document.querySelectorAll(".TraducirInput");
 var elementosTraducirValues=document.querySelectorAll(".TraducirValue")
 var existe=false;
 
-
+window.onload = function() {
+  var language = getCookie("language");
+  if (language === "english") {
+      document.getElementById('idioma').checked = true;
+      funcionIdioma();
+  }
+};
 
 if(elementosTraducirValues.length!=0){
   existe=true;
@@ -61,6 +67,7 @@ function funcionIdioma(){
   if(check){
     elementosTraducir.forEach(function(elemento) {
       TraducirTexto(elemento.textContent,"es","en",elemento)
+      document.cookie = "language=english; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/"
     });
     elementosTraducirInput.forEach(function(elementoInput){
      TraducirTextoInput(elementoInput.getAttribute("placeHolder"),"es","en",elementoInput)
@@ -74,6 +81,7 @@ function funcionIdioma(){
   else{
     elementosTraducir.forEach(function(elemento) {
      TraducirTexto(elemento.textContent,"en","es",elemento)
+     document.cookie = "language=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
     });
 
     elementosTraducirInput.forEach(function(elementoInput){
@@ -113,4 +121,18 @@ function FuncionFetch(apiUrl,elemento){
           console.error('Error en la solicitud:', error);
         });
           }
- 
+         function getCookie(nombre) {
+            var nombreCookie = nombre + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var cookieArray = decodedCookie.split(';');
+            for (var i = 0; i < cookieArray.length; i++) {
+                var cookie = cookieArray[i];
+                while (cookie.charAt(0) === ' ') {
+                    cookie = cookie.substring(1);
+                }
+                if (cookie.indexOf(nombreCookie) === 0) {
+                    return cookie.substring(nombreCookie.length, cookie.length);
+                }
+            }
+            return "";
+        }

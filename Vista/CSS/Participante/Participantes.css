@@ -34,11 +34,12 @@ body{
     align-items: center;
     flex-direction: column;
     border-color: rgba(177, 177, 179, 0.705);
-    background-color: rgba(163, 163, 163, 0.719);
+    background-color: rgb(211, 211, 211);
     backdrop-filter: blur(10px);
     border-radius: 15px;
     padding: 25px;
     box-sizing: border-box;
+    max-width: 600px;
 }
 
 .registrar1{
@@ -46,67 +47,27 @@ body{
     flex-direction: column;
 }
 
-input[type="text"],input[type="number"]{
-    height: 38px;
-    width: 180px;
-    font-size:18px;
-    border: 0.4px solid black;
-    border-radius: 5px;
+input[type="text"],input[type="password"],input[type="date"], input[type="number"], select{
+    height: 42px;
+    width: 220px;
     text-align: center;
-}
-    
-select{
-    font-size:24px;
-    height: 38px;
-    width: 180px;
+    font-size:18px;
+    border:0.3px solid black;
+    padding: 5px 0px;
+    border-radius: 6px;
+    margin: 5px 0px;
+    box-sizing: border-box;
 }
 
 .opcion2{
     width: 100px;
 }
 
-
-.btnregistrar{
-    display: flex;
-    margin-top: 20px;
-    justify-content: center;
-    font-size: 30px;
-    background-color: aliceblue;
-    border: 1.5px solid gray;
-    border-radius: 15px;
-    transition: ease-out 0.5s;
-}
-
-.btnregistrar:hover{
-    background-color: gray;
-    transition: ease-in 0.5s;
-}
-
 #mensaje{
     font-size: 22px;
 }
 
-a{
-    display: flex;
-    margin: 20px;
-    justify-content: center;
-    font-size: 30px;
-    background-color: aliceblue;
-    border: 1.5px solid gray;
-    border-radius: 15px;
-    transition: ease-out 0.5s; 
-    text-decoration: none;
-    color:black;
-}
 
-a:visited{
-    color:black;
-}
-
-a:hover{
-    background-color: gray;
-    transition: ease-in 0.5s;
-}
 
 
 #Volver{
@@ -149,6 +110,13 @@ h2{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-color: rgba(177, 177, 179, 0.705);
+    background-color: rgb(211, 211, 211);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 25px;
+    box-sizing: border-box;
+    max-width: 500px;
 }
 
 #salir{
@@ -157,7 +125,7 @@ h2{
     align-items: center;
 }
 
-#salir a{
+#salir .btnvolver{
     font-size: 18px;
     color:black;
     display: flex;
@@ -173,10 +141,33 @@ h2{
  
 }
 
-#salir a:hover{
+#salir .btnvolver:hover{
     cursor:pointer;
     color: rgb(13, 13, 196);
     transition: all 0.2s;
+}
+
+a, input[type="submit"]{
+    display: flex;
+    margin: 20px;
+    justify-content: center;
+    font-size: 30px;
+    background-color: aliceblue;
+    border: 1.5px solid gray;
+    border-radius: 15px;
+    transition: ease-out 0.5s; 
+    text-decoration: none;
+    color:black;
+}
+
+a:visited{
+    color:black;
+}
+
+a:hover, input[type="submit"]:hover{
+    cursor: pointer;
+    background-color: gray;
+    transition: ease-in 0.5s;
 }
 
 table {

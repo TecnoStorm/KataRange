@@ -15,7 +15,7 @@ class TecnicoArray{
             die('Error en la consulta SQL: ' . $consulta);
             }
         while($fila = $resultado->fetch_assoc()){
-            $this->_tecnicos[]= new Tecnico($fila['nombreTecnico'],$fila['apellido'],$fila['ciT'],$fila['usuario'],$fila['contraseña']);
+            $this->_tecnicos[]= new Tecnico($fila['nombreTecnico'],$fila['apellido'],$fila['ciT'],$fila['usuario'],$fila['clave']);
         }
     }
 

@@ -1,8 +1,8 @@
 <?php
 require_once("Participante.php");
-require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Nota/NotaArray.php"); 
-require_once ("C:/xampp/htdocs/ProgramaPhp/Controlador/config.php");
-require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Pool/PoolArray.php");
+require_once (__DIR__."/../Nota/NotaArray.php"); 
+require_once (__DIR__."/../../Controlador/config.php");
+require_once (__DIR__."/../Pool/PoolArray.php");
 class ParticipanteArray{
     private $_participantes=array();    
     public function __construct(){
@@ -26,11 +26,11 @@ class ParticipanteArray{
             die('Error en la conexión: ' . mysqli_connect_error());
         }
         $consulta = $conexion ->prepare(
-            "INSERT INTO Persona (ci,nombre,apellido)
+            "INSERT INTO persona (ci,nombre,apellido)
             values (?,?,?)");
         
         $consulta2 = $conexion ->prepare(
-         "INSERT INTO Participante (nombreP,apellidoP,ciP,sexo,condicion,categoriaP) values (?,?,?,?,?,?)");
+         "INSERT INTO participante (nombreP,apellidoP,ciP,sexo,condicion,categoriaP) values (?,?,?,?,?,?)");
         $consulta->bind_param("iss", $ci, $nombre, $apellido);
         $success=$consulta->execute();
         if(!$success){
@@ -58,14 +58,14 @@ class ParticipanteArray{
         if (!$resultado){
             die('Error en la consulta SQL: ' . $consulta);
         }
-        echo "<table border='2'>";
-        echo "<tr> <td class='Traducir'> Nombre </td> <td class='Traducir'> apellido </td> <td> Ci </td> </td><td class='Traducir'> sexo </td> <td class='Traducir'> condicion </td><td class='Traducir'> categoria </td> </tr>";
+        echo "<table><thead>";
+        echo "<tr> <th class='Traducir'> Nombre </th> <th class='Traducir'> Apellido </th> <th> CI participante </th> </th><th class='Traducir'> Sexo </th> <th class='Traducir'> Condicion </th><th class='Traducir'> Categoria </th> </tr></thead><tbody>";
         
         while($fila = $resultado->fetch_assoc()){
             echo "<tr> <td>".$fila['nombreP'] . " </td><td>" . $fila['apellidoP'] . "</td><td>  " . $fila['ciP'] . "</td> <td class='Traducir'>" . $fila['sexo'] . "</td><td class='Traducir'>" . $fila ['condicion'] . " </td><td class='Traducir'>" . $fila ['categoriaP']. "</td> </tr>";
         }
         
-        echo "</table>";
+        echo "</tbody></table>";
     }
     
     public function eliminarParticipante($ci){
@@ -171,14 +171,7 @@ class ParticipanteArray{
         return $this->_participantes;
     }
 
-    public function guardarPool(){
-        $archivo=fopen("C:/xampp/htdocs/ProgramaPhp/TXT/participantes.txt","w");
-        foreach($this->_participantes as $participante){
-            $linea= implode (":", (array)$participante) ;
-            fputs($archivo,$linea);
-        }
-        fclose($archivo);
-    }
+    
 
     public function ganadoresDeRonda($pool) {
         $posiciones = array();

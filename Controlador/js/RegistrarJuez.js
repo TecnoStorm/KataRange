@@ -1,4 +1,3 @@
-alert("g")
 var formularioJuez=document.getElementById("formularioJuez")
 var mensajeJuez=document.getElementById("mensajeJuez");
 formularioJuez.addEventListener('submit',function(e){
@@ -6,17 +5,16 @@ formularioJuez.addEventListener('submit',function(e){
     Envio();
 })
 function Envio() {
-    var datos = new FormData(formularioJuez);
-    var clave = datos.get('clave');
-    alert(clave);
-    var valida=ClaveValida(clave);
+  var datos = new FormData(formularioJuez);
+  var clave = datos.get('clave');
+  alert(clave);
+  var valida=ClaveValida(clave);
     if(valida){
       var nombre = datos.get('nombre');
       var apellido = datos.get('apellido');
       var usuario = datos.get('usuario');
       var ci = datos.get('ci');
       
-     
       var confirmacion = datos.get('confirmacion');   
       var nombreTorneo=datos.get('nombreTorneo');
       var formData = new FormData();
@@ -46,10 +44,15 @@ function Envio() {
         });
     }
     else{
-       mensajeJuez.innerHTML="la contraseña no cumple con los requisitos minimos"
-    }
-    
+       mensajeJuez.innerHTML= `La contraseña no cumple con los requisitos minimos <p> Requisitos minimos de la Contraseña</p>
+       <ul>
+       <li>6 caracteres</li>
+       <li>1 mayuscula</li>
+       <li>1 numero</li>
+     </ul> `
+    }  
   }
+
 function ClaveValida(clave){
   if (clave.length >= 6) {
       var tieneNumero = false;

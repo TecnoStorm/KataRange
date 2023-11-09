@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +11,6 @@
 </head>
 <body>
 <?php
-session_start();
 require_once ("../Modelo/Participante/ParticipanteArray.php");
 require_once ("../Modelo/Juez/JuezArray.php");
 require_once ("../Modelo/Torneo/TorneoArray.php");

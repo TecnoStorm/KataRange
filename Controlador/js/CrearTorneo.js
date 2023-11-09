@@ -1,3 +1,4 @@
+console.log("adios");
 var formularioTorneo=document.getElementById("formularioTorneo")
 var mensajeTorneo=document.getElementById("mensajeTorneo");
 formularioTorneo.addEventListener('submit',function(e){

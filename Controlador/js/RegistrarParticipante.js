@@ -1,11 +1,11 @@
+alert("hola");
 var formulario=document.getElementById("registrarParticipante")
 var mensaje=document.getElementById("mensaje");
-var mensajeError=document.getElementById("mensajeError");
+var mensajeError=document.getElementById("mensajeErrorCedula");
 formulario.addEventListener('submit',function(e){ 
     e.preventDefault();
     EnvioRegistrarParticipante();
 })
-
 
 function confimarCi(ci){
   var expresionRegular = /^[0-9]{8}$/;
@@ -62,7 +62,9 @@ function EnvioRegistrarParticipante() {
         });
     }
     else{
-      mensajeError.innerHTML="Ingrese una cédula válida";
+      var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+      myModal.show();
+      mensajeError.innerHTML="Ingrese cédula válida";
     }
   }
   

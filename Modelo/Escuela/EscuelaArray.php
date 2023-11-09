@@ -1,11 +1,11 @@
 <?php
 require_once("Escuela.php");
-require_once ("../../Controlador/Config.php");
+require_once ("../../Controlador/config.php");
 class EscuelaArray{
     private $_escuelas=array ();
     public function __construct(){
             $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-            $consulta = "SELECT * FROM Escuela";
+            $consulta = "SELECT * FROM escuela";
             $resultado = mysqli_query($conexion, $consulta);
             if (!$resultado){
                 die('Error en la consulta SQL: ' . $consulta);
@@ -22,7 +22,7 @@ public function guardar($tecnica, $nombre){
             die('Error en la conexión: ' . mysqli_connect_error());
         }
         $consulta = $conexion ->prepare(
-            "INSERT INTO Escuela (Tecnica,nombre_Escuela)values (?,?)");
+            "INSERT INTO escuela (Tecnica,nombre_Escuela)values (?,?)");
         
         $consulta->bind_param("ss", $tecnica, $nombre);
         $consulta->execute();

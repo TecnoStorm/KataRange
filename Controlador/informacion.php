@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +11,6 @@
 </head>
 <body>
 <?php
-session_start();
 include "../Modelo/Participante/ParticipanteArray.php";
 $ci;
 $notaFinal;    
@@ -17,13 +19,13 @@ if(isset($_SESSION["ci"]) && isset($_SESSION["notaFinal"])){
     $notaFinal=$_SESSION["notaFinal"];
 }
 $participanteArray=new ParticipanteArray();
-echo "<div id='contenedor'>";
+echo "<section id='contenedor'>";
 $participanteArray->mostrarInfo($ci,$notaFinal);
-echo "</div>";
+echo "</section>";
 ?> 
-<div id="salir">
+<section id="salir">
 <a href="Juez/OpcionesJuez.php" id="Volver"> Volver </a>
-</div>
+</section>
 </body>
 </html>
 

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/Torneo/Torneo.css">
+    <link rel="stylesheet" href="../../Vista/CSS/Idioma.css">
+    <title>Document</title>
+</head>
+<body>
+    <section id='contenedorIdioma'>
+        <p>es</p>
+        <input type="checkbox" id="idioma">
+        <p>en</p>
+        </section>
+    <section id="contenedorTotal">
+        <section class="formularioGestion">
+    <h1 class="Traducir">Gestión De Torneos</h1>
+    <form id="formularioTorneo">
+    <input type="date" name="fecha" id="fecha" required>
+    <select name="categoria" id="categoria" required>
+    <option value="none" class="Traducir" selected disabled hidden>Seleccione categoria</option>
+    <option value="12/13">12/13</option>
+    <option value="14/15">14/15</option>
+    <option value="16/17">16/17</option>
+    <option value="mayores" class="Traducir">Mayores</option>
+    </select>
+    <select name="paraKarate" id="paraKarate" required>
+    <option value="none" selected disabled hidden>Para-karate</option>
+    <option value="si" class="Traducir"> Si</option>
+    <option value="no"> No</option>
+    </select>
+
+    <input type="number" name="cantidad" max="96" placeholder="Cantidad de Participantes" id="cantidad" class="TraducirInput" required>
+    <select name="sexo" id="sexo" required>
+        <option value="none" class="Traducir" selected disabled hidden>Seleccione sexo</option>
+        <option value="Femenino" class="Traducir" >Femenino</option>;
+        <option value="Masculino" class="Traducir" >Masculino</option>;
+        </select>
+    <input type="text" name="nombre" placeholder="Nombre del torneo" class="TraducirInput" required>
+    <input type="text" name="direccion" placeholder="Direccion" class="TraducirInput" required>
+    <section id="php"></section>
+    
+</section>    
+<input type="submit" value="Crear torneo" id="crearTorneo" class="TraducirValue" required>
+</form>
+<section class="formularios">
+<a href="MostrarTorneo.html" class="Traducir"> Mostrar Torneos</a>
+<p id="mensajeTorneo"></p>
+<p id="mensajeEditarTorneo"></p>
+</section>
+<h2 class="Traducir">Abir/cerrar Torneo</h2>
+<form id="modificarTorneo">
+<section class="abrir-torneo">
+<input type="number" name="id" placeholder="Id del torneo" id="id">     
+<select name="estado" id="estado">
+<option value="none" class="Traducir" selected disabled hidden>Seleccione estado</option>
+<option value="abierto" class="Traducir">Abierto</option>
+<option value="cerrado" class="Traducir">Cerrado</option>
+</select>
+</section>
+<input type="submit" value="Modificar" id="Modificar" class="TraducirValue">    
+</form>
+<h2 class="Traducir"> Crear Evento </h2>
+<form id="CrearEvento">
+<input type="text" name="nombreEvento" placeholder="nombreEvento" id="nombreEvento">
+<input type="submit" value="Asignar" id="asignar" class="TraducirValue">
+</form>
+<p id="mensajeCrearEvento"></p>
+</section>
+<script src='../../Controlador/js/FetchTorneos.js'></script>
+</body>
+</html>

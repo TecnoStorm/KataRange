@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Vista/CSS/Estilos.css">
+    <link rel="stylesheet" href="Vista/CSS/Idioma.css">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body>
+    <section id='contenedorIdioma'>
+        <p>Es</p>
+        <input type="checkbox" id="idioma">
+        <p>en</p>
+    </section>
+    <main>
+        <section class='logo'>
+            <img src='imagenes/KataRangeBlanco.png'>
+        </section>
+        <section id='contenedor'>
+            <h2> Inicio de sesión</h2>
+            <p id='texto3' class='Traducir'> Si es un juez o tecnico ingrese con su usuario</p>
+            <form id='formularioIndex'>
+                <section id='contenedorBox'>
+                    <input type="radio" class="checkbox-input" name="rol" value="tecnico"> <span class="inputName">Técnico</span>
+                    <input type="radio" class="checkbox-input" name="rol" value="Juez"><span class="inputName">Juez</span>
+                </section>
+                <input type='text' name='usuario' placeholder='Usuario' id='usuario' required class='TraducirInput'>
+                <section id='contenedorContraseña'>
+                    <input type="password" name="clave" placeholder="Contraseña" id="contraseña" required class="TraducirInput">
+                    <svg xmlns="http://www.w3.org/2000/svg" onclick="verClave()" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" onclick="ocultarClave()" width="19" height="19" fill="currentColor" class="bi bi-eye-slash" viewBox="0 0 16 16">
+                        <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z" />
+                        <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z" />
+                        <path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z" />
+                    </svg>
+                </section>
+                <input type='submit' name='login' value='Login' data-bs-toggle='modal' data-bs-target='.modalUsuario'>
+            </form>
+        </section>
+
+        <section class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <section class="modal-dialog modal-dialog-centered">
+              <section class="modal-content">
+                <section class="modal-header" style="background-color: rgb(255, 204, 0);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16" style="fill: white; margin-right: 5px;">
+                        <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
+                        <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/>
+                      </svg>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel" style="color: whitesmoke;">Advertencia</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </section>
+                <section class="modal-body">
+                    <p style="text-align: center;">Usuario o contraseña incorrectos</p>
+                </section>
+                <section class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </section>
+              </section>
+            </section>
+        </section>
+    </main>
+    <script src="Controlador/js/index.js"> </script>
+    <script src="Controlador/js/Traduccion.js"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

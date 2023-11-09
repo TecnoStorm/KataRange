@@ -1,3 +1,4 @@
+alert ("hola");
 var  CrearEvento=document.getElementById("CrearEvento")
 var mensajeCrearEvento=document.getElementById("mensajeCrearEvento");
 CrearEvento.addEventListener('submit',function(e){

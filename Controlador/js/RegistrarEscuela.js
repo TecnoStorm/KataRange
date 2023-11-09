@@ -22,7 +22,16 @@ function EnvioEscuela() {
         return response.text();
       })
       .then(data => {
-        mensajeEscuela.innerHTML = data;
+        if(data){
+          var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+          myModal.show();
+          mensajeEscuela.innerHTML = "La escuela ya existe";
+        }
+        else{
+          var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+          myModal.show();
+          mensajeEscuela.innerHTML = "La escuela se ha ingresado con éxito";
+        }
       })
       .catch(error => {
         alert("Error en la solicitud");

@@ -1,18 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../Vista/CSS/Pools/CreadorPools.css">
-    <link rel="stylesheet" href="../../Vista/CSS/Idioma.css">
-    <title>Document</title>
-</head>
-<body>
-<section id='contenedorIdioma'>
-<p>es</p>
-<input type="checkbox" id="idioma">
-<p>en</p>
-</section>
 <?php
 session_start();
 echo "<section id='contenedor-tabla'>";
@@ -23,7 +8,11 @@ require_once("../../Modelo/Juez/JuezArray.php");
 $pool = new PoolArray();
 $torneos=new TorneoArray();
 $jueces=new JuezArray();
+if(isset($_SESSION['nombreTorneo'])){
+    $_SESSION['nombreTorneo']=$nombreTorneo;
+}
 $nombreTorneo=$_POST['nombreTorneo'];
+
 $torneo=$torneos->infoTorneo($nombreTorneo);
 $nombres=$torneos->nombresTorneo();
 $usuario=$_SESSION['usuario'];
@@ -35,8 +24,8 @@ $arrayParticipante=$participanteArray->devolverArray();
 shuffle($arrayParticipante);
 echo "</section>";
 echo "<section id='formularios'>";
-echo "<form action='MostrarPool.php' method='post'>";
-echo "<input type='hidden' name='idTorneo' value='".$torneo->getIdTorneo()."'>";
+echo "<form id='formularioAsignados'>";
+echo "<input type='hidden' name='idTorneo' id='idTorneo' value='".$torneo->getIdTorneo()."'>";
 echo "<input type='submit' value='Sorteo' class='TraducirValue'>";
 echo "</form>";
 echo "<form id='formularioCrear'>";
@@ -54,10 +43,5 @@ echo "<input type='submit' value='enviar' class='TraducirValue'>";
 echo "</form>";
 echo "<p id='mensaje'></p>";
 echo "<p id='mensajeCrear'></p>";
+
 ?>
-</section>
-<script src="../../Controlador/js/CreadorPool.js"></script>
-<script src="../../Controlador/js/traduccion.js"> </script>
-<script src="../../Controlador/js/AsignadorPool.js"> </script>
-</body>
-</html>

@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,32 +11,31 @@
 </head>
 <body>
 <?php
-session_start();
 include "../Modelo/Participante/ParticipanteArray.php";
 require_once ("../Modelo/Nota/NotaArray.php");
 $participantes= new ParticipanteArray();
 $notas=new NotaArray();
-echo "<div class='contenedor'>";
+echo "<section class='contenedor'>";
 $participantes->pool();
-echo "<div id='pool'>";
+echo "<section id='pool'>";
 $participantes->mostrarPool();
-echo "</div>";
+echo "</section>";
 
 if($participantes->cantParticipantes()==3){
     
     echo "<a href='Ganadores.php'> Ganadores </a>";
-    echo "</div>";
+    echo "</section>";
 }
     
 if($participantes->cantParticipantes()==4){
-    echo "<div class='contenedor'>";
+    echo "<section class='contenedor'>";
     echo "<a href='llaves.php'> mostrar siguientes llaves </a>";
-    echo "</div>";
+    echo "</section>";
 }
 if($participantes->cantParticipantes()>=10){
     $_SESSION["participantesPool"]=serialize($participantes);
     $cantPool=$participantes->cantPools();
-    echo "<div class='contenedor'>";
+    echo "<section class='contenedor'>";
     echo "<form action='Llaves.php' method='post'>";
     echo "<input type='number' name='pool' PlaceHolder='Ingresar pool' max=$cantPool>";
     echo "<input type='submit' name='enviar' value='ver ganadores'>";

@@ -1,12 +1,12 @@
 <?php
 require_once ("Pool.php");
-require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Participante/ParticipanteArray.php");
-require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
+require_once (__DIR__."/../Participante/ParticipanteArray.php");
+require_once (__DIR__."/../Torneo/TorneoArray.php");
     class PoolArray{
     private $_pools=array();
 
     public function __construct(){
-        $consulta = "SELECT * FROM Pool";
+        $consulta = "SELECT * FROM pool";
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
         $resultado = mysqli_query($conexion, $consulta);
         if (!$conexion) {
@@ -34,7 +34,7 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
         if (!$conexion) {
             die('Error en la conexión: ' . mysqli_connect_error());
         }
-        $consulta = $conexion ->prepare("INSERT INTO Pool (estado,hora_inicio,hora_final,numero) values (?,?,?,?)");
+        $consulta = $conexion ->prepare("INSERT INTO pool (estado,hora_inicio,hora_final,numero) values (?,?,?,?)");
 
         $idsPool=[];
         $consulta3 = $conexion ->prepare("INSERT INTO tiene (idP,idT) values (?,?)");
@@ -85,7 +85,7 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
               $consulta->execute();
             }
           }  
-          $consulta2 = "SELECT * FROM Pool";
+          $consulta2 = "SELECT * FROM pool";
             $resultado = mysqli_query($conexion, $consulta2);
             while($fila = $resultado->fetch_assoc()){
                 if($fila['idP']>$mayorPool){
@@ -103,7 +103,7 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
     public function Listar($idTorneo){
         $ids=$this->idPTiene($idTorneo);
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-        $consulta = $conexion->prepare("SELECT * FROM Pool where idP=?");
+        $consulta = $conexion->prepare("SELECT * FROM pool where idP=?");
         echo "<table border='2'><thead>";
         echo "<tr> <th class='Traducir'> Estado </th> <th class='Traducir'> Hora inicio </th> <th> Id pool </th> </th><th class='Traducir'> Hora cierre </th> </tr></thead><tbody> ";
         for($x=0;$x<count($ids);$x++){
@@ -123,11 +123,11 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Torneo/TorneoArray.php");
     public function EditarPool($id,$estado){ 
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
         $consulta = $conexion ->prepare(
-            "UPDATE Pool SET estado = ? WHERE idP=?;");
+            "UPDATE pool SET estado = ? WHERE idP=?;");
             $consulta2 = $conexion ->prepare(
-                "UPDATE Pool SET hora_inicio = NOW()  WHERE idP=?;"); 
+                "UPDATE pool SET hora_inicio = NOW()  WHERE idP=?;"); 
                 $consulta3 = $conexion ->prepare(
-                    "UPDATE Pool SET hora_final = NOW()  WHERE idP=?;"); 
+                    "UPDATE pool SET hora_final = NOW()  WHERE idP=?;"); 
             if($estado=="abierto"){
                 $consulta->bind_param("si", $estado,$id);
                 $consulta->execute();

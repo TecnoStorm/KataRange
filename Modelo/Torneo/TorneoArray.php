@@ -1,11 +1,11 @@
 <?php
 require_once ("Torneo.php");
-require_once ("C:/xampp/htdocs/ProgramaPhp/Controlador/config.php");
-require_once ("C:/xampp/htdocs/ProgramaPhp/Modelo/Participante/ParticipanteArray.php");
+require_once (__DIR__."/../../Controlador/config.php");
+require_once (__DIR__."/../Participante/ParticipanteArray.php");
 class TorneoArray{
 private $_torneos= array();
 public function __construct(){
-    $consulta = "SELECT * FROM Torneo";
+    $consulta = "SELECT * FROM torneo";
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
         $resultado = mysqli_query($conexion, $consulta);
         if (!$conexion) {
@@ -41,13 +41,13 @@ public function guardar($fecha,$categoria,$cantParticipantes,$estado,$paraKarate
 
 public function mostrar(){
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-    $consulta = "SELECT * FROM Torneo";
+    $consulta = "SELECT * FROM torneo";
     $resultado = mysqli_query($conexion, $consulta);
     if (!$resultado){
         die('Error en la consulta SQL: ' . $consulta);
     }
-    echo "<table border='2' class='torneos'><thead>";
-    echo "<tr> <th class='Traducir'> idTorneo </th> <th class='Traducir'> Fecha </th> <th class='Traducir'> Categoria </th> <th class='Traducir'> cantParticipantes </th> <th class='Traducir'> Estado </th><th> ParaKarate </th> <th class='Traducir'> Sexo </th><th class='Traducir'> Nombre  </th> <th class='Traducir'> direccion </th></tr></thead><tbody>";
+    echo "<table class='torneos'><thead>";
+    echo "<tr> <th class='Traducir'> Id del torneo </th> <th class='Traducir'> Fecha </th> <th class='Traducir'> Categoria </th> <th class='Traducir'> Cantidad de participantes </th> <th class='Traducir'> Estado </th><th> ParaKarate </th> <th class='Traducir'> Sexo </th><th class='Traducir'> Nombre  </th> <th class='Traducir'> Direccion </th></tr></thead><tbody>";
     while($fila = $resultado->fetch_assoc()){
         echo "<tr> <td>".$fila['idTorneo'] . " </td><td>" . $fila['fecha'] . "</td><td class='Traducir'>  " . $fila['Categoria'] . "</td> <td>" . $fila['cantParticipantes'] . "</td><td class='Traducir'>" . $fila ['estado'] ."</td> <td class='Traducir'>". $fila['ParaKarate']. "</td><td class='Traducir'>". $fila['sexo']. "</td><td>". $fila['nombre']."</td> <td>" . $fila['direccion']. "</td> </tr>";
     }
@@ -59,7 +59,7 @@ public  function cambiarEstado($id,$estado){
     if($existe){
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
         $consulta = $conexion ->prepare(
-            "UPDATE Torneo SET estado = ? WHERE idTorneo=?;");
+            "UPDATE torneo SET estado = ? WHERE idTorneo=?;");
                 $consulta->bind_param("si", $estado,$id);
                 $consulta->execute();
                 $consulta->close();
@@ -107,14 +107,14 @@ public function mismaCategoria(){
     return $participantesMismaCategoria;
 }
 
-public function ParticipantesTorneo($ciP,$idTorneo,$puesto,$cinturon){
+public function ParticipantesTorneo($ciP,$idTorneo){
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
     if (!$conexion) {
         die('Error en la conexión: ' . mysqli_connect_error());
     }
-    $consulta = $conexion ->prepare("INSERT INTO compite (ciP,idTorneo,puesto,cinturon) values (?,?,?,?)");
+    $consulta = $conexion ->prepare("INSERT INTO compite (ciP,idTorneo) values (?,?)");
     
-    $consulta->bind_param("iiss", $ciP,$idTorneo,$puesto,$cinturon);
+    $consulta->bind_param("ii", $ciP,$idTorneo);
 
     $success=$consulta->execute();
         if(!$success){
@@ -180,7 +180,7 @@ public function existeTorneo($id){
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
     $existe=false;
     $ids=[];
-    $consulta = "SELECT * FROM Torneo";
+    $consulta = "SELECT * FROM torneo";
     $resultado = mysqli_query($conexion, $consulta);
     if (!$resultado){
     die('Error en la consulta SQL: ' . $consulta);
@@ -222,7 +222,7 @@ public function nombresTorneo(){
     }
  return $nombres;
 }
-public function mismaCategoriaIndividual($nombreTorneo,$sexoP,$condicion,$categoriaP){
+public function mismaCategoriaInsectionidual($nombreTorneo,$sexoP,$condicion,$categoriaP){
     $categoria="";
     $sexo="";
     $cantParticipantes=0;
@@ -244,7 +244,7 @@ public function mismaCategoriaIndividual($nombreTorneo,$sexoP,$condicion,$catego
 public function infoTorneo($nombre){
     $torneoEleccion;
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-    $consulta = "select  * from Torneo";
+    $consulta = "select  * from torneo";
     $resultado = mysqli_query($conexion, $consulta);
     while($fila = $resultado->fetch_assoc()){
         if($nombre==$fila['nombre']){
@@ -256,20 +256,20 @@ public function infoTorneo($nombre){
 
 public function CrearEvento($nombre){
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-    $consulta = $conexion->prepare("Insert into Evento (nombreEvento) values (?) ");
+    $consulta = $conexion->prepare("Insert into evento (nombreEvento) values (?) ");
     $consulta->bind_param("s",$nombre);
     $success=$consulta->execute();
     if(!$success){
         echo "<p style='color:red'> Nombre ya en uso";
     }
     else{
-        echo "<p style='color:green'> Evento Creado Correctamente";
+        echo "<p style='color:green'> evento Creado Correctamente";
     }
     $consulta->close();
 }
 public function nombresEvento(){
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-    $consulta = "select  * from Evento";
+    $consulta = "select  * from evento";
     $resultado = mysqli_query($conexion, $consulta);
     $nombres=[];
         if (!$conexion) {
@@ -286,7 +286,7 @@ return $nombres;
 public function idEvento($nombre){
     $id;
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-    $consulta = "select  * from Evento";
+    $consulta = "select  * from evento";
     $resultado = mysqli_query($conexion, $consulta);
     while($fila = $resultado->fetch_assoc()){
         if($nombre==$fila['nombreEvento']){

@@ -1,17 +1,17 @@
 <?php
 require_once("Juez.php");
-require_once ("C:/xampp/htdocs/ProgramaPhp/Controlador/config.php");
+require_once (__DIR__."/../../Controlador/config.php");
     class JuezArray{
         private $_jueces=array(); 
         public function __construct(){
             $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-            $consulta = "SELECT * FROM Juez";
+            $consulta = "SELECT * FROM juez";
             $resultado = mysqli_query($conexion, $consulta);
             if (!$resultado){
                 die('Error en la consulta SQL: ' . $consulta);
                 }
             while($fila = $resultado->fetch_assoc()){
-                $juez= new Juez($fila['nombre'],$fila['Apellido'],$fila['usuario'],$fila['ciJ'],$fila['contraseña']);
+                $juez= new Juez($fila['nombre'],$fila['Apellido'],$fila['usuario'],$fila['ciJ'],$fila['clave']);
                 array_push($this->_jueces, $juez);
             }
         }
@@ -21,12 +21,12 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Controlador/config.php");
             if (!$conexion) {
                 die('Error en la conexión: ' . mysqli_connect_error());
             }
-            $consulta = $conexion ->prepare("INSERT INTO Persona (ci,nombre,apellido) values (?,?,?)");
+            $consulta = $conexion ->prepare("INSERT INTO persona (ci,nombre,apellido) values (?,?,?)");
             $consulta->bind_param("iss", $ci, $nombre, $apellido);
             $consulta->execute();
             $consulta->close();
-            $consulta2 = $conexion ->prepare("INSERT INTO Juez (nombre,Apellido,usuario,ciJ,contraseña) values (?,?,?,?,SHA2(?, 256))");
-            $consulta3= $conexion->prepare("INSERT INTO Juzga (ciJ,idTorneo) values (?,?)");
+            $consulta2 = $conexion ->prepare("INSERT INTO juez (nombre,Apellido,usuario,ciJ,clave) values (?,?,?,?,SHA2(?, 256))");
+            $consulta3= $conexion->prepare("INSERT INTO juzga (ciJ,idTorneo) values (?,?)");
             $consulta2->bind_param("sssis", $nombre, $apellido,$usuario,$ci,$contraseña);
             $success=$consulta2->execute();
             $consulta3->bind_param("ii", $ci,$idTorneo);
@@ -49,7 +49,7 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Controlador/config.php");
         
         public function listar(){
             $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-            $consulta = "SELECT * FROM Juez";
+            $consulta = "SELECT * FROM juez";
             
             $resultado = mysqli_query($conexion, $consulta);
             
@@ -94,7 +94,7 @@ require_once ("C:/xampp/htdocs/ProgramaPhp/Controlador/config.php");
     }
     public function obtenerIdTorneo($ci){
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
-            $consulta = "SELECT * FROM Juzga";
+            $consulta = "SELECT * FROM juzga";
             
             $resultado = mysqli_query($conexion, $consulta);
             

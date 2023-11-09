@@ -1,18 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../Vista/CSS/Kata/NotaKata.css">
-    <link rel="stylesheet" href="../CSS/Idioma.css">
-    <title>Document</title>
-</head>
-<body>
-<section id='contenedorIdioma'>
-<p>es</p>
-<input type="checkbox" id="idioma">
-<p>en</p>
-</section>
 <?php
 session_start();
 require_once("../../Modelo/Participante/ParticipanteArray.php");
@@ -71,10 +56,5 @@ else{
     echo "<p id='mensajeNotas'></p>";
     }
     echo "<script src='../../Controlador/js/Notas.js'></script>";
-
 }
 ?>
-<script src="../../Controlador/js/Traduccion.js"> </script>
-<script src="../../Controlador/js/CambioNota.js"> </script>
-</body>
-</html>
