@@ -1,5 +1,8 @@
 var  formularioEscuela=document.getElementById("formularioEscuela")
 var mensajeEscuela=document.getElementById("mensajeEscuela");
+var mensajeModalError=document.getElementById("mensajeErrorCedula")
+var mensajeModalExito=document.getElementById("mensajeExito")
+
 formularioEscuela.addEventListener('submit',function(e){
     e.preventDefault();
     EnvioEscuela();
@@ -22,15 +25,15 @@ function EnvioEscuela() {
         return response.text();
       })
       .then(data => {
-        if(data){
+        if(data.includes("La escuela ya esta registrada")){
           var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
           myModal.show();
-          mensajeEscuela.innerHTML = "La escuela ya existe";
+          mensajeModalError.innerHTML = "La escuela ya existe";
         }
         else{
-          var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+          var myModal = new bootstrap.Modal(document.getElementById('modalExito'));
           myModal.show();
-          mensajeEscuela.innerHTML = "La escuela se ha ingresado con éxito";
+          mensajeModalExito.innerHTML = "La escuela se ha ingresado con éxito";
         }
       })
       .catch(error => {

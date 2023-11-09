@@ -24,17 +24,18 @@ body {
 
 input[type="submit"] {
   display: flex;
-  font-size: 18px;
+  font-size: 20px;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   color: rgb(233, 233, 233);
   align-items: center;
   justify-content: center;
   background-color: #2797e8;
-  border-radius: 8px;
-  width: 100px;
-  margin-top: 2%;
+  border-radius: 5px;
+  margin: 7px;
   text-decoration: none;
   transition: ease-out 0.15s;
+  padding: 5px;
+  border: 0px solid wheat;
 }
 
 input[type="submit"]:hover {

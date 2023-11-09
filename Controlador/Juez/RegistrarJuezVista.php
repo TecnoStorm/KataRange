@@ -20,7 +20,7 @@
     <input type="password" name="confirmacion" placeholder="Confirmacion" id="confirmacion"class="TraducirInput" required>
     </section>
     <select name="nombreTorneo" id=selectTorneo required>';
-    echo "<option selected hidden class='Traducir'>Ingrese categoria</option>";
+    echo "<option selected hidden class='Traducir' required>Ingrese torneo</option>";
     foreach($nombresTorneo as $nombre){
            echo "<option value='$nombre'> $nombre </option>";
     }

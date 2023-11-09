@@ -70,7 +70,6 @@ echo  "</select>
  </section>
  </form>
  <p id='mensajeEscuela'></p>
-   <p id='mensaje'></p>
    </section>
    </section>
  <h2 class='Traducir'> Torneos disponibles </h2>";

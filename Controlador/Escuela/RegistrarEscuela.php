@@ -4,11 +4,13 @@ $nombre=$_POST['nombre'];
 $tecnica=$_POST['tecnica'];
 $escuelas=new EscuelaArray();
 $existeEscuela=$escuelas->existeEscuela($nombre);
+
 if($existeEscuela){
-    return true;
+    echo "<p id='mensaje'>La escuela ya esta registrada</p>";
 }
 else{
     $escuelas->guardar($tecnica,$nombre);
-    return false;
+    echo "<p id='mensaje'>La escuela se ingreso con exito</p>";
 }
+
 ?>

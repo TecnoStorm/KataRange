@@ -1,10 +1,13 @@
 console.log("adios");
 var formularioTorneo=document.getElementById("formularioTorneo")
-var mensajeTorneo=document.getElementById("mensajeTorneo");
+var mensajeError=document.getElementById("mensajeErrorCedula")
+var mensajeExito=document.getElementById("mensajeExito")
+
 formularioTorneo.addEventListener('submit',function(e){
     e.preventDefault();
     EnvioCrear();
 })
+
 function EnvioCrear() {
     var datos = new FormData(formularioTorneo);
     var fecha = datos.get('fecha');
@@ -35,7 +38,17 @@ function EnvioCrear() {
         return response.text(); 
       })
       .then(data => {
-        mensajeTorneo.innerHTML = data;
+        if(data.includes("nombre en uso")){
+          var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+          myModal.show();
+          mensajeError.innerHTML="El nombre de torneo ya está en uso"
+        }
+        else{
+          var myModal = new bootstrap.Modal(document.getElementById('modalExito'));
+          myModal.show();
+          mensajeExito.innerHTML="Torneo creado con éxito"
+        }
+
       })
       .catch(error => {
         alert("Error en la solicitud");

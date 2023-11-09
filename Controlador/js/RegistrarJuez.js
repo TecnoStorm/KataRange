@@ -1,5 +1,7 @@
 var formularioJuez=document.getElementById("formularioJuez")
 var mensajeJuez=document.getElementById("mensajeJuez");
+var mensajeError=document.getElementById("mensajeErrorCedula");
+var mensajeExito=document.getElementById("mensajeExito");
 formularioJuez.addEventListener('submit',function(e){
     e.preventDefault();
     Envio();
@@ -7,7 +9,6 @@ formularioJuez.addEventListener('submit',function(e){
 function Envio() {
   var datos = new FormData(formularioJuez);
   var clave = datos.get('clave');
-  alert(clave);
   var valida=ClaveValida(clave);
     if(valida){
       var nombre = datos.get('nombre');
@@ -37,18 +38,30 @@ function Envio() {
           return response.text(); 
         })
         .then(data => {
-          mensajeJuez.innerHTML = data;
+          if(data.includes("las contraseñas no coinciden")){
+            var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+            myModal.show();
+            mensajeError.innerHTML="Las contraseñas no coinciden"
+          }
+          if(data.includes("juez ingresado")){
+            var myModal = new bootstrap.Modal(document.getElementById('modalExito'));
+            myModal.show();
+            mensajeExito.innerHTML="Juez ingresado correctamente"
+          }
         })
         .catch(error => {
           alert("Error en la solicitud");
         });
     }
     else{
-       mensajeJuez.innerHTML= `La contraseña no cumple con los requisitos minimos <p> Requisitos minimos de la Contraseña</p>
-       <ul>
-       <li>6 caracteres</li>
-       <li>1 mayuscula</li>
-       <li>1 numero</li>
+      var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+      myModal.show();
+       mensajeError.innerHTML= `<p>La contraseña no cumple con los requisitos minimos.</p>
+       <p>Requisitos minimos de la Contraseña: </p>
+<ul style="padding-inline-start: 0px;">
+<li>6 caracteres</li>
+<li>1 mayuscula</li>
+<li>1 numero</li>
      </ul> `
     }  
   }

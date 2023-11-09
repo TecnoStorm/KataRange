@@ -48,7 +48,6 @@ require_once (__DIR__."/../Torneo/TorneoArray.php");
         }
         if($cantParticipantes==4){
           for($x=1;$x<=3;$x++){
-            echo "HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
             $consulta->bind_param("sssi", $estado, $horaInicio,$horaFinal,$x);
             $consulta->execute();
           }
@@ -97,8 +96,7 @@ require_once (__DIR__."/../Torneo/TorneoArray.php");
                     $consulta3->execute();
                 }
             }
-          echo "<p style='color:green'>pools creados correctamente reinice la pagina para ver los cambios </p>";
-    }
+        }
 
     public function Listar($idTorneo){
         $ids=$this->idPTiene($idTorneo);
@@ -338,7 +336,7 @@ require_once (__DIR__."/../Torneo/TorneoArray.php");
             $i=0;
             $uno=1;
             $idKata=0;
-            $cinturon;
+            $cinturon="";
             
             for($x=count($ciParticipantes);$x>0;$x--){ 
                 echo "hola";
@@ -610,6 +608,23 @@ public function borrarEstan($idTorneo){
     $consulta->bind_param("i",$idTorneo);
     $consulta->execute();
     $consulta->execute();
+}
+public function existePool($idTorneo,$idP){
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $idsP=[];
+    $consulta = $conexion->prepare("select * from pool join tiene on pool.idP=tiene.idP where idT=?;");
+    $consulta->bind_param("i",$idTorneo);
+    $consulta->execute();
+    $resultado=$consulta->get_result();
+    while ($fila = $resultado->fetch_assoc()){
+       $idsP=$fila['idP'];
+    }
+  if(in_array($idP,$idsP)){
+    return true;
+  }
+  else{
+    return false;
+  }
 }
 }
 ?>

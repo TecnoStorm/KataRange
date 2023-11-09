@@ -2,5 +2,13 @@
 include "../../Modelo/Torneo/TorneoArray.php";
 $nombre=$_POST["nombreEvento"];
 $torneos=new TorneoArray();
-$torneos->CrearEvento($nombre);
+$existe=$torneos->CrearEvento($nombre);
+
+if(!$existe){
+    echo "el evento ya existe";
+}
+else{
+    echo "evento creado";
+}
+
 ?>

@@ -14,11 +14,11 @@ $poolArray=new PoolArray();
 $existe=$poolArray->mismoEstado($id,$estado);
 
 if($existe){
-    echo "<p style='color:#EDAD14'> el pool ya esta " . $estado . "</p>";
+    echo "<p> El pool ya esta " . $estado . "</p>";
 }
 else{
     $poolArray->EditarPool($id, $estado); 
-    echo ("<p style='color:green'>el pool: ".$id." esta: ".$estado . " reinicie la pagina para ver los cambios </p>");
+    echo ("<p style='color:green'>El pool: ".$id." esta: ".$estado . " reinicie la pagina para ver los cambios </p>");
 }
 ?>
 </body> 

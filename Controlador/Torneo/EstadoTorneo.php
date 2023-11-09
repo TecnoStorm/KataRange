@@ -13,11 +13,11 @@ if($existeTorneo){
     }
     else{
         $torneos->cambiarEstado($id,$estado);
-        echo "<p style='color: green';> el torneo ahora esta: ".$estado ;
+        echo "<p> el torneo ahora esta: ".$estado ;
     }
 }
 else{
-    echo "<p style='color: red';> no existe el torneo </p>";   
+    echo "<p> no existe el torneo </p>";   
 }
 
 

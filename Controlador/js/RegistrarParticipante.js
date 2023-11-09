@@ -1,7 +1,7 @@
-alert("hola");
 var formulario=document.getElementById("registrarParticipante")
 var mensaje=document.getElementById("mensaje");
 var mensajeError=document.getElementById("mensajeErrorCedula");
+var mensajeExito=document.getElementById("mensajeExito")
 formulario.addEventListener('submit',function(e){ 
     e.preventDefault();
     EnvioRegistrarParticipante();
@@ -55,7 +55,16 @@ function EnvioRegistrarParticipante() {
           return response.text(); 
         })
         .then(data => {
-          mensaje.innerHTML = data;
+          if(data.includes("no cumple los requisitos del torneo indicado")){
+            var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+            myModal.show();
+            mensajeError.innerHTML="No cumple los requisitos del torneo indicado";
+          }
+          if(data.includes("participante ingresado")){
+            var myModal = new bootstrap.Modal(document.getElementById('modalExito'));
+            myModal.show();
+            mensajeExito.innerHTML="Participante ingresado con éxito";
+          }
         })
         .catch(error => {
           alert("Error en la solicitud");

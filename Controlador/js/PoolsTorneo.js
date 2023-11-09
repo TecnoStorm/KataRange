@@ -9,7 +9,6 @@ formularioGuardarPool.addEventListener('submit',function(e){
 function EnvioPoolTorneo() {
     var datos = new FormData(formularioGuardarPool);
     var nombreTorneo = datos.get('nombreTorneo');
-    alert("hola")
     var formData = new FormData();
     formData.append('nombreTorneo', nombreTorneo);
     fetch('../../Controlador/Pool/PoolTorneo.php', {

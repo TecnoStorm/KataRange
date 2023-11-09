@@ -39,7 +39,7 @@ body{
     height: 100%;
 } 
 
-#formularioPool,#FormularioTanteador{
+#formularioPool,#formularioTanteador{
     display: flex;
     flex-direction: column;
     justify-content: center;

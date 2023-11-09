@@ -7,4 +7,5 @@ $idTorneo=$_POST['idTorneo'];
 $participantes=new ParticipanteArray();
 $cantParticipantes=$participantes->cantParticipantesTorneo($idTorneo);
 $pools->CrearPool($idTorneo,$cantParticipantes);
+echo "<p>pools creados correctamente</p>";
 ?> 

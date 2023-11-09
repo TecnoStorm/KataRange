@@ -19,7 +19,14 @@ $nombre=$_POST['nombre'];
 $direccion=$_POST['direccion'];
 $nombreEvento=$_POST['nombreEvento'];
 $torneos=new TorneoArray();
-$torneos->guardar($formatoFecha,$categoria,$cantParticipantes,$estado,$paraPakarate,$sexo,$nombre,$direccion,$nombreEvento);
+$existe=$torneos->nombreUsado($nombre);
+if($existe){
+echo "<p> nombre en uso </p>";
+}
+else{
+    echo "<p> Torneo creado con exito</p>";
+    $torneos->guardar($formatoFecha,$categoria,$cantParticipantes,$estado,$paraPakarate,$sexo,$nombre,$direccion,$nombreEvento);
+}
 ?>
 </body>
 </html>

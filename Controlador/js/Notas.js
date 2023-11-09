@@ -20,7 +20,6 @@ function EnvioNotas() {
         return response.text();
       })
       .then(data => {
-        alert("funciono todo bien");
         mensajeNotas.innerHTML = data;
       })
       .catch(error => {

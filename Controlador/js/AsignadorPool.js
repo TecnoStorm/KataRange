@@ -1,5 +1,20 @@
 var  formularioPool=document.getElementById("formularioPool")
-var mensaje=document.getElementById("mensaje");
+var mensajeError=document.getElementById("mensajeErrorCedula");
+var mensajeExito=document.getElementById("mensajeExito");
+var botonCerrar=document.getElementById("botonCerrar")
+var xCerrar=document.querySelector(".botonCerrar")
+
+botonCerrar.addEventListener('click', function(e){
+  e.preventDefault;
+  location.reload();
+})
+
+xCerrar.addEventListener('click', function(e){
+  e.preventDefault;
+  location.reload();
+})
+
+
 formularioPool.addEventListener('submit',function(e){
     e.preventDefault();
     Envio();
@@ -11,8 +26,6 @@ function Envio() {
     });
     var id = datos.get('id'); 
     var estado = datos.get('estado');
-    alert (id);
-    alert (estado);
     var formData = new FormData();
     formData.append('id', id);
     formData.append('estado', estado);  
@@ -27,7 +40,18 @@ function Envio() {
         return response.text();
       })
       .then(data => {
-        mensaje.innerHTML = data;
+        if(data.includes("El pool ya esta")){
+          var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+          myModal.show();
+          mensajeError .innerHTML="El pool ya está "+estado;
+        }
+        else{
+          var myModal = new bootstrap.Modal(document.getElementById('modalExito'));
+          myModal.show();
+          mensajeExito.innerHTML="El pool está ahora "+estado;
+          console.log("holaaaa")
+        }
+  
       })
       .catch(error => {
         alert("Error en la solicitud");

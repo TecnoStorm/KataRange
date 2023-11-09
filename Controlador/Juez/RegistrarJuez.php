@@ -22,9 +22,10 @@ $torneo=$torneos->infoTorneo($nombreTorneo);
 $juezArray=new JuezArray();
 if($clave==$confirmacion){
     $juezArray->guardar($nombre,$apellido,$usuario,$ci,$clave,$torneo->getIdTorneo());
+    echo ("<p>juez ingresado</p>");
 }
 else{
-    echo ("<p style='color: red; font-size: 25px'>las contraseñas no coinciden</p>");
+    echo ("<p>las contraseñas no coinciden</p>");
 }
 
 ?>   

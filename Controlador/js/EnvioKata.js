@@ -8,7 +8,6 @@ formularioEnvioKata.addEventListener("submit", function (e) {
 function EnvioKata() {
   var datos = new FormData(formularioEnvioKata);
   var nombreTorneo = datos.get("nombreTorneo");
-  alert("nombre del torneo:" + nombreTorneo);
   localStorage.setItem('nombreTorneo', nombreTorneo); 
   window.location.href="AsignarKata.html"
 }

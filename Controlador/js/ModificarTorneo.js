@@ -1,5 +1,7 @@
 var modificarTorneo=document.getElementById("modificarTorneo")
-var mensajeEditarTorneo=document.getElementById("mensajeEditarTorneo");
+var mensajeError=document.getElementById("mensajeErrorCedula")
+var mensajeExito=document.getElementById("mensajeExito")
+
 modificarTorneo.addEventListener('submit',function(e){
     e.preventDefault();
     EnvioModificar();
@@ -22,7 +24,24 @@ function EnvioModificar() {
         return response.text(); 
       })
       .then(data => {
-        mensajeTorneo.innerHTML = data;
+
+        if(data.includes("no existe el torneo")){
+          var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+          myModal.show();
+          mensajeError.innerHTML="El torneo seleccionado no existe"
+        }
+
+        if(data.includes("el torneo ya esta")){
+          var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+          myModal.show();
+          mensajeError.innerHTML="El torneo ya está "+estado;
+        }
+
+        if(data.includes("el torneo ahora esta:")){
+          var myModal = new bootstrap.Modal(document.getElementById('modalExito'));
+          myModal.show();
+          mensajeExito.innerHTML="El torneo ahora está "+estado;
+        }
       })
       .catch(error => {
         alert("Error en la solicitud");

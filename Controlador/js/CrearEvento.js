@@ -1,6 +1,7 @@
-alert ("hola");
 var  CrearEvento=document.getElementById("CrearEvento")
-var mensajeCrearEvento=document.getElementById("mensajeCrearEvento");
+var mensajeError=document.getElementById("mensajeErrorCedula")
+var mensajeExito=document.getElementById("mensajeExito")
+
 CrearEvento.addEventListener('submit',function(e){
     e.preventDefault();
     EnvioCrearEvento();
@@ -21,8 +22,16 @@ function EnvioCrearEvento() {
         return response.text();
       })
       .then(data => {
-        mensajeCrearEvento.innerHTML = data;
-      })
+        if(data.includes("el evento ya existe")){
+          var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+          myModal.show();
+          mensajeError.innerHTML="El nombre del evento ya está en uso"
+        }
+        else{
+          var myModal = new bootstrap.Modal(document.getElementById('modalExito'));
+          myModal.show();
+          mensajeExito.innerHTML="Evento creado con éxito"
+        }      })
       .catch(error => {
         alert("Error en la solicitud");
       });

@@ -260,12 +260,13 @@ public function CrearEvento($nombre){
     $consulta->bind_param("s",$nombre);
     $success=$consulta->execute();
     if(!$success){
-        echo "<p style='color:red'> Nombre ya en uso";
+        $consulta->close();
+        return false;
     }
     else{
-        echo "<p style='color:green'> evento Creado Correctamente";
+        $consulta->close();
+        return true;
     }
-    $consulta->close();
 }
 public function nombresEvento(){
     $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
@@ -294,6 +295,19 @@ public function idEvento($nombre){
         }
         }
  return $id;
+}
+
+public function nombreUsado($nombre){
+    $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
+    $existe=false;
+    $consulta= "SELECT * FROM torneo";
+    $resultado = mysqli_query($conexion, $consulta);
+    while($fila = $resultado->fetch_assoc()){
+        if($nombre==$fila['nombre']){
+            $existe=true;
+        }
+    }
+    return $existe;
 }
 } 
 ?> 

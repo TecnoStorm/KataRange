@@ -31,6 +31,7 @@ if($puedeParticipar){
     $escuela=$escuelas->infoEscuela($nombreEscuela);
     $escuelas->guardarParticipante($escuela->getId(),$ci);
     $torneos->ParticipantesTorneo($ci,$torneo->getIdTorneo()); 
+    echo "<p style='color:red'>participante ingresado</p>";
 }
 else{
     echo "<p style='color:red'>no cumple los requisitos del torneo indicado</p>";

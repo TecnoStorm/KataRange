@@ -41,7 +41,8 @@ if($existe){
     echo "<h2 class='Traducir'>Mostrar pools</h2>
     <form id='formularioPool'>";
     $nombres=$torneos->nombresTorneo();
-    echo  "<select name='nombreTorneo'>";
+    echo  "<select name='nombreTorneo'>
+    <option selected class='Traducir' hidden>Ingrese torneo</option>";
     foreach($nombres as $nombre){
     echo "<option value='$nombre'> $nombre </option>";
     }
@@ -50,7 +51,8 @@ if($existe){
     </form>";
     echo "<h2 class='Traducir'>Asignar Kata</h2>";   
     echo "<form id = 'formularioKata'><section class='contenedor-kata'>";
-    echo  "<select name='nombreTorneo'>";
+    echo  "<select name='nombreTorneo'>
+    <option selected class='Traducir' hidden>Ingrese torneo</option>";
     foreach($nombres as $nombre){
         echo "<option value='$nombre'> $nombre </option>";
         }
@@ -59,7 +61,8 @@ if($existe){
     </section></form>";
     echo "<h2 class='Traducir'>Tanteador</h2>";
     echo "<form id='formularioTanteador'>";
-    echo  "<select name='nombreTorneo'>";
+    echo  "<select name='nombreTorneo'>
+    <option selected class='Traducir' hidden>Ingrese participante</option>";
     foreach($nombres as $nombre){
     echo "<option value='$nombre'> $nombre </option>";
     }
