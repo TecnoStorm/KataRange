@@ -29,7 +29,6 @@ class TecnicoArray{
             while($fila = $resultado->fetch_assoc()){
                $contraseña=$fila['clave'];
             }
-            echo $contraseña;
             $existe=false;
             foreach($this->_tecnicos as $tecnico){
                 if($tecnico->getUsuario()==$usuario && $tecnico->getClave()==$contraseña){

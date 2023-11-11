@@ -16,19 +16,25 @@ function cargarScripts() {
     document.body.appendChild(script4);
 }
 var nombreTorneo = localStorage.getItem('nombreTorneo');
-var formData = new FormData();
-formData.append("nombreTorneo", nombreTorneo);
-fetch('../../Controlador/Pool/CreadorPools.php', {
-  method: "POST",
-  body: formData,
-  })
 
-  .then(response => response.text())
-  .then(data => {
-    const resultado = document.getElementById('php');
-    resultado.innerHTML = data;
-    cargarScripts()
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+  var formData = new FormData();
+  formData.append("nombreTorneo", nombreTorneo);
+  fetch('../../Controlador/Pool/CreadorPools.php', {
+    method: "POST",
+    body: formData,
+    })
+  
+    .then(response => response.text())
+    .then(data => {
+      const resultado = document.getElementById('php');
+      resultado.innerHTML = data;
+      cargarScripts()
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+
+
+
+
+  

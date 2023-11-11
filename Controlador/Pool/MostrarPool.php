@@ -9,7 +9,9 @@ $pools=new PoolArray();
 $participantes=new ParticipanteArray();
 $idTorneo=$_POST['idTorneo'];
 $pools->AsignarPool($idTorneo);
+echo "<section id='contenedorTabla'>";
 $pools->MostrarAsignados($idTorneo); 
+echo "</section>";
 $_SESSION['pools']=serialize($pools);
 echo "</section>";
 ?>

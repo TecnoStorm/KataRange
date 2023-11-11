@@ -9,7 +9,12 @@ function EnvioAsignar() {
     var datos = new FormData(formularioAsignar);
     var idKata = datos.get('idKata');
     var ciParticipante = datos.get('ciParticipante');
-    var idTorneo = datos.get('idTorneo');
+    var existe=datosIngresados(ciParticipante);
+    if(existe){
+    alert ("ingrese un participante");
+    }
+    else{
+      var idTorneo = datos.get('idTorneo');
     var formData = new FormData();
     formData.append('idKata', idKata);
     formData.append('ciParticipante', ciParticipante);
@@ -30,6 +35,16 @@ function EnvioAsignar() {
       .catch(error => {
         alert("Error en la solicitud");
       });
+    }
   }
+
+ function datosIngresados(dato){
+   if(dato==0){
+    return true
+   }
+   else{
+    return false
+   }
+ }
   
   

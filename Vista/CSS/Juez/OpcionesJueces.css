@@ -17,7 +17,6 @@ p{
 }
 
 select{
-    height: 30px;
     font-size:20px;
     border: 0.5px solid black;
 }
@@ -128,12 +127,51 @@ body{
 .boton-gestion a{
     width: 200px;
 }
-
+@media screen and (max-width:700px){
+    body{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    select{
+        font-size: 20px;
+        height: 45px;
+    }
+}
 
 @media screen and (min-width:701px) and (max-width:1199px){
-    a{
-        font-size: 250%;
+   #php{
+    width: 494PX;
+   }
+
+   #contenedor a, #contenedor input[type="submit"]{
+    width: 200px;
+    height: 48px;
+   }
+    body{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
     }
+   
+   #contenedor{
+    max-width:none;
+    width: 100%;
+    height: 600px;
+   }
+   h1{
+    font-size: 40px;
+   }
+   h2{
+    font-size: 40px;
+   }
+   
+   #salir a{
+    margin-top: 30px;
+   }
+   
     
     input{
         font-size: 150%;

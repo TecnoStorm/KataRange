@@ -142,3 +142,27 @@ input[type="text"],input[type="password"],input[type="date"], input[type="number
     margin: 5px 0px;
     box-sizing: border-box;
 }
+
+@media screen and (max-width:700px) {
+    .abrir-torneo{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    #crearTorneo{
+     width: 200px;
+    }
+    #Modificar{
+        width: 200px;
+    }
+    #asignar{
+        width: 200px;
+    }
+}
+
+@media screen and (min-width:701px) and (max-width:1199px) {
+    input[type="text"], input[type="password"], input[type="date"], input[type="number"], select{
+        height: 40px;
+        width: 250px;
+    }
+}

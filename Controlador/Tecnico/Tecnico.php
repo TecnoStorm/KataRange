@@ -33,36 +33,36 @@ if($existe){
     $_SESSION["usuario"]=$usuario;
     $_SESSION["clave"]=$clave;
     echo "<section id='contenedor'>";
-    echo "<h1> Opciones Tecnico </h1>";   
-    echo "<h2> Ingresar Participante </h2>" ;
-    echo   " <a href='../../Vista/Participante/FormularioParticipantes.html' id='texto2' class='Traducir'> Ingresar</a>";
-    echo "<h2>Registrar juez</h2>";
-    echo  " <a href='../../Vista/Juez/RegistrarJuez.html' id='texto4' class='Traducir'> Registrar</a>";
+    echo "<h1 class='Traducir'> Opciones Tecnico </h1>";   
+    echo "<h2 class='Traducir'> Ingresar Participante </h2>" ;
+    echo   " <a href='../../Vista/Participante/FormularioParticipantes.html' id='texto2' class='TraducirValue'> Ingresar</a>";
+    echo "<h2 class='Traducir'>Registrar juez</h2>";
+    echo  " <a href='../../Vista/Juez/RegistrarJuez.html' id='texto4' class='TraducirValue'> Registrar</a>";
     echo "<h2 class='Traducir'>Mostrar pools</h2>
     <form id='formularioPool'>";
     $nombres=$torneos->nombresTorneo();
     echo  "<select name='nombreTorneo'>
-    <option selected class='Traducir' hidden>Ingrese torneo</option>";
+    <option selected class='TraducirInput' hidden>Ingrese torneo</option>";
     foreach($nombres as $nombre){
     echo "<option value='$nombre'> $nombre </option>";
     }
     echo"</select>
-    <input type='submit' value='pools'></input>
+    <input type='submit' value='Mostrar' class='TraducirValue'></input>
     </form>";
     echo "<h2 class='Traducir'>Asignar Kata</h2>";   
     echo "<form id = 'formularioKata'><section class='contenedor-kata'>";
     echo  "<select name='nombreTorneo'>
-    <option selected class='Traducir' hidden>Ingrese torneo</option>";
+    <option selected class='TraducirInput' hidden>Ingrese torneo</option>";
     foreach($nombres as $nombre){
         echo "<option value='$nombre'> $nombre </option>";
         }
         echo"</select>";
-    echo "<input type='submit' value='mostrar'>
+    echo "<input type='submit' value='Asignar' class='TraducirValue'>
     </section></form>";
     echo "<h2 class='Traducir'>Tanteador</h2>";
     echo "<form id='formularioTanteador'>";
     echo  "<select name='nombreTorneo'>
-    <option selected class='Traducir' hidden>Ingrese participante</option>";
+    <option selected class='TraducirInput' hidden>Ingrese participante</option>";
     foreach($nombres as $nombre){
     echo "<option value='$nombre'> $nombre </option>";
     }
@@ -70,7 +70,7 @@ if($existe){
     echo "</form>
     <h2 class='Traducir'>Gestionar torneos</h2>
     <section class='boton-gestion'>";
-    echo "<a href='../Torneo/Torneos.html' class='Traducir'> Gestión de Torneos</a>
+    echo "<a href='../Torneo/Torneos.html' class='TraducirValue'> Gestión de Torneos</a>
     </section>
     </section>
     </section>";

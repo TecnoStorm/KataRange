@@ -18,6 +18,7 @@ var mensajeIndex = document.getElementById("mensajeIndex");
 var elementosTraducir = document.querySelectorAll(".Traducir");
 var elementosTraducirInput = document.querySelectorAll(".TraducirInput");
 var modalUsuario = document.querySelector(".modalUsuario");
+var mensajeError = document.getElementById("mensajeError")
 var url = "";
 var urlphp="";
 var checkboxes = document.querySelectorAll('input[type="radio"]');
@@ -39,6 +40,7 @@ formularioIndex.addEventListener("submit", function (e) {
   e.preventDefault();
   EnvioIndex();
 });
+
 function EnvioIndex() {
   var datos = new FormData(formularioIndex);
   var usuario = datos.get("usuario");
@@ -65,6 +67,7 @@ function EnvioIndex() {
         } else {
           var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
           myModal.show();
+          mensajeError.innerHTML="Usuario o contraseña incorrectos"
         }
       })
       .catch((error) => {
@@ -72,7 +75,9 @@ function EnvioIndex() {
         alert("Error en la solicitud" + usuario + clave);
       });
   } else {
-    mensajeIndex.innerHTML = "seleccione un tipo de usuario";
+      var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+      myModal.show();
+      mensajeError.innerHTML="Ingrese un tipo de usuario"
   }
 }
 

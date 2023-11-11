@@ -96,3 +96,16 @@ table tbody tr.active-row {
   font-weight: bold;
   color: #2aa0f5;
 }
+
+@media screen and (max-width:700px) {
+  #php{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+@media screen and (min-width:701px) and (max-width:1199px){
+  #php{
+    font-size: 30px;
+  }
+}

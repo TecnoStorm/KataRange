@@ -41,26 +41,29 @@ echo "<section id='registrar'>
             <option value='K40'> K40</option>
           </select>
         </section>
-      </section>
-  <select name='nombreEscuela'required>
-  <option selected class='Traducir' hidden>Ingrese escuela</option>";
-       foreach($nombres as $nombre){
-              echo "<option value='$nombre'> $nombre </option>";
-       }
-       echo "</select>
-       <select name='nombreTorneo'required>";
-       foreach($nombresTorneo as $nombre){
-              echo "<option value='$nombre'> $nombre </option>";
-       }
-echo  "</select>
-       <section class='boton-registrar'>
-       <p id='mensajeError'></p>
 
-  <input type='submit' name='registrar' value='Registrar' class='btnregistrar TraducirValue'>
-  <h2 class='Traducir'>Mostrar participantes</h2>
-   <a href='Mostrar.html' class='Traducir btnregistrar'> Mostrar</a>
-   </section>
-    </form>
+      <select name='nombreEscuela'required>
+        <option selected class='Traducir' hidden>Ingrese escuela</option>";
+          foreach($nombres as $nombre){
+            echo "<option value='$nombre'> $nombre </option>";
+          }
+          echo "</select>
+       
+          <select name='nombreTorneo' id='torneo'>
+          <option selected class='Traducir' hidden>Ingrese Torneo</option>";
+          foreach($nombresTorneo as $nombre){
+                echo "<option value='$nombre'> $nombre </option>";
+          }
+          echo "</select>
+          <section class='boton-registrar'>
+          <p id='mensajeError'></p>
+
+          <input type='submit' name='registrar' value='Registrar' class='btnregistrar TraducirValue'>
+          <h2 class='Traducir'>Mostrar participantes</h2>
+          <a href='Mostrar.html' class='Traducir btnregistrar'> Mostrar</a>
+          </section>
+          </form>
+          </section>
  <h2 class='Traducir'> Registrar escuela</h2>
  <form id='formularioEscuela'>
   <input type='text' name='nombreEscuela' id='nombreEscuela' placeholder='Nombre de la escuela' class='TraducirInput' required>
@@ -69,11 +72,14 @@ echo  "</select>
  <input type='submit' name='registrarEscuela' value='Registrar' class='btnregistrar TraducirValue'>
  </section>
  </form>
+ <p id='mensajeSelect'></p>
  <p id='mensajeEscuela'></p>
    </section>
    </section>
  <h2 class='Traducir'> Torneos disponibles </h2>";
-$torneos->mostrar();
+ echo "<section id='contenedorTabla'>";
+ $torneos->mostrar();
+ echo "</section>";
 echo"<section id='borrar'>
    <h2 class='Traducir'>Borrar participante</h2>
    <form id='FormularioBorrar'>

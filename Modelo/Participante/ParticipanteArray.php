@@ -58,6 +58,7 @@ class ParticipanteArray{
         if (!$resultado){
             die('Error en la consulta SQL: ' . $consulta);
         }
+        echo "<section class='contenedorTabla'>";
         echo "<table><thead>";
         echo "<tr> <th class='Traducir'> Nombre </th> <th class='Traducir'> Apellido </th> <th> CI participante </th> </th><th class='Traducir'> Sexo </th> <th class='Traducir'> Condicion </th><th class='Traducir'> Categoria </th> </tr></thead><tbody>";
         
@@ -65,7 +66,8 @@ class ParticipanteArray{
             echo "<tr> <td>".$fila['nombreP'] . " </td><td>" . $fila['apellidoP'] . "</td><td>  " . $fila['ciP'] . "</td> <td class='Traducir'>" . $fila['sexo'] . "</td><td class='Traducir'>" . $fila ['condicion'] . " </td><td class='Traducir'>" . $fila ['categoriaP']. "</td> </tr>";
         }
         
-        echo "</tbody></table>";
+        echo "</tbody></table>
+        </section>";
     }
     
     public function eliminarParticipante($ci){

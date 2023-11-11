@@ -90,12 +90,11 @@ require_once (__DIR__."/../Torneo/TorneoArray.php");
                 if($fila['idP']>$mayorPool){
                     $idsPool[]=$fila['idP'];
                 }
-                
+            }   
                 for($x=0;$x<count($idsPool);$x++){
                     $consulta3->bind_param("ii",$idsPool[$x],$idTorneo);
                     $consulta3->execute();
                 }
-            }
         }
 
     public function Listar($idTorneo){
@@ -118,27 +117,28 @@ require_once (__DIR__."/../Torneo/TorneoArray.php");
         echo "</tbody></table>"; 
     }
     
-    public function EditarPool($id,$estado){ 
+    public function EditarPool($id,$estado,$idTorneo){ 
+        $existePool=$this->existePool($id,$idTorneo);    
         $conexion = mysqli_connect(SERVIDOR, USUARIO,PASS,BD);
         $consulta = $conexion ->prepare(
-            "UPDATE pool SET estado = ? WHERE idP=?;");
+            "update pool join tiene on pool.idP=tiene.idP set estado=? where idT=9  and pool.idP=?");
             $consulta2 = $conexion ->prepare(
-                "UPDATE pool SET hora_inicio = NOW()  WHERE idP=?;"); 
+                "UPDATE pool join tiene on pool.idP=tiene.idP SET hora_inicio = NOW()  WHERE pool.idP=? and idT=?;"); 
                 $consulta3 = $conexion ->prepare(
                     "UPDATE pool SET hora_final = NOW()  WHERE idP=?;"); 
             if($estado=="abierto"){
-                $consulta->bind_param("si", $estado,$id);
+                $consulta->bind_param("si", $estado,$id,$idTorneo);
                 $consulta->execute();
                 $consulta->close();
-                $consulta2->bind_param("i", $id);
+                $consulta2->bind_param("i", $id,$idTorneo);
                 $consulta2->execute();
                 $consulta2->close();
             }
             else{
-                $consulta->bind_param("si", $estado,$id);
+                $consulta->bind_param("si", $estado,$id,$idTorneo);
                 $consulta->execute();
                 $consulta->close();
-                $consulta3->bind_param("i", $id);
+                $consulta3->bind_param("i", $id,$idTorneo);
                 $consulta3->execute();
                 $consulta3->close();
             }
@@ -151,7 +151,6 @@ require_once (__DIR__."/../Torneo/TorneoArray.php");
         $consulta->bind_param("i",$idTorneo);
         $consulta->execute();
         $resultado = $consulta->get_result();
-        
         echo "<table border='1'><thead> 
         <tr> <th> CI Participante </th> <th> Nombre </th> <th> Pool </th> <th> Cinturón </th> </tr></thead><tbody>"; 
         while($fila = $resultado->fetch_assoc()){
@@ -339,7 +338,6 @@ require_once (__DIR__."/../Torneo/TorneoArray.php");
             $cinturon="";
             
             for($x=count($ciParticipantes);$x>0;$x--){ 
-                echo "hola";
                 $consulta->bind_param("iiii",$ciParticipantes[$i],$idsTiene[$posicionId],$notaFinal,$clasificados);
                 $consulta->execute();
                 if($i%2!=0){

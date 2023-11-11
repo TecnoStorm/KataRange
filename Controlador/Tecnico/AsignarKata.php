@@ -14,12 +14,14 @@ if(count($cis)==0){
     echo "<h2> Todos los participantes ya tienen un kata asignado </h2>";
 }
 else{
+    echo "<section id='contenedorTabla'>";
     $katas->listarSinAsignar($torneo->getIdTorneo());
+    echo "</section>";
     echo "<form id='formularioAsignar'>";
-    echo "<section>";
+    echo "<section id='contenedorKata'>";
     echo "<input type='number' min='1' max='102' placeholder='Numero' name='idKata'>";
-    echo "<select name='ciParticipante'>
-    <option selected hidden class='Traducir'>Ingrese participante</option>";
+    echo "<select name='ciParticipante' id='ciParticipante'>
+    <option selected hidden class='Traducir' value='0'>Ingrese participante</option>";
     for ($x = 0; $x < count($cis); $x++) {
         $participante=$participantes->devolverInfo($cis[$x]);
         echo "nombre: ". $nombre;

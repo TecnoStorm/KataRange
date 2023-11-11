@@ -2,7 +2,9 @@
 <?php
 include "../../Modelo/Participante/ParticipanteArray.php";
 $participantes=new ParticipanteArray();
+echo "<section id='contenedorTabla'>";
 $participantes->listar();
+echo "</section>";
 echo '<section id="salir">
 <a href="../../index.php" class="Traducir">
     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"

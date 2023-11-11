@@ -22,14 +22,14 @@
             <form id="formularioTorneo">
                 <input type="date" name="fecha" id="fecha" required>
                 <select name="categoria" id="categoria" required>
-                    <option value="none" class="Traducir" selected disabled hidden>Seleccione categoria</option>
+                    <option value="Seleccione categoria" class="Traducir" selected disabled hidden>Seleccione categoria</option>
                     <option value="12/13">12/13</option>
                     <option value="14/15">14/15</option>
                     <option value="16/17">16/17</option>
                     <option value="mayores" class="Traducir">Mayores</option>
                 </select>
                 <select name="paraKarate" id="paraKarate" required>
-                    <option value="none" selected disabled hidden>Para-karate</option>
+                    <option selected disabled hidden value="Para-karate">Para-karate </option>
                     <option value="si" class="Traducir"> Si</option>
                     <option value="no"> No</option>
                 </select>
@@ -37,7 +37,7 @@
                 <input type="number" name="cantidad" max="96" placeholder="Cantidad de Participantes" id="cantidad"
                     class="TraducirInput" required>
                 <select name="sexo" id="sexo" required>
-                    <option value="none" class="Traducir" selected disabled hidden>Seleccione sexo</option>
+                    <option value="Seleccione sexo" class="Traducir" selected disabled hidden>Seleccione sexo</option>
                     <option value="Femenino" class="Traducir">Femenino</option>;
                     <option value="Masculino" class="Traducir">Masculino</option>;
                 </select>
@@ -58,7 +58,7 @@
             <section class="abrir-torneo">
                 <input type="number" name="id" placeholder="Id del torneo" id="id">
                 <select name="estado" id="estado">
-                    <option value="none" class="Traducir" selected disabled hidden>Seleccione estado</option>
+                    <option class="Traducir" selected disabled hidden value=0>Seleccione estado</option>
                     <option value="abierto" class="Traducir">Abierto</option>
                     <option value="cerrado" class="Traducir">Cerrado</option>
                 </select>
@@ -114,7 +114,6 @@
           </section>
         </section>
       </section>
-
     <script src='../../Controlador/js/FetchTorneos.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>

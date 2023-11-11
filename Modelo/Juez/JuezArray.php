@@ -56,12 +56,12 @@ require_once (__DIR__."/../../Controlador/config.php");
             if (!$resultado){
                 die('Error en la consulta SQL: ' . $consulta);
             }
-            echo "<table border='2'>";
-            echo "<tr> <td class='Traducir'> Nombre </td> <td class='Traducir'> apellido </td><td> ci </td> </tr>";
+            echo "<table>";
+            echo "<thead> <tr> <th class='Traducir'> Nombre </th> <th class='Traducir'> apellido </th><th> ci </th> </tr></thead><tbody>";
             while($fila = $resultado->fetch_assoc()){
-            echo "<tr> <td>".$fila['nombre'] . " </td><td>" . $fila['Apellido'] . "</td><td>" . $fila['ciJ'] . "</td></tr>";
+                echo "<tr> <td>".$fila['nombre'] . " </td><td>" . $fila['Apellido'] . "</td><td>" . $fila['ciJ'] . "</td></tr>";
             }
-            echo "</table>";
+            echo "</tbody></table>";
         }
         
         public function comparar($usuario, $clave){

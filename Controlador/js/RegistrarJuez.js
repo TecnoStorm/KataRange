@@ -18,13 +18,18 @@ function Envio() {
       
       var confirmacion = datos.get('confirmacion');   
       var nombreTorneo=datos.get('nombreTorneo');
-      var formData = new FormData();
+      var existe=DatosPuestos(nombreTorneo);
+      if(existe){
+      alert("ingrese todos los datos");
+      console.log("ingrese todos los datos");
+      }
+      else{
+        var formData = new FormData();
       formData.append('nombre', nombre);
       formData.append('apellido', apellido);
       formData.append('usuario', usuario);
       formData.append('ci', ci);
       formData.append('clave', clave);
-      
       formData.append('confirmacion', confirmacion);
       formData.append('nombreTorneo',nombreTorneo);
       fetch('../../Controlador/Juez/RegistrarJuez.php', {
@@ -53,6 +58,7 @@ function Envio() {
           alert("Error en la solicitud");
         });
     }
+      }
     else{
       var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
       myModal.show();
@@ -86,4 +92,11 @@ function ClaveValida(clave){
   } else {
       return false;
   }
+}
+
+function DatosPuestos (torneos){
+  if(torneos.includes("Ingrese")){
+    return true
+  }
+  return false;
 }

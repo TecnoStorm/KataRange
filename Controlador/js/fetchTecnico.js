@@ -1,3 +1,5 @@
+
+
 function cargarScripts() {
   const script1 = document.createElement('script');
   script1.src = '../../Controlador/js/EnviarPool.js';
@@ -10,6 +12,10 @@ function cargarScripts() {
   const script3 = document.createElement('script');
   script3.src = '../../Controlador/js/EnvioElegirParticipante.js';
   document.body.appendChild(script3);
+
+  const script4 = document.createElement('script');
+  script4.src = '../../Controlador/js/Traduccion.js';
+  document.body.appendChild(script4);
 }
 fetch('../../Controlador/Tecnico/Tecnico.php')
   .then(response => response.text())
